@@ -11,19 +11,19 @@ class ClapTrap
 
 private:
 
-	void attack( const std::string& target );
 	bool is_dead( void );
 	void remove_ep( void );
 
 public:
 
-	std::string name;
 	int hp;
 	int ep;
 	int ad;
+	std::string name;
 
 	ClapTrap( std::string _name );
 	~ClapTrap();
+	void attack( const std::string& target );
 
 	void takeDamage( unsigned int amount );
 	void beRepaired( unsigned int amount );
