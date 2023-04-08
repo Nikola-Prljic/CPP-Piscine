@@ -1,0 +1,33 @@
+#ifndef CLAPTRAP_HPP
+# define CLAPTRAP_HPP
+
+#include <iostream>
+
+# define IS_DEAD 0
+# define IS_ALIVE 1
+
+class ClapTrap
+{
+
+private:
+
+	void attack( const std::string& target );
+	bool is_dead( void );
+	void remove_ep( void );
+
+public:
+
+	std::string name;
+	int hp;
+	int ep;
+	int ad;
+
+	ClapTrap( std::string _name );
+	~ClapTrap();
+
+	void takeDamage( unsigned int amount );
+	void beRepaired( unsigned int amount );
+
+};
+
+#endif
