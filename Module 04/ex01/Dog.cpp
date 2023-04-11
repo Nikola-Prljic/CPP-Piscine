@@ -1,16 +1,13 @@
 #include "Dog.hpp"
 
-Dog::Dog( void ) : _brain(new Brain())
+Dog::Dog( void ) : Animal("Dog")
 {
-    /* this->_brain = new Brain(); */
-    Animal::setType( "Dog" );
-    std::cout << "   -> Dog constructor called." << std::endl;
+    std::cout << "  -> Dog constructor called." << std::endl;
     return ;
 }
 
 Dog::~Dog()
 {
-    std::cout << "   -> Dog destructor called." << std::endl;
-    delete _brain;
+    std::cout << "  -> Dog destructor called." << std::endl;
     return ;
 }

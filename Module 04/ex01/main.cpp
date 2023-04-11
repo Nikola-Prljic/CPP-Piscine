@@ -3,25 +3,23 @@
 
 int main ( void )
 {
-    /* const Animal* meta = new Animal();
-    const Animal* dog = new Dog();
-    const Animal* koda = new Cat();
-    std::cout << std::endl;
 
-    std::cout << dog->getType() << ":" << std::endl;
-    dog->makeSound();
-    std::cout << koda->getType() << ":" << std::endl;
-    koda->makeSound();
-    meta->makeSound();
-    
-    std::cout << std::endl;
-    delete koda;
-    delete meta;
-    delete dog; */
-
-    const Animal* dog = new Dog();
+/*     const Animal* dog = new Dog();
+    const Animal* dog2 = new Dog();
+    const Animal* cat = new Cat();
 
     delete dog;
+    delete cat; */
 
+    Cat basic;
+    {
+        Cat tmp = basic;
+    }
+
+/*     const Animal* animals[4] = { new Dog(), new Dog(), new Cat(), new Cat() };
+    for ( int i = 0; i < 4; i++ ) 
+    {
+        delete animals[i];
+    } */
     return 0;
 }

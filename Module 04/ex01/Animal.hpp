@@ -2,22 +2,21 @@
 # define ANIMAL_HPP
 
 #include <iostream>
-#include "Brain.hpp"
 
 class Animal
 {
-    private:
-
+    protected:
         std::string type;
     
     public:
-
         Animal( void );
+        Animal( std::string _type );
+        Animal( const Animal& copy );
         virtual ~Animal();
 
-        void setType( std::string _type);
         std::string getType( void ) const;
         void makeSound( void ) const;
+        Animal& operator=(const Animal& dc);
 };
 
 #endif

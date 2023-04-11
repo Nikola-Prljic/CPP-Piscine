@@ -1,21 +1,26 @@
 #include "Animal.hpp"
 
-Animal::Animal( void ) : type()
+Animal::Animal( void ) : type("empty")
 {
-    type = "empty";
-    std::cout << " -> Animal constructor called." << std::endl;
+    std::cout << " -> " << type << " Animal constructor called." << std::endl;
     return ;
+}
+
+Animal::Animal( std::string _type ) : type(_type)
+{
+    std::cout << " -> " << _type << " Animal constructor called." << std::endl;
+    return ;
+}
+
+Animal::Animal( const Animal& copy )
+{
+    std::cout << "Animal copy constructor called" << std::endl;
+    *this = copy;
 }
 
 Animal::~Animal()
 {
     std::cout << " -> Animal destructor called." << std::endl;
-    return ;
-}
-
-void Animal::setType( const std::string _type)
-{
-    type = _type;
     return ;
 }
 
@@ -31,4 +36,12 @@ void Animal::makeSound( void ) const
     else if (!type.compare("Cat"))
         std::cout << "Miau! Miau!" << std::endl;
     return ;
+}
+
+Animal& Animal::operator=(const Animal& dc)
+{
+    std::cout << "Animal assignment operator called" << std::endl;
+    if ( this != &dc )
+        this->type = dc.type;
+    return *this;
 }

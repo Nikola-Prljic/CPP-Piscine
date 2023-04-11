@@ -3,17 +3,11 @@
 
 #include "Animal.hpp"
 
-class Dog: public Animal/* , public Brain */
+class Dog: public Animal
 {
-
     public:
-
-        Brain *_brain;
         Dog( void );
         ~Dog();
-        /* void Dog::delete_barin( void ); */
-        /* void operator delete(void * p); */
-
 };
 
 #endif

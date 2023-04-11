@@ -14,8 +14,9 @@ class Brain
 
         Brain( void );
         ~Brain();
-        /* void* operator new(size_t size); */
+        Brain( const Brain& src);
 
+        Brain& operator=( const Brain& src);
 };
 
 #endif
