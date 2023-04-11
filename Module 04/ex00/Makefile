@@ -2,7 +2,7 @@ NAME	= ex00
 RM		= rm -f
 CFLAGS	= -std=c++98 -Wall -Werror -Wextra
 C		= c++
-SRC		= main.cpp Animal.cpp Cat.cpp Dog.cpp
+SRC		= main.cpp Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp
 OBJ		= $(SRC:.cpp=.o)
 
 
