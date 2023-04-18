@@ -1,8 +1,9 @@
 #ifndef CHARACTER_HPP
 # define CHARACTER_HPP
 
-#include "Ice.hpp"
 #include "ICharacter.hpp"
+#include "Ice.hpp"
+#include "Cure.hpp"
 
 class Character : public ICharacter
 {

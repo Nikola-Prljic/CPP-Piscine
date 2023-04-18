@@ -73,6 +73,9 @@ void Character::use( int idx, ICharacter& target )
 {
     if(index_test(idx, this->_inventory[idx], "Can't attack this index: "))
         return ;
-    std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
+    if( this->_inventory[idx]->getType().compare("ice") == 0)
+        std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
+    else if( this->_inventory[idx]->getType().compare("cure") == 0)
+        std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;
     return ;
 }

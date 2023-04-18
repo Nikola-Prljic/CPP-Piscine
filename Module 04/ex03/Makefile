@@ -2,7 +2,7 @@ NAME	= ex03
 RM		= rm -f
 CFLAGS	= -std=c++98 -Wall -Werror -Wextra
 C		= c++
-SRC		= main.cpp Ice.cpp AMateria.cpp Character.cpp MateriaSource.cpp
+SRC		= main.cpp Ice.cpp Cure.cpp AMateria.cpp Character.cpp MateriaSource.cpp
 OBJ		= $(SRC:.cpp=.o)
 
 

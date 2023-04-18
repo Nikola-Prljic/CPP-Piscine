@@ -2,6 +2,9 @@
 # define AMATERIA_HPP
 
 #include <iostream>
+#include "ICharacter.hpp"
+
+class ICharacter;
 
 class AMateria
 {
@@ -16,7 +19,7 @@ public:
 
     std::string const & getType( void ) const;
     virtual AMateria* clone( void ) const = 0;
-    /* virtual void use(ICharacter& target); */
+    virtual void use( ICharacter& target );
 };
 
 #endif
