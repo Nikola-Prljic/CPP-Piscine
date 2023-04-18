@@ -21,7 +21,6 @@ int main( void )
     delete src;
     // AMateria a; should not work ! */
 
-
     IMateriaSource* src = new MateriaSource();
     src->learnMateria(new Ice());
     src->learnMateria(new Cure());
