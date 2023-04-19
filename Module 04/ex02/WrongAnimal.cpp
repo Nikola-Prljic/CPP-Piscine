@@ -12,15 +12,16 @@ WrongAnimal::WrongAnimal( std::string _type ) : type(_type)
     return ;
 }
 
-WrongAnimal::~WrongAnimal()
+WrongAnimal::WrongAnimal( const WrongAnimal& copy )
 {
-    std::cout << " -> WrongAnimal destructor called." << std::endl;
+    std::cout << "WrongAnimal copy constructor called" << std::endl;
+    *this = copy;
     return ;
 }
 
-void WrongAnimal::setType( const std::string _type)
+WrongAnimal::~WrongAnimal()
 {
-    type = _type;
+    std::cout << " -> WrongAnimal destructor called." << std::endl;
     return ;
 }
 
