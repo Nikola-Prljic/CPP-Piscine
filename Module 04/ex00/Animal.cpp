@@ -31,10 +31,7 @@ std::string Animal::getType( void ) const
 
 void Animal::makeSound( void ) const
 {
-    if(!type.compare("Dog"))
-        std::cout << "Wuff! Wuff!" << std::endl;
-    else if (!type.compare("Cat"))
-        std::cout << "Miau! Miau!" << std::endl;
+    std::cout << "No animal. No sound" << std::endl;
     return ;
 }
 

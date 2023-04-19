@@ -14,14 +14,15 @@ int main ( void )
     dog->makeSound();
     std::cout << koda->getType() << ":" << std::endl;
     koda->makeSound();
-    std::cout << koda->getType() << ":" << std::endl;
+    std::cout << wrong_cat->getType() << ":" << std::endl;
     wrong_cat->makeSound();
     meta->makeSound();
     
     std::cout << std::endl;
     delete koda;
-    delete meta;
     delete dog;
     delete wrong_cat;
+    delete meta;
+
     return 0;
 }

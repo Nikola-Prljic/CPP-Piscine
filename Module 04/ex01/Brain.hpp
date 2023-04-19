@@ -5,7 +5,6 @@
 
 class Brain
 {
-
     private:
 
         std::string ideas[100];
@@ -13,8 +12,8 @@ class Brain
     public:
 
         Brain( void );
-        ~Brain();
         Brain( const Brain& src);
+        ~Brain();
 
         Brain& operator=( const Brain& src);
 };

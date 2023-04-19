@@ -14,6 +14,12 @@ Cat::~Cat()
     return ;
 }
 
+void Cat::makeSound( void ) const
+{
+    std::cout << "Miau. Miau." << std::endl;
+    return ;
+}
+
 Cat::Cat( const Cat& src )
 {
     *this = src;

@@ -6,8 +6,10 @@
 class Dog: public Animal
 {
     public:
-        Dog( void );
-        ~Dog();
+    Dog( void );
+    ~Dog();
+
+    void makeSound( void ) const;
 };
 
 #endif

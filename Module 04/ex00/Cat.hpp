@@ -8,6 +8,8 @@ class Cat: public Animal
     public:
         Cat( void );
         ~Cat();
+
+    void makeSound( void ) const;   
 };
 
 #endif

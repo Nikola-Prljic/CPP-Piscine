@@ -21,5 +21,10 @@ int main ( void )
     Dog d;
     Dog tmp_d = d;
 
+    Dog basic;
+    {
+        Dog tmp = basic;
+    }
+
     return 0;
 }

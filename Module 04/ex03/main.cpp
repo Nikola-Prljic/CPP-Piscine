@@ -39,6 +39,6 @@ int main( void )
     delete bob;
     delete me;
     delete src;
-    
+
     return 0;
 }
