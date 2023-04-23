@@ -26,7 +26,14 @@ Character::Character( Character const &src )
 
 Character& Character::operator=( Character const &src )
 {
-    return *this = src;
+    if( this != &src)
+    {
+        this->_name = src._name;
+        for(int i = 0; i < 4; i++)
+            this->_inventory[i] = src._inventory[i];
+    }
+    std::cout << "character copy constructor called!" << std::endl;
+    return *this;
 }
 
 std::string const & Character::getName() const

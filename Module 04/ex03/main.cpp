@@ -33,6 +33,12 @@ int main( void )
     me->equip(tmp);
 
     ICharacter* bob = new Character("bob");
+
+    Character pie("pie");
+    Character zz("zz");
+
+    pie = zz;
+
     me->use(0, *bob);
     me->use(1, *bob);
 
