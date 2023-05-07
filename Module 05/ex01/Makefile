@@ -2,7 +2,7 @@ NAME	= ex00
 RM		= rm -f
 CFLAGS	= -std=c++98 -Wall -Werror -Wextra
 C		= c++
-SRC		= main.cpp Bureaucrat.cpp
+SRC		= main.cpp Bureaucrat.cpp Form.cpp
 OBJ		= $(SRC:.cpp=.o)
 
 

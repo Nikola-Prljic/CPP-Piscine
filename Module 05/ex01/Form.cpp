@@ -1,6 +1,6 @@
 #include "Form.hpp"
 
-Form::Form( const int required_to_sign, const int required_to_execute, const std::string name ) : _is_signed( false ), _required_to_execute(0), _required_to_sign(required_to_sign), _name(name)
+Form::Form( const int required_to_sign, const std::string name ) : _is_signed( false ), _required_to_execute(0), _required_to_sign(required_to_sign), _name(name)
 {
     if ( _required_to_sign < 1 )
         throw Form::GradeTooHighException();
@@ -58,4 +58,16 @@ void    Form::beSigned( const Bureaucrat &B )
         throw Form::GradeTooLowException();
     _is_signed = true;
     return ;
+}
+
+int Form::GradeTooHighException()
+{
+    std::cout << "Form: Grade to high!" << std::endl;
+    return 0;
+}
+
+int Form::GradeTooLowException()
+{
+    std::cout << "Form: Grade to low!" << std::endl;
+    return 0;
 }

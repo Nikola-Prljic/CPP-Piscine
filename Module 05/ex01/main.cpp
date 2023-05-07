@@ -1,8 +1,9 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int main()
 {
-    try 
+    /* try 
     {
         Bureaucrat nik("nik", 151);
         std::cout << nik << std::endl;
@@ -11,6 +12,9 @@ int main()
     } catch (Bureaucrat::ToHigh &e) 
     {
         std::cout << e.what() << std::endl;
-    }
+    } */
+
+    Form a38(1, "a38");
+    std::cout << a38.getName() << std::endl;
     return 0;
 }

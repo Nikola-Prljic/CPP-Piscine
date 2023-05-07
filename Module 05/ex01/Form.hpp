@@ -22,13 +22,15 @@ public:
     ~Form();
 
     Form& operator=( const Form &rhs);
-    bool Form::getIsSigned( void ) const;
-    std::string Form::getName( void ) const;
-    int Form::getRequiredToSing( void ) const;
-    int Form::getRequiredToExecute( void ) const;
+    bool getIsSigned( void ) const;
+    std::string getName( void ) const;
+    int getRequiredToSing( void ) const;
+    int getRequiredToExecute( void ) const;
 
     void beSigned( const Bureaucrat &B );
 
+    int GradeTooHighException();
+    int GradeTooLowException();
 };
 
 #endif
