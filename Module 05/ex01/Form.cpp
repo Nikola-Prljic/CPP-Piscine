@@ -59,3 +59,12 @@ void    Form::beSigned( const Bureaucrat &B )
     _is_signed = true;
     return ;
 }
+
+std::ostream& operator<<( std::ostream& os, const Form& f)
+{
+    os << "Form with Name : " << f.getName() << std::endl <<
+          "Is Singed ?    : " << f.getIsSigned() << std::endl <<
+          "Need to sing   : " << f.getRequiredToSing() << std::endl <<
+          "Need to exe    : " << f.getRequiredToExecute();
+    return os;
+}

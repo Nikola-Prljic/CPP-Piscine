@@ -1,4 +1,3 @@
-#include "Bureaucrat.hpp"
 #include "Form.hpp"
 
 int main()
@@ -16,8 +15,19 @@ int main()
 
     try
     {
-        Form a38(151, "a38");
+        Bureaucrat niki("niki", 150);
+        Form a38(150, "a38");
         std::cout << a38.getName() << std::endl;
+        a38.beSigned( niki );
+        std::cout << a38 << std::endl;
+    }
+    catch (Bureaucrat::ToHigh &e) 
+    {
+        std::cout << e.what() << std::endl;
+    }
+    catch (Bureaucrat::ToLow &e) 
+    {
+        std::cout << e.what() << std::endl;
     }
     catch (Form::ToLow &e) 
     {
