@@ -3,18 +3,18 @@
 Form::Form( const int required_to_sign, const std::string name ) : _is_signed( false ), _required_to_execute(0), _required_to_sign(required_to_sign), _name(name)
 {
     if ( _required_to_sign < 1 )
-        throw Form::GradeTooHighException();
+        throw Form::ToLow();
     if ( _required_to_sign > 150 )
-        throw Form::GradeTooLowException();
+        throw Form::ToHigh();
     return ;
 }
 
 Form::Form( const int required_to_sign, const int required_to_execute, const std::string name ) : _is_signed( false ), _required_to_execute(required_to_execute), _required_to_sign(required_to_sign), _name(name)
 {
     if ( _required_to_sign < 1 )
-        throw Form::GradeTooHighException();
+        throw Form::ToLow();
     if ( _required_to_sign > 150 )
-        throw Form::GradeTooLowException();
+        throw Form::ToHigh();
     return ;
 }
 
@@ -55,19 +55,7 @@ int Form::getRequiredToExecute( void ) const
 void    Form::beSigned( const Bureaucrat &B )
 {
     if(_required_to_sign > B.getGrade())
-        throw Form::GradeTooLowException();
+        throw Form::ToLow();
     _is_signed = true;
     return ;
-}
-
-int Form::GradeTooHighException()
-{
-    std::cout << "Form: Grade to high!" << std::endl;
-    return 0;
-}
-
-int Form::GradeTooLowException()
-{
-    std::cout << "Form: Grade to low!" << std::endl;
-    return 0;
 }

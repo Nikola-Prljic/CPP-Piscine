@@ -14,7 +14,18 @@ int main()
         std::cout << e.what() << std::endl;
     } */
 
-    Form a38(1, "a38");
-    std::cout << a38.getName() << std::endl;
+    try
+    {
+        Form a38(151, "a38");
+        std::cout << a38.getName() << std::endl;
+    }
+    catch (Form::ToLow &e) 
+    {
+        std::cout << e.what() << std::endl;
+    }
+    catch (Form::ToHigh &e) 
+    {
+        std::cout << e.what() << std::endl;
+    }
     return 0;
 }

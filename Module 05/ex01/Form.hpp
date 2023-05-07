@@ -29,8 +29,19 @@ public:
 
     void beSigned( const Bureaucrat &B );
 
-    int GradeTooHighException();
-    int GradeTooLowException();
+    class ToHigh : public std::exception
+    {
+        public:
+            virtual const char *what() const throw(){
+                return "Error: Form: Grade to high!";}
+    };
+
+    class ToLow : public std::exception
+    {
+        public:
+            virtual const char *what() const throw(){
+                return "Error: Form: Grade to low!";}
+    };
 };
 
 #endif
