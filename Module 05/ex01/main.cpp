@@ -19,6 +19,7 @@ int main()
         Form a38(150, "a38");
         std::cout << a38.getName() << std::endl;
         a38.beSigned( niki );
+        niki.signForm( a38 );
         std::cout << a38 << std::endl;
     }
     catch (Bureaucrat::ToHigh &e) 

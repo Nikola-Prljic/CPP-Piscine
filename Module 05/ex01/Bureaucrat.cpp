@@ -56,6 +56,20 @@ void Bureaucrat::decrement( void )
     return ;
 }
 
+void    Bureaucrat::signForm( Form& f ) 
+{
+    try {
+        f.beSigned( *this );
+        std::cout << _name << " signed " << f.getName() << std::endl;
+    }
+    catch (Form::ToLow &e) {
+        std::cout << _name << " coulnd't sign " << f.getName() << " because " << e.what() << std::endl;
+    }
+    catch (Form::ToHigh &e) {
+        std::cout << _name << " coulnd't sign " << f.getName() << " because " << e.what() << std::endl;
+    }
+}
+
 std::ostream& operator<<( std::ostream& os, const Bureaucrat& be )
 {
     os << be.getName() << " with the grade: " << be.getGrade();

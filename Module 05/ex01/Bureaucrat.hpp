@@ -1,7 +1,10 @@
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
-# include <iostream> 
+# include <iostream>
+# include "Form.hpp"
+
+class Form;
 
 class Bureaucrat
 {
@@ -21,6 +24,8 @@ public:
 
     void increment( void );
     void decrement( void );
+
+    void signForm( Form &f );
 
     class ToHigh : public std::exception
     {
