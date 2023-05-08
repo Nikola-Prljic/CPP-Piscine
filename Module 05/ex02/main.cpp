@@ -1,15 +1,14 @@
-#include "Form.hpp"
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int main()
 {
     try
     {
-        Bureaucrat niki("niki", 150);
-        Form a38(150, "a38");
-        std::cout << a38.getName() << std::endl;
+        Bureaucrat niki("niki", 90);
+        ShrubberyCreationForm acf(niki);
+        std::cout << acf << std::endl;
         //niki.decrement();
-        niki.signForm( a38 );
-        std::cout << a38 << std::endl;
     }
     catch (Bureaucrat::ToHigh &e) 
     {
@@ -19,11 +18,11 @@ int main()
     {
         std::cout << e.what() << std::endl;
     }
-    catch (Form::ToLow &e) 
+    catch (AForm::ToLow &e) 
     {
         std::cout << e.what() << std::endl;
     }
-    catch (Form::ToHigh &e) 
+    catch (AForm::ToHigh &e) 
     {
         std::cout << e.what() << std::endl;
     }
