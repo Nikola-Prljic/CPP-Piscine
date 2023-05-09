@@ -16,6 +16,7 @@ private:
     AForm();
 
 public:
+
     AForm( const int need_to_sign, const std::string name );
     AForm( const int need_to_sign, const int need_to_execute, const std::string name );
     AForm( AForm &src );

@@ -67,3 +67,9 @@ std::string ShrubberyCreationForm::writeAsciiTree( int how_much )
         tree += makeOneTree();
     return tree;
 }
+
+/* ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm& src )
+{
+    *this = src;
+    return ;
+} */

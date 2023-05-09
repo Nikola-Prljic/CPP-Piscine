@@ -13,6 +13,7 @@ class ShrubberyCreationForm: public AForm
 
     public:
         ShrubberyCreationForm( Bureaucrat& target);
+        ShrubberyCreationForm( const ShrubberyCreationForm& src );
         ~ShrubberyCreationForm();
 };
 
