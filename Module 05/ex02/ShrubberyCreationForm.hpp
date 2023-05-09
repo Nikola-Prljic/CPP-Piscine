@@ -8,7 +8,7 @@ class ShrubberyCreationForm: public AForm
 {
     private:
         ShrubberyCreationForm();
-        void createFile( std::string file_name );
+        void createFile( std::string target_name, std::string write_in_file );
         std::string writeAsciiTree( int how_much);
 
     public:

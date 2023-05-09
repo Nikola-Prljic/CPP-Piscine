@@ -5,7 +5,7 @@ ShrubberyCreationForm::ShrubberyCreationForm( Bureaucrat& target ) : AForm(145, 
     target.signForm( *this );
     if(AForm::getIsSigned() == 0)
         return ;
-    createFile( writeAsciiTree( 7 ) );
+    createFile( target.getName(), writeAsciiTree( 7 ) );
     return ;
 }
 
@@ -14,11 +14,11 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
     return ;
 }
 
-void ShrubberyCreationForm::createFile( std::string write_in_file )
+void ShrubberyCreationForm::createFile( std::string target_name, std::string write_in_file )
 {
     std::fstream form;
 
-    form.open( "form.txt", std::ios::out );
+    form.open( target_name += "_shrubbery", std::ios::out );
 	if (!form)
 		std::cout << "Error: File not created!";
     else
@@ -67,7 +67,6 @@ std::string ShrubberyCreationForm::writeAsciiTree(int how_much)
         tree += makeOneTree();
     return tree;
 }
-
 
 void ShrubberyCreationForm::tmp()
 {

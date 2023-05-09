@@ -20,7 +20,7 @@ public:
     AForm( const int need_to_sign, const int need_to_execute, const std::string name );
     AForm( AForm &src );
     virtual ~AForm();
-
+    
     virtual void tmp() = 0;
 
     AForm& operator=( const AForm &rhs);
