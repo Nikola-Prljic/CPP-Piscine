@@ -5,7 +5,7 @@ int main()
 {
     try
     {
-        Bureaucrat niki("niki", 90);
+        Bureaucrat niki("niki", 150);
         ShrubberyCreationForm acf(niki);
         std::cout << acf << std::endl;
         //niki.decrement();

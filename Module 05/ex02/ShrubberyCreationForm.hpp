@@ -8,6 +8,8 @@ class ShrubberyCreationForm: public AForm
 {
     private:
         ShrubberyCreationForm();
+        void createFile( std::string file_name );
+        std::string writeAsciiTree( int how_much);
 
     public:
         ShrubberyCreationForm( Bureaucrat& target);
