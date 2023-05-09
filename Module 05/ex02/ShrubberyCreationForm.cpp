@@ -59,16 +59,11 @@ std::string makeOneTree()
     return tree;
 }
 
-std::string ShrubberyCreationForm::writeAsciiTree(int how_much)
+std::string ShrubberyCreationForm::writeAsciiTree( int how_much )
 {
     std::string tree;
 
     for(int i = 0; i < how_much; i++)
         tree += makeOneTree();
     return tree;
-}
-
-void ShrubberyCreationForm::tmp()
-{
-    return ;
 }

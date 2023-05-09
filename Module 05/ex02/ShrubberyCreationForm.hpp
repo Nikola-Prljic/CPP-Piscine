@@ -14,8 +14,6 @@ class ShrubberyCreationForm: public AForm
     public:
         ShrubberyCreationForm( Bureaucrat& target);
         ~ShrubberyCreationForm();
-
-        void tmp();
 };
 
 #endif

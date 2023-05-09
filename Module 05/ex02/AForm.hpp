@@ -21,7 +21,7 @@ public:
     AForm( AForm &src );
     virtual ~AForm();
     
-    virtual void tmp() = 0;
+    virtual std::string writeAsciiTree( int how_much) = 0;
 
     AForm& operator=( const AForm &rhs);
     bool getIsSigned( void ) const;

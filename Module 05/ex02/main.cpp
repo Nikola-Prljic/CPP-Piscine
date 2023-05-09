@@ -6,6 +6,7 @@ int main()
     try
     {
         Bureaucrat niki("niki", 150);
+        // AForm ff(); should not work! AForm is abstract class.
         ShrubberyCreationForm acf(niki);
         std::cout << acf << std::endl;
         //niki.decrement();
