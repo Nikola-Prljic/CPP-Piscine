@@ -1,11 +1,7 @@
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm( Bureaucrat& target ) : AForm(145, 137, "ShrubberyCreationForm")
+ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : _target(target), AForm(145, 137, "ShrubberyCreationForm")
 {
-    target.signForm( *this );
-    if(AForm::getIsSigned() == 0)
-        return ;
-    createFile( target.getName(), writeAsciiTree( 7 ) );
     return ;
 }
 
@@ -14,7 +10,7 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
     return ;
 }
 
-void ShrubberyCreationForm::createFile( std::string target_name, std::string write_in_file )
+void ShrubberyCreationForm::createFile( std::string target_name, std::string write_in_file ) const
 {
     std::fstream form;
 
@@ -59,7 +55,7 @@ std::string makeOneTree()
     return tree;
 }
 
-std::string ShrubberyCreationForm::writeAsciiTree( int how_much )
+std::string ShrubberyCreationForm::writeAsciiTree( int how_much ) const
 {
     std::string tree;
 
@@ -68,8 +64,16 @@ std::string ShrubberyCreationForm::writeAsciiTree( int how_much )
     return tree;
 }
 
-/* ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm& src )
+void ShrubberyCreationForm::execute( const Bureaucrat& executor ) const
 {
-    *this = src;
+    try{
+        isExecutable( executor );
+        if( getIsSigned() == false)
+            throw AForm::NotSigned();
+    }
+    catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
+    }
+    createFile(_target, writeAsciiTree(7));
     return ;
-} */
+}

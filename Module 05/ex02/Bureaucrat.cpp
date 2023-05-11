@@ -1,10 +1,10 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat( const std::string name , int grade) : _name(name), _grade(grade)
+Bureaucrat::Bureaucrat( const std::string name , int grade, int execute) : _name(name), _grade(grade), _execute(execute)
 {
-    if( _grade > 150 )
+    if( _grade > 150 || _execute > 150)
         throw Bureaucrat::ToHigh();
-    if( _grade < 1 )
+    if( _grade < 1 || _execute < 1)
         throw Bureaucrat::ToLow();
     std::cout << "*Bureaucrat constructor called." << std::endl;
     return ;
@@ -33,10 +33,17 @@ int Bureaucrat::getGrade( void ) const
     return _grade;
 }
 
+int Bureaucrat::getExecute( void ) const
+{
+    return _execute;
+}
+
 std::string Bureaucrat::getName( void ) const
 {
     return _name;
 }
+
+
 
 void Bureaucrat::increment( void )
 {
@@ -56,7 +63,7 @@ void Bureaucrat::decrement( void )
     return ;
 }
 
-void    Bureaucrat::signForm( AForm& f ) 
+void Bureaucrat::signForm( AForm& f ) const 
 {
     try {
         f.beSigned( *this );

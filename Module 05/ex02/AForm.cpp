@@ -59,7 +59,18 @@ void AForm::beSigned( const Bureaucrat &B )
 {
     if(_need_to_sign > B.getGrade())
         throw AForm::ToLow();
+    if(_need_to_execute > B.getExecute())
+        throw AForm::ToLow();
     _is_signed = true;
+    return ;
+}
+
+void AForm::isExecutable( const Bureaucrat& b ) const
+{
+    if( _need_to_sign > b.getGrade() )
+        throw AForm::ToLow();
+    if( _need_to_execute > b.getExecute() )
+        throw AForm::ToLow();
     return ;
 }
 

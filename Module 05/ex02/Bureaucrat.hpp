@@ -10,22 +10,24 @@ class Bureaucrat
 {
 private:
     int _grade;
+    int _execute;
     const std::string _name;
     Bureaucrat();
 
 public:
-    Bureaucrat( std::string name, int grade);
+    Bureaucrat( std::string name, int grade, int execute);
     Bureaucrat( Bureaucrat &src );
     ~Bureaucrat();
 
     Bureaucrat& operator=( Bureaucrat &rhs );
     int getGrade( void ) const;
+    int getExecute( void ) const;
     std::string getName( void ) const;
 
     void increment( void );
     void decrement( void );
 
-    void signForm( AForm &f );
+    void signForm( AForm &f ) const;
 
     class ToHigh : public std::exception
     {

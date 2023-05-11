@@ -7,14 +7,16 @@
 class ShrubberyCreationForm: public AForm
 {
     private:
+        std::string _target;
         ShrubberyCreationForm();
-        void createFile( std::string target_name, std::string write_in_file );
-        std::string writeAsciiTree( int how_much);
+        std::string writeAsciiTree( int how_much) const;
+        void createFile( std::string target_name, std::string write_in_file ) const;
 
     public:
-        ShrubberyCreationForm( Bureaucrat& target);
-        ShrubberyCreationForm( const ShrubberyCreationForm& src );
+        ShrubberyCreationForm( std::string target );
         ~ShrubberyCreationForm();
+
+        void execute( const Bureaucrat& executor) const;
 };
 
 #endif
