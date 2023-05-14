@@ -6,7 +6,6 @@ Bureaucrat::Bureaucrat( const std::string name , int grade, int execute) : _name
         throw Bureaucrat::ToHigh();
     if( _grade < 1 || _execute < 1)
         throw Bureaucrat::ToLow();
-    std::cout << "*Bureaucrat constructor called." << std::endl;
     return ;
 }
 
@@ -17,7 +16,6 @@ Bureaucrat::Bureaucrat( Bureaucrat &src) : _name(src._name), _grade(src._grade)
 
 Bureaucrat::~Bureaucrat()
 {
-    std::cout << "*Bureaucrat destroctur called." << std::endl;
     return ;
 }
 

@@ -4,7 +4,7 @@
 int main()
 {
     try{
-        Bureaucrat niki("niki", -151, 1);
+        Bureaucrat niki("niki", 150, 1);
         // AForm ff(); should not work! AForm is abstract class.
         ShrubberyCreationForm acf("yoou");
         niki.signForm(acf);

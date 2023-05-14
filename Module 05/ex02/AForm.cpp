@@ -18,7 +18,7 @@ AForm::AForm( const int need_to_sign, const int need_to_execute, const std::stri
     return ;
 }
 
-AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute()) 
+AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute()), _name(src.getName())
 {
     return ;
 }
@@ -31,7 +31,6 @@ AForm& AForm::operator=( const AForm &rhs )
         _is_signed = rhs.getIsSigned();
     return *this;
 }
-
 
 void AForm::beSigned( const Bureaucrat &B )
 {
