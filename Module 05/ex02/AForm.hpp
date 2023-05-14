@@ -36,21 +36,21 @@ public:
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: AForm: Grade to high!";}
+                return "Error: Form: Grade to high";}
     };
 
     class ToLow : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: AForm: Grade to low!";}
+                return "Error: Form: Grade to low";}
     };
 
     class NotSigned : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Not signed!";}
+                return "Error: Form: Not signed";}
     };
 };
 

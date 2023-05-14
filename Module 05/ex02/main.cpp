@@ -3,9 +3,8 @@
 
 int main()
 {
-    try
-    {
-        Bureaucrat niki("niki", 150, 150);
+    try{
+        Bureaucrat niki("niki", -151, 1);
         // AForm ff(); should not work! AForm is abstract class.
         ShrubberyCreationForm acf("yoou");
         niki.signForm(acf);
@@ -13,21 +12,8 @@ int main()
         std::cout << acf << std::endl;
         //niki.decrement();
     }
-    catch (Bureaucrat::ToHigh &e) 
-    {
-        std::cout << e.what() << std::endl;
-    }
-    catch (Bureaucrat::ToLow &e) 
-    {
-        std::cout << e.what() << std::endl;
-    }
-    catch (AForm::ToLow &e) 
-    {
-        std::cout << e.what() << std::endl;
-    }
-    catch (AForm::ToHigh &e) 
-    {
-        std::cout << e.what() << std::endl;
+    catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
     }
     return 0;
 }

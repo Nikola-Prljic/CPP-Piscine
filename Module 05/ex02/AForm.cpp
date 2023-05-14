@@ -11,22 +11,19 @@ AForm::AForm( const int need_to_sign, const std::string name ) : _is_signed( fal
 
 AForm::AForm( const int need_to_sign, const int need_to_execute, const std::string name ) : _is_signed( false ), _need_to_execute(need_to_execute), _need_to_sign(need_to_sign), _name(name)
 {
-    if ( _need_to_sign < 1 )
+    if ( _need_to_sign < 1 || _need_to_execute < 1 )
         throw AForm::ToLow();
-    if ( _need_to_sign > 150 )
+    if ( _need_to_sign > 150 || _need_to_sign > 150 )
         throw AForm::ToHigh();
     return ;
 }
 
-AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute())
+AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute()) 
 {
     return ;
 }
 
-AForm::~AForm()
-{
-    return ;
-}
+AForm::~AForm() { return ; }
 
 AForm& AForm::operator=( const AForm &rhs )
 {
@@ -35,25 +32,6 @@ AForm& AForm::operator=( const AForm &rhs )
     return *this;
 }
 
-bool AForm::getIsSigned( void ) const
-{
-    return _is_signed;
-}
-
-std::string AForm::getName( void ) const
-{
-    return _name; 
-}
-
-int AForm::getNeedToSign( void ) const
-{ 
-    return _need_to_sign; 
-}
-
-int AForm::getNeedToExecute( void ) const
-{
-    return _need_to_execute;
-}
 
 void AForm::beSigned( const Bureaucrat &B )
 {
@@ -82,3 +60,12 @@ std::ostream& operator<<( std::ostream& os, const AForm& f)
           "Need to exe    : " << f.getNeedToExecute();
     return os;
 }
+
+//get funktions
+bool AForm::getIsSigned( void ) const { return _is_signed; }
+
+std::string AForm::getName( void ) const { return _name; }
+
+int AForm::getNeedToSign( void ) const { return _need_to_sign; }
+
+int AForm::getNeedToExecute( void ) const { return _need_to_execute; }
