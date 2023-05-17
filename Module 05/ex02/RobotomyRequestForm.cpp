@@ -16,7 +16,7 @@ void robotomized( std::string target)
     srand((int)time(0));
     int ran = rand() % 2;
 
-    std::cout << ran << " Brrrrr Brrrrr Brrrr *" << std::endl;
+    std::cout << ran << " * Brrrrr Brrrrr Brrrr *" << std::endl;
     if( ran )
         std::cout << target <<  " has been robotomized!" << std::endl;
     else
@@ -27,7 +27,7 @@ void robotomized( std::string target)
 void RobotomyRequestForm::execute( const Bureaucrat& executor ) const
 {
     isExecutable( executor );
-    if( getIsSigned() == false)
+    if( getIsSigned() == false )
         throw AForm::NotSigned();
     robotomized( getTarget() );
     return ;
