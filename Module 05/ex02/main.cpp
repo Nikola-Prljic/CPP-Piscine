@@ -4,12 +4,14 @@
 int main()
 {
     try{
-        Bureaucrat niki("niki", 150, 1);
+        Bureaucrat niki("niki", 150, 150);
         // AForm ff(); should not work! AForm is abstract class.
-        ShrubberyCreationForm acf("yoou");
-        niki.signForm(acf);
-        acf.execute(niki);
-        std::cout << acf << std::endl;
+        ShrubberyCreationForm a1("a1");
+        ShrubberyCreationForm a2(a1);
+        //niki.signForm(acf);
+        //acf.execute(niki);
+        niki.executeForm(a1);
+        std::cout << a1 << std::endl;
         //niki.decrement();
     }
     catch(const std::exception& e){

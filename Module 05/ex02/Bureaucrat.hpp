@@ -28,19 +28,20 @@ public:
     void decrement( void );
 
     void signForm( AForm &f ) const;
+    void executeForm( AForm const & form ) const;
 
     class ToHigh : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Grade to high!";}
+                return "Error: to high!";}
     };
 
     class ToLow : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Grade to low!";}
+                return "Error: to low!";}
     };
 };
 

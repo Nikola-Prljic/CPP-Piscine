@@ -5,6 +5,12 @@ ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : _target(tar
     return ;
 }
 
+ShrubberyCreationForm::ShrubberyCreationForm( ShrubberyCreationForm & rhs ) : AForm(rhs), _target(rhs._target)
+{
+    std::cout << "scform copy constructor called" << std::endl;
+    return ;
+}
+
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
     return ;
@@ -66,14 +72,9 @@ std::string ShrubberyCreationForm::writeAsciiTree( int how_much ) const
 
 void ShrubberyCreationForm::execute( const Bureaucrat& executor ) const
 {
-    try{
-        isExecutable( executor );
-        if( getIsSigned() == false)
-            throw AForm::NotSigned();
-    }
-    catch(const std::exception& e){
-        std::cerr << e.what() << std::endl;
-    }
+    isExecutable( executor );
+    if( getIsSigned() == false)
+        throw AForm::NotSigned();
     createFile(_target, writeAsciiTree(7));
     return ;
 }

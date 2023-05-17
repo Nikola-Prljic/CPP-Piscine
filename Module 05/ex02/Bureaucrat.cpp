@@ -26,22 +26,11 @@ Bureaucrat& Bureaucrat::operator=( Bureaucrat &rhs )
     return *this;
 }
 
-int Bureaucrat::getGrade( void ) const
-{
-    return _grade;
-}
+int Bureaucrat::getGrade( void ) const { return _grade; }
 
-int Bureaucrat::getExecute( void ) const
-{
-    return _execute;
-}
+int Bureaucrat::getExecute( void ) const { return _execute; }
 
-std::string Bureaucrat::getName( void ) const
-{
-    return _name;
-}
-
-
+std::string Bureaucrat::getName( void ) const { return _name; }
 
 void Bureaucrat::increment( void )
 {
@@ -73,6 +62,19 @@ void Bureaucrat::signForm( AForm& f ) const
     catch (AForm::ToHigh &e) {
         std::cout << _name << " coulnd't sign " << f.getName() << " because " << e.what() << std::endl;
     }
+}
+
+void Bureaucrat::executeForm( AForm const & form ) const
+{
+    try{
+        form.isExecutable( *this );
+        form.execute( *this );
+        std::cout << _name << " executed " << form.getName() << std::endl;
+    }
+    catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
+    }
+    return ;
 }
 
 std::ostream& operator<<( std::ostream& os, const Bureaucrat& be )
