@@ -9,7 +9,7 @@ private:
     RobotomyRequestForm();
 
 public:
-    RobotomyRequestForm( const Bureaucrat &B );
+    RobotomyRequestForm( std::string target );
     ~RobotomyRequestForm();
 };
 

@@ -1,9 +1,6 @@
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm( const Bureaucrat &B ) : AForm(72, 45, "RobotomyRequestForm")
+RobotomyRequestForm::RobotomyRequestForm( std::string target ) : AForm(72, 45, "RobotomyRequestForm", target)
 {
-    B.signForm( *this );
-    if(AForm::getIsSigned() == 0)
-        return ;
     return ;
 }

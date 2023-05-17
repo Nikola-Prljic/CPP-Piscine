@@ -10,6 +10,7 @@ class AForm
 {
 private:
     bool _is_signed;
+    const std::string _target;
     const std::string _name;
     const int _need_to_sign;
     const int _need_to_execute;
@@ -17,14 +18,14 @@ private:
 
 public:
 
-    AForm( const int need_to_sign, const std::string name );
-    AForm( const int need_to_sign, const int need_to_execute, const std::string name );
+    AForm( const int need_to_sign, const int need_to_execute, const std::string name, const std::string target );
     AForm( AForm &src );
     virtual ~AForm();
 
     AForm& operator=( const AForm &rhs);
     bool getIsSigned( void ) const;
     std::string getName( void ) const;
+    std::string getTarget( void ) const;
     int getNeedToSign( void ) const;
     int getNeedToExecute( void ) const;
 

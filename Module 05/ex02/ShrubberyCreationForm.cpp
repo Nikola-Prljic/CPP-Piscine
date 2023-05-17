@@ -1,13 +1,7 @@
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : _target(target), AForm(145, 137, "ShrubberyCreationForm")
+ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : AForm(145, 137, "ShrubberyCreationForm", target)
 {
-    return ;
-}
-
-ShrubberyCreationForm::ShrubberyCreationForm( ShrubberyCreationForm & rhs ) : AForm(rhs), _target(rhs._target)
-{
-    std::cout << "scform copy constructor called" << std::endl;
     return ;
 }
 
@@ -75,6 +69,6 @@ void ShrubberyCreationForm::execute( const Bureaucrat& executor ) const
     isExecutable( executor );
     if( getIsSigned() == false)
         throw AForm::NotSigned();
-    createFile(_target, writeAsciiTree(7));
+    createFile(getTarget(), writeAsciiTree(7));
     return ;
 }
