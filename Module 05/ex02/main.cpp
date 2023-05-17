@@ -1,20 +1,23 @@
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
+# include "ShrubberyCreationForm.hpp"
+# include "RobotomyRequestForm.hpp"
+# include "PresidentialPardonForm.hpp"
 
 int main()
 {
     try{
         Bureaucrat niki("niki", 145, 150);
         // AForm ff(); should not work! AForm is abstract class.
-        ShrubberyCreationForm a1("a1");
-        RobotomyRequestForm b1("b1");
+        ShrubberyCreationForm a1("Franz");
+        RobotomyRequestForm b1("Marie");
+        PresidentialPardonForm c1("Beni");
         //ShrubberyCreationForm a2(a1);
         niki.signForm(a1);
         niki.signForm(b1);
+        niki.signForm(c1);
         //niki.decrement();
-        a1.execute(niki);
-        b1.execute(niki);
-        //niki.executeForm(a1);
+        niki.executeForm(a1);
+        niki.executeForm(b1);
+        niki.executeForm(c1);
         std::cout << a1 << std::endl;
     }
     catch(const std::exception& e){

@@ -2,7 +2,7 @@ NAME	= ex03
 RM		= rm -f
 CFLAGS	= -std=c++98 -Wall -Werror -Wextra
 C		= c++
-SRC		= main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp
+SRC		= main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 OBJ		= $(SRC:.cpp=.o)
 
 

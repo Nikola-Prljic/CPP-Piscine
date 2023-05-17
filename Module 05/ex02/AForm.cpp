@@ -14,7 +14,7 @@ AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNe
     return ;
 }
 
-AForm::~AForm() { return ; }
+AForm::~AForm() {}
 
 AForm& AForm::operator=( const AForm &rhs )
 {
