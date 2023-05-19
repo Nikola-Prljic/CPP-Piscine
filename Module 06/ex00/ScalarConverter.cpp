@@ -10,7 +10,7 @@ ScalarConverter::ScalarConverter( std::string input ) : _input(input), _char(0),
 
 void ScalarConverter::toChar( int c )
 {
-    if( isprint( c ) == 0)
+    if( c > '~' || c < ' ')
         std::cout << "Is not printable" << std::endl;
     else
         std::cout << (char)c << std::endl;
@@ -58,7 +58,6 @@ void ScalarConverter::convert_switch()
 
 void ScalarConverter::convert()
 {
-    //toChar(_input);
     if(isInt() == true)
         _type = INT;
     else if(isChar() == true)
@@ -69,16 +68,15 @@ void ScalarConverter::convert()
 
 bool ScalarConverter::isInt()
 {
-    int i;
+    long long i;
 
     if( _input == "0" || _input == "-1")
         return true;
-    i = std::atoi( _input.c_str() );
+    i = std::atol( _input.c_str() );
+    if( i > 2147483647)
+        return false;
     if(i != 0 && i != -1)
-    {
-        std::cout << i;
         return true;
-    }
     return false;
 }
 
