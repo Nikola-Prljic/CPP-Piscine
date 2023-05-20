@@ -18,6 +18,8 @@ class ScalarConverter
         std::string _input;
         /* std::string _type; */
         char    _char;
+        std::string error_msg[3];
+
         int     _int;
         float   _float;
         e_type _type;
@@ -32,6 +34,11 @@ class ScalarConverter
         void covert_from_char();
         void covert_from_float();
 
+        //get funktions
+        char getChar();
+        char getInt();
+        std::string getErrorMsg( std::string error_type_msg );
+
         bool isInt();
         void toInt();
         bool isChar();
@@ -40,6 +47,6 @@ class ScalarConverter
         void toFloat();
 };
 
-std::ostream& operator<<(std::ostream& os, const ScalarConverter& sc);
+std::ostream& operator<<(std::ostream& os, ScalarConverter& sc);
 
 #endif

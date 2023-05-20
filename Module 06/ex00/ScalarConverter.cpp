@@ -8,13 +8,14 @@ ScalarConverter::ScalarConverter() {}
 
 ScalarConverter::ScalarConverter( std::string input ) : _input(input), _char(0), _int(0), _type(NONE)
 {
+    this->error_msg[0] = "";
     return ;
 }
 
 void ScalarConverter::toChar( int c )
 {
     if( c > '~' || c < ' ')
-        std::cout << "Is not printable" << std::endl;
+        this->error_msg[0] = "Is not printable";
     else
         std::cout << (char)c << std::endl;
     return ;
@@ -62,7 +63,7 @@ void ScalarConverter::convert_switch()
             covert_from_char();
             std::cout << "CHAR" << std::endl; break ;
         case FLOAT:
-            toFloat();
+            covert_from_float();
             std::cout << "FLOAT" << std::endl; break ;
         default:
             std::cout << "error" << std::endl; break ;
@@ -146,8 +147,28 @@ void ScalarConverter::toFloat()
     return ;
 }
 
-/* std::ostream& operator<<(std::ostream& os, const ScalarConverter& sc)
+std::ostream& printErrorMsg(std::ostream& os, ScalarConverter& sc)
 {
-    os << sc._char << 
     return ;
-} */
+}
+
+std::ostream& operator<<(std::ostream& os, ScalarConverter& sc)
+{
+    if(sc.getErrorMsg( "char" ) == "" )
+        os << "Char : " << (char)sc.getChar() << std::endl;
+    else
+        os << "Char : " << sc.getErrorMsg( "char" ) << std::endl;
+    os << "Int  : " << (int)sc.getInt() << std::endl;
+    return os;
+}
+
+char ScalarConverter::getInt() { return _int; }
+
+char ScalarConverter::getChar() { return _char; }
+
+std::string ScalarConverter::getErrorMsg( std::string error_type_msg ) 
+{ 
+    if( error_type_msg == "char")
+        return this->error_msg[0];
+    return "!! -> Error: msg not found !!";
+}

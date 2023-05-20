@@ -6,5 +6,6 @@ int main(int argc, char **argv)
         return (0);
     ScalarConverter warp(argv[1]);
     warp.convert();
+    std::cout << warp << std::endl;
     return (0);
 }
