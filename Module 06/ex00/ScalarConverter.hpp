@@ -2,6 +2,10 @@
 # define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <cctype>
+#include <climits>
+#include <float.h>
+#include <sstream>
 
 enum e_type {
     NONE,
@@ -16,13 +20,13 @@ class ScalarConverter
 {
     private:
         std::string _input;
-        /* std::string _type; */
-        char    _char;
-        std::string error_msg[3];
+        std::string error_msg[4];
+        e_type _type;
 
+        char    _char;
         int     _int;
         float   _float;
-        e_type _type;
+        double  _double;
 
         ScalarConverter();
     
@@ -33,11 +37,15 @@ class ScalarConverter
         void covert_from_int();
         void covert_from_char();
         void covert_from_float();
+        void covert_from_double();
 
         //get funktions
+        int getInt();
         char getChar();
-        char getInt();
-        std::string getErrorMsg( std::string error_type_msg );
+        float getFloat();
+        double getDouble();
+        e_type getType();
+        std::string getInput();
 
         bool isInt();
         void toInt();
@@ -45,6 +53,10 @@ class ScalarConverter
         void toChar( int c );
         bool isFloat();
         void toFloat();
+        bool isDouble();
+        void toDouble();
+        
+        std::string getErrorMsg( std::string error_type_msg );
 };
 
 std::ostream& operator<<(std::ostream& os, ScalarConverter& sc);
