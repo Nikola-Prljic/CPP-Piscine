@@ -9,18 +9,16 @@ ScalarConverter::ScalarConverter( std::string input ) : _input(input), _char('0'
     return ;
 }
 
+ScalarConverter::ScalarConverter( ScalarConverter & rhs ) : _input(rhs._input), _char(rhs._char), _int(rhs._int), _float(rhs._float), _double(rhs._double), _type(rhs._type), error_msg(rhs.error_msg)
+{
+    return ;
+}
+
 void ScalarConverter::toChar( int c )
 {
     if( c > '~' || c < ' ')
         error_msg[0] = "Is not printable";
     _char = (char)c;
-    return ;
-}
-
-void ScalarConverter::toInt()
-{
-    _int = std::atoi( _input.c_str() );
-    std::cout << _int << std::endl;
     return ;
 }
 
@@ -31,7 +29,6 @@ void ScalarConverter::toFloat()
     std::istringstream ss(_input);
     if(ss >> x)
     {
-        std::cout << x << std::endl;
         _float = x;
     }
     else
@@ -56,7 +53,8 @@ void ScalarConverter::toDouble()
 
 void ScalarConverter::covert_from_int()
 {
-    toInt();
+    _type = INT;
+    _int = std::atoi( _input.c_str() );
     toChar(_int);
     _float = _int;
     _double = _int;
@@ -65,6 +63,7 @@ void ScalarConverter::covert_from_int()
 
 void ScalarConverter::covert_from_char()
 {
+    _char = CHAR;
     toChar(_char);
     _int = _char;
     _float = _char;
@@ -74,6 +73,7 @@ void ScalarConverter::covert_from_char()
 
 void ScalarConverter::covert_from_float()
 {
+    _float = FLOAT;
     toFloat();
     toChar(_float);
     _int = _float;
@@ -83,30 +83,13 @@ void ScalarConverter::covert_from_float()
 
 void ScalarConverter::covert_from_double()
 {
+    _double = DOUBLE;
     toDouble();
     toChar(_double);
     _int = _double;
     _float = _double;
     return ;
 }
-
-/* void ScalarConverter::convert_switch()
-{
-    switch(_type)
-    {
-        case INT:
-            covert_from_int(); break ;
-        case CHAR:
-            covert_from_char(); break ;
-        case FLOAT:
-            covert_from_float(); break ;
-        case DOUBLE:
-            covert_from_double(); break ;
-        default:
-            std::cout << "error" << std::endl; break ;
-    }
-    return ;
-} */
 
 void ScalarConverter::convert()
 {
@@ -118,7 +101,11 @@ void ScalarConverter::convert()
         covert_from_float();
     else if(isDouble() == true)
         covert_from_double();
-    //convert_switch();
+    else
+    {
+        for(int i = 0; i < 4; i++)
+            error_msg[i] = "Not possible";
+    }
     return ;
 }
 
@@ -187,6 +174,8 @@ bool ScalarConverter::isDouble()
             if (_input[i] == '.' && i != 0 && dot == 0)
                 dot++;
             else
+                return false;
+            if(_input[i] == '.' && _input[i + 1] == '\0')
                 return false;
         }
     }

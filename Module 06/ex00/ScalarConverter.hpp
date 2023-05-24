@@ -32,29 +32,28 @@ class ScalarConverter
     
     public:
         ScalarConverter( std::string input );
+        ScalarConverter( ScalarConverter & rhs );
+
         void convert();
-        void convert_switch();
         void covert_from_int();
         void covert_from_char();
         void covert_from_float();
         void covert_from_double();
 
-        //get funktions
+        void toChar( int c );
+        void toFloat();
+        void toDouble();
+        bool isInt();
+        bool isChar();
+        bool isFloat();
+        bool isDouble();
+
         int getInt();
         char getChar();
         float getFloat();
         double getDouble();
-        e_type getType();
         std::string getInput();
-
-        bool isInt();
-        void toInt();
-        bool isChar();
-        void toChar( int c );
-        bool isFloat();
-        void toFloat();
-        bool isDouble();
-        void toDouble();
+        e_type getType();
         
         std::string getErrorMsg( std::string error_type_msg );
 };
