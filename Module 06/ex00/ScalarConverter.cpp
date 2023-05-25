@@ -1,17 +1,29 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter() {}
-
-ScalarConverter::ScalarConverter( std::string input ) : _input(input), _char('0'), _int(0), _float(0), _double(0), _type(NONE), error_msg()
+ScalarConverter::ScalarConverter() : _input("0"), _char('0'), _int(0), _float(0), _double(0), _ld(0), _type(NONE), error_msg()
 {
     for(int i = 0; i < 4; i++)
         error_msg[i] = "";
     return ;
 }
 
-ScalarConverter::ScalarConverter( ScalarConverter & rhs ) : _input(rhs._input), _char(rhs._char), _int(rhs._int), _float(rhs._float), _double(rhs._double), _type(rhs._type), error_msg(rhs.error_msg)
+ScalarConverter::ScalarConverter( ScalarConverter & rhs ) : _input(rhs._input), _char(rhs._char), _int(rhs._int), _float(rhs._float), _double(rhs._double), _ld(rhs._ld), _type(rhs._type), error_msg(rhs.error_msg)
 {
     return ;
+}
+
+ScalarConverter& ScalarConverter::operator=( ScalarConverter & src )
+{
+    _input = src._input;
+    for(int i = 0; i < 4; i++)
+        error_msg[i] = src.error_msg[i];
+    _type = src._type;
+    _char = src._char;
+    _int = src._int;
+    _float = src._float;
+    _double = src._double;
+    _ld = src._ld;
+    return *this;
 }
 
 void ScalarConverter::toChar( int c )
@@ -22,17 +34,30 @@ void ScalarConverter::toChar( int c )
     return ;
 }
 
-void ScalarConverter::toFloat()
+void ScalarConverter::toFloatOrDuble()
 {
-    float x;
+    float   f;
+    double  d;
 
     std::istringstream ss(_input);
-    if(ss >> x)
+    if(ss >> f)
     {
-        _float = x;
+        _float = (float)f;
+        _type = FLOAT;
+    }
+    else if(ss >> d)
+    {
+        _double = (double)d;
+        _type = DOUBLE;
+        error_msg[1] = "overflow";
+        error_msg[2] = "overflow";
     }
     else
+    {
+        error_msg[1] = "overflow";
         error_msg[2] = "overflow";
+        error_msg[3] = "overflow";
+    }
     return ;
 }
 
@@ -42,12 +67,20 @@ void ScalarConverter::toDouble()
 
     std::istringstream ss(_input);
     if(ss >> x)
-    {
-        std::cout << x << std::endl;
         _double = x;
-    }
     else
-        error_msg[3] = "overflow";
+        for(int i = 1; i < 4; i++)
+            error_msg[i] = "overflow";
+    return ;
+}
+
+void ScalarConverter::isBiggerFloat()
+{
+    _ld = (long double)_double;
+    if( _ld > INT_MAX || _ld < INT_MIN)
+        error_msg[1] = "overflow";
+    if( _ld > FLT_MAX || _ld < FLT_MIN)
+        error_msg[2] = "overflow";
     return ;
 }
 
@@ -56,8 +89,8 @@ void ScalarConverter::covert_from_int()
     _type = INT;
     _int = std::atoi( _input.c_str() );
     toChar(_int);
-    _float = _int;
-    _double = _int;
+    _float = (float)_int;
+    _double = (double)_int;
     return ;
 }
 
@@ -65,34 +98,37 @@ void ScalarConverter::covert_from_char()
 {
     _char = CHAR;
     toChar(_char);
-    _int = _char;
-    _float = _char;
-    _double = _char;
+    _int = (int)_char;
+    _float = (float)_char;
+    _double = (double)_char;
     return ;
 }
 
 void ScalarConverter::covert_from_float()
 {
-    _float = FLOAT;
-    toFloat();
+    toFloatOrDuble();
+    if(_type == DOUBLE)
+        covert_from_double();
     toChar(_float);
-    _int = _float;
-    _double = _float;
+    _int = (int)_float;
+    _double = (double)_float;
+    isBiggerFloat();
     return ;
 }
 
 void ScalarConverter::covert_from_double()
 {
-    _double = DOUBLE;
-    toDouble();
+    toFloatOrDuble();
     toChar(_double);
-    _int = _double;
-    _float = _double;
+    _int = (int)_double;
+    _float = (double)_double;
+    isBiggerFloat();
     return ;
 }
 
-void ScalarConverter::convert()
+void ScalarConverter::convert( std::string input )
 {
+    _input = input;
     if(isInt() == true)
         covert_from_int();
     else if(isChar() == true)
@@ -200,7 +236,7 @@ bool floatIsJustNull( std::string str )
     i++;
     while(str[i] == '0')
         i++;
-    if(str[i] == 'f')
+    if(str[i] == '\0')
         return true;
     return false;
 }
