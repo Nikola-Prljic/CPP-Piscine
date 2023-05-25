@@ -107,8 +107,8 @@ void ScalarConverter::covert_from_float()
     if(_type == DOUBLE)
         covert_from_double();
     toChar(_float);
-    _int = (int)_float;
-    _double = (double)_float;
+    _int = static_cast<int>(_float);
+    _double = static_cast<double>(_float);
     isBiggerFloat();
     return ;
 }
@@ -117,8 +117,8 @@ void ScalarConverter::covert_from_double()
 {
     toDouble();
     toChar(_double);
-    _int = (int)_double;
-    _float = (double)_double;
+    _int = static_cast<int>(_double);
+    _float = static_cast<float>(_double);
     isBiggerFloat();
     return ;
 }
