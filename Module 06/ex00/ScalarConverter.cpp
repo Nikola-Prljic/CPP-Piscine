@@ -42,36 +42,33 @@ void ScalarConverter::toFloatOrDuble()
     std::istringstream ss(_input);
     if(ss >> f)
     {
-        _float = (float)f;
         _type = FLOAT;
+        _float = f;
+        error_msg[1] = "overflow";
     }
-    else if(ss >> d)
+    else if(toDouble() == true)
     {
-        _double = (double)d;
         _type = DOUBLE;
         error_msg[1] = "overflow";
         error_msg[2] = "overflow";
     }
-    else
-    {
-        error_msg[1] = "overflow";
-        error_msg[2] = "overflow";
-        error_msg[3] = "overflow";
-    }
     return ;
 }
 
-void ScalarConverter::toDouble()
+bool ScalarConverter::toDouble()
 {
     double x;
 
     std::istringstream ss(_input);
     if(ss >> x)
+    {
         _double = x;
+        return true;
+    }
     else
         for(int i = 1; i < 4; i++)
             error_msg[i] = "overflow";
-    return ;
+    return false;
 }
 
 void ScalarConverter::isBiggerFloat()
@@ -118,7 +115,7 @@ void ScalarConverter::covert_from_float()
 
 void ScalarConverter::covert_from_double()
 {
-    toFloatOrDuble();
+    toDouble();
     toChar(_double);
     _int = (int)_double;
     _float = (double)_double;

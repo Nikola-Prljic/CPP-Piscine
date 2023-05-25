@@ -44,7 +44,7 @@ class ScalarConverter
         void toChar( int c );
         void toFloatOrDuble();
         void toFloat();
-        void toDouble();
+        bool toDouble();
         bool isInt();
         bool isChar();
         bool isFloat();
