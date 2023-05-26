@@ -1,5 +1,15 @@
 #include "ScalarConverter.hpp"
 
+int ScalarConverter::is{ 1 };
+
+int ScalarConverter::getIs(){ return is; }
+
+int ScalarConverter::iDoNothing()
+{
+    is = 3;
+    return is;
+}
+
 int main(int argc, char **argv)
 {
     if(argc != 2)
@@ -10,6 +20,10 @@ int main(int argc, char **argv)
     ScalarConverter a;
     a.convert(argv[1]);
     std::cout << a << std::endl;
+
+    std::cout << a.getIs() << std::endl;
+    std::cout << a.iDoNothing() << std::endl;
+    std::cout << a.getIs() << std::endl;
 
     // Test overload = 
 

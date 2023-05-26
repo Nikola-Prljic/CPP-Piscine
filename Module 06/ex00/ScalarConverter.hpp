@@ -29,11 +29,16 @@ class ScalarConverter
         double  _double;
         long double  _ld;
 
+        static int is;
+
     public:
         ScalarConverter();
         ScalarConverter( ScalarConverter & rhs );
 
         ScalarConverter& operator=( ScalarConverter & src );
+
+        static int iDoNothing();
+        static int getIs();
 
         void convert( std::string input );
         void covert_from_int();
@@ -43,7 +48,6 @@ class ScalarConverter
 
         void toChar( int c );
         void toFloatOrDuble();
-        void toFloat();
         bool toDouble();
         bool isInt();
         bool isChar();
