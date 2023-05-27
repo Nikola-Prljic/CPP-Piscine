@@ -1,28 +1,48 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter() : _input("0"), _char('0'), _int(0), _float(0), _double(0), _ld(0), _type(NONE), error_msg()
-{
-    for(int i = 0; i < 4; i++)
-        error_msg[i] = "";
-    return ;
-}
+std::string ScalarConverter::_input{ "0" };
 
-ScalarConverter::ScalarConverter( ScalarConverter & rhs ) : _input(rhs._input), _char(rhs._char), _int(rhs._int), _float(rhs._float), _double(rhs._double), _ld(rhs._ld), _type(rhs._type), error_msg(rhs.error_msg)
+char ScalarConverter::_char{ '0' };
+
+int ScalarConverter::_int{ 0 };
+
+float ScalarConverter::_float{ 0 };
+
+double ScalarConverter::_double{ 0 };
+
+long double ScalarConverter::_ld{ 0 };
+
+e_type ScalarConverter::_type{ NONE };
+
+std::string ScalarConverter::error_msg[]{"","",""};
+
+ScalarConverter::ScalarConverter() { return ; }
+
+ScalarConverter::ScalarConverter( ScalarConverter & rhs )
 {
+    _input = rhs._input;
+    _char = rhs._char;
+    _int = rhs._int;
+    _float = rhs._float;
+    _double = rhs._double;
+    _ld = rhs._ld;
+    _type =rhs._type;
+    for(int i = 0; i < 4; i++)
+        error_msg[i] = rhs.error_msg[i];
     return ;
 }
 
 ScalarConverter& ScalarConverter::operator=( ScalarConverter & src )
 {
     _input = src._input;
-    for(int i = 0; i < 4; i++)
-        error_msg[i] = src.error_msg[i];
-    _type = src._type;
     _char = src._char;
     _int = src._int;
     _float = src._float;
     _double = src._double;
     _ld = src._ld;
+    _type = src._type;
+    for(int i = 0; i < 4; i++)
+        error_msg[i] = src.error_msg[i];
     return *this;
 }
 
@@ -57,17 +77,16 @@ void ScalarConverter::toFloatOrDuble()
 
 bool ScalarConverter::toDouble()
 {
-    double x;
+    long double x;
 
     std::istringstream ss(_input);
-    if(ss >> x)
+    if(ss >> x && (x >= DBL_MIN && x <= DBL_MAX))
     {
-        _double = x;
+        _double = static_cast<double>(x);
         return true;
     }
-    else
-        for(int i = 1; i < 4; i++)
-            error_msg[i] = "overflow";
+    for(int i = 1; i < 4; i++)
+        error_msg[i] = "overflow";
     return false;
 }
 
@@ -126,7 +145,9 @@ void ScalarConverter::covert_from_double()
 void ScalarConverter::convert( std::string input )
 {
     _input = input;
-    if(isInt() == true)
+    if(isPseudoLiterals() != "0")
+        setPseudoLiterals();
+    else if(isInt() == true)
         covert_from_int();
     else if(isChar() == true)
         covert_from_char();
@@ -144,17 +165,20 @@ void ScalarConverter::convert( std::string input )
 
 bool ScalarConverter::isInt()
 {
-    long long i;
+    int i = 0;
+    long long num;
 
     if( _input == "0" || _input == "-1")
         return true;
-    for(int i = 0; _input[i]; i++)
+    if(_input[0] == '-')
+        i = 1;
+    for(; _input[i]; i++)
         if (isdigit(_input[i]) == 0)
             return false;
-    i = std::atol( _input.c_str() );
-    if( i > INT_MAX || i < INT_MIN )
+    num = std::atol( _input.c_str() );
+    if( num > INT_MAX || num < INT_MIN )
         return false;
-    if(i != 0 && i != -1)
+    if(num != 0 && num != -1)
         return true;
     return false;
 }
@@ -173,13 +197,16 @@ bool ScalarConverter::isChar()
 
 bool ScalarConverter::isFloat()
 {
+    int i = 0;
     int dot = 0;
     int len = 0;
 
     if(_input.back() != 'f')
         return false;
     len = _input.size() - 1;
-    for(int i = 0; i < len ; i++)
+    if(_input[0] == '-')
+        i = 1;
+    for(; i < len ; i++)
     {
         if (isdigit(_input[i]) == 0)
         {
@@ -198,9 +225,12 @@ bool ScalarConverter::isFloat()
 
 bool ScalarConverter::isDouble()
 {
+    int i = 0;
     int dot = 0;
 
-    for(int i = 0; _input[i]; i++)
+    if(_input[0] == '-')
+        i = 1;
+    for(; _input[i]; i++)
     {
         if (isdigit(_input[i]) == 0)
         {
@@ -213,6 +243,34 @@ bool ScalarConverter::isDouble()
         }
     }
     return true;
+}
+
+std::string ScalarConverter::isPseudoLiterals()
+{
+    if ( ( _input ==  "nan" ) || ( _input ==  "nanf" )
+        || ( _input ==  "+inf" ) || ( _input ==  "+inff" )
+        || ( _input ==  "-inf" ) || ( _input ==  "-inff" ))
+        return _input;
+    return "0";
+}
+
+void ScalarConverter::setPseudoLiterals()
+{
+    error_msg[0] = "Not possible";
+    error_msg[1] = "Not possible";
+    if(_input == "nan" || _input ==  "+inf" || _input ==  "-inf")
+    {
+        error_msg[2] = isPseudoLiterals() + "f";
+        error_msg[3] = isPseudoLiterals();
+    }
+    else
+    {
+        error_msg[2] = isPseudoLiterals();
+        std::string tmp = isPseudoLiterals();
+        tmp.pop_back();
+        error_msg[3] = tmp;
+    }
+    return ;
 }
 
 int ScalarConverter::getInt() { return _int; }
@@ -266,13 +324,13 @@ void printErrorMsg( std::ostream& os, ScalarConverter& sc, std::string choseType
 std::string ScalarConverter::getErrorMsg( std::string error_type_msg ) 
 { 
     if( error_type_msg == "char")
-        return this->error_msg[0];
+        return error_msg[0];
     if( error_type_msg == "int")
-        return this->error_msg[1];
+        return error_msg[1];
     if( error_type_msg == "float")
-        return this->error_msg[2];
+        return error_msg[2];
     if( error_type_msg == "double")
-        return this->error_msg[3];
+        return error_msg[3];
     return "!! -> Error: msg not found !!";
 }
 

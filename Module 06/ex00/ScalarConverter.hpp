@@ -19,17 +19,15 @@ enum e_type {
 class ScalarConverter
 {
     private:
-        std::string _input;
-        std::string error_msg[4];
-        e_type _type;
+        static std::string _input;
+        static std::string error_msg[4];
+        static e_type _type;
 
-        char    _char;
-        int     _int;
-        float   _float;
-        double  _double;
-        long double  _ld;
-
-        static int is;
+        static char    _char;
+        static int     _int;
+        static float   _float;
+        static double  _double;
+        static long double  _ld;
 
     public:
         ScalarConverter();
@@ -37,32 +35,31 @@ class ScalarConverter
 
         ScalarConverter& operator=( ScalarConverter & src );
 
-        static int iDoNothing();
-        static int getIs();
+        static void convert( std::string input );
+        static void covert_from_int();
+        static void covert_from_char();
+        static void covert_from_float();
+        static void covert_from_double();
 
-        void convert( std::string input );
-        void covert_from_int();
-        void covert_from_char();
-        void covert_from_float();
-        void covert_from_double();
+        static void toChar( int c );
+        static void toFloatOrDuble();
+        static bool toDouble();
+        static bool isInt();
+        static bool isChar();
+        static bool isFloat();
+        static bool isDouble();
+        static void isBiggerFloat();
+        static std::string isPseudoLiterals();
+        static void setPseudoLiterals();
 
-        void toChar( int c );
-        void toFloatOrDuble();
-        bool toDouble();
-        bool isInt();
-        bool isChar();
-        bool isFloat();
-        bool isDouble();
-        void isBiggerFloat();
-
-        int getInt();
-        char getChar();
-        float getFloat();
-        double getDouble();
-        std::string getInput();
-        e_type getType();
+        static int getInt();
+        static char getChar();
+        static float getFloat();
+        static double getDouble();
+        static std::string getInput();
+        static e_type getType();
         
-        std::string getErrorMsg( std::string error_type_msg );
+        static std::string getErrorMsg( std::string error_type_msg );
 };
 
 std::ostream& operator<<(std::ostream& os, ScalarConverter& sc);
