@@ -11,19 +11,13 @@ typedef struct Data
 
 class Serializer
 {
-    private:
-        static Data* _ptr;
-        Serializer();
-
     public:
-        Serializer( Data* ptr );
+        Serializer();
+        Serializer( Serializer &rhs );
         ~Serializer();
 
         static uintptr_t serialize(Data* ptr);
         static Data* deserialize(uintptr_t raw);
-
-        static Data *getPtr();
-
 };
 
 #endif
