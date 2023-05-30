@@ -32,10 +32,8 @@ ScalarConverter::ScalarConverter( ScalarConverter & rhs )
     return ;
 }
 
-ScalarConverter& ScalarConverter::operator=( ScalarConverter & src )
+ScalarConverter& ScalarConverter::operator=( ScalarConverter tmp )
 {
-    ScalarConverter tmp(src);
-
     std::swap( _input, tmp._input );
     std::swap( _input, tmp._input );
     std::swap( _char, tmp._char);

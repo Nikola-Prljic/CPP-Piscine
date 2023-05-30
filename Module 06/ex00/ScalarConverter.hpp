@@ -33,7 +33,7 @@ class ScalarConverter
         ScalarConverter();
         ScalarConverter( ScalarConverter & rhs );
 
-        ScalarConverter& operator=( ScalarConverter & src );
+        ScalarConverter& operator=( ScalarConverter src );
 
         static void convert( std::string input );
         static void covert_from_int();
