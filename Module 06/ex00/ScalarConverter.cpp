@@ -36,12 +36,12 @@ ScalarConverter& ScalarConverter::operator=( ScalarConverter tmp )
 {
     std::swap( _input, tmp._input );
     std::swap( _input, tmp._input );
-    std::swap( _char, tmp._char);
-    std::swap( _int, tmp._int);
-    std::swap( _float, tmp._float);
-    std::swap( _double, tmp._double);
-    std::swap( _ld, tmp._ld);
-    std::swap( _type, tmp._type);
+    std::swap( _char, tmp._char );
+    std::swap( _int, tmp._int );
+    std::swap( _float, tmp._float );
+    std::swap( _double, tmp._double );
+    std::swap( _ld, tmp._ld );
+    std::swap( _type, tmp._type );
     for(int i = 0; i < 4; i++)
         std::swap(error_msg[i], tmp.error_msg[i]);
     return *this;
