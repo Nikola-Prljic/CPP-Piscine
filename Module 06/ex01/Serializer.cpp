@@ -10,6 +10,12 @@ Serializer::Serializer( Serializer &rhs )
     return ;
 }
 
+Serializer &Serializer::operator=( Serializer &src)
+{
+    *this = src;
+    return *this;
+}
+
 uintptr_t Serializer::serialize(Data* ptr)
 {
     return reinterpret_cast<uintptr_t>(ptr);

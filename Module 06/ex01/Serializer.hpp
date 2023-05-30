@@ -16,6 +16,7 @@ class Serializer
         Serializer( Serializer &rhs );
         ~Serializer();
 
+        Serializer &operator=( Serializer &src);
         static uintptr_t serialize(Data* ptr);
         static Data* deserialize(uintptr_t raw);
 };

@@ -34,15 +34,18 @@ ScalarConverter::ScalarConverter( ScalarConverter & rhs )
 
 ScalarConverter& ScalarConverter::operator=( ScalarConverter & src )
 {
-    _input = src._input;
-    _char = src._char;
-    _int = src._int;
-    _float = src._float;
-    _double = src._double;
-    _ld = src._ld;
-    _type = src._type;
+    ScalarConverter tmp(src);
+
+    std::swap( _input, tmp._input );
+    std::swap( _input, tmp._input );
+    std::swap( _char, tmp._char);
+    std::swap( _int, tmp._int);
+    std::swap( _float, tmp._float);
+    std::swap( _double, tmp._double);
+    std::swap( _ld, tmp._ld);
+    std::swap( _type, tmp._type);
     for(int i = 0; i < 4; i++)
-        error_msg[i] = src.error_msg[i];
+        std::swap(error_msg[i], tmp.error_msg[i]);
     return *this;
 }
 
