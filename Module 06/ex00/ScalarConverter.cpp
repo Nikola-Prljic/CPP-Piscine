@@ -52,6 +52,7 @@ void ScalarConverter::toChar( int c )
     if( c > '~' || c < ' ')
         error_msg[0] = "Is not printable";
     _char = (char)c;
+    std::cout << _char;
     return ;
 }
 
@@ -113,7 +114,7 @@ void ScalarConverter::covert_from_int()
 
 void ScalarConverter::covert_from_char()
 {
-    _char = CHAR;
+    _type = CHAR;
     toChar(_char);
     _int = (int)_char;
     _float = (float)_char;
@@ -314,7 +315,11 @@ void printErrorMsg( std::ostream& os, ScalarConverter& sc, std::string choseType
             os << "f";
         }
         else if ( choseTypeMsg == "double")
+        {
             os << sc.getDouble();
+            if(sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ))
+                os << ".0";
+        }
     }
     else
         os << sc.getErrorMsg( choseTypeMsg );
@@ -334,6 +339,7 @@ std::string ScalarConverter::getErrorMsg( std::string error_type_msg )
         return error_msg[3];
     return "!! -> Error: msg not found !!";
 }
+
 
 std::ostream& operator<<( std::ostream& os, ScalarConverter& sc )
 {

@@ -62,6 +62,7 @@ class ScalarConverter
         static std::string getErrorMsg( std::string error_type_msg );
 };
 
+std::ostream& fixed(std::ostream& os);
 std::ostream& operator<<(std::ostream& os, ScalarConverter& sc);
 
 #endif
