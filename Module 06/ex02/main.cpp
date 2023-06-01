@@ -43,32 +43,26 @@ void identify(Base* p)
     return ;
 }
 
-void identifya(Base &p)
+void identify(Base &p)
 {
     try
     {
         dynamic_cast< A& >( p );
-    }
-    catch(const std::exception& e)
-    {
-        std::string a;
-        a = e.what();
-        if( a == "std::bad_cast" )
-            std::cout << "bad";
-    }
-    
-    /* try
-    {
-        dynamic_cast< *A >( p );
-    } */
-    /* if ( dynamic_cast< A& >( p ) )
         std::cout << "A" << std::endl;
-    else if ( dynamic_cast< B* >( p ) )
+    }
+    catch(const std::exception& e) {}
+    try
+    {
+        dynamic_cast< B& >( p );
         std::cout << "B" << std::endl;
-    else if ( dynamic_cast< C* >( p ) )
+    }
+    catch(const std::exception& e) {}
+    try
+    {
+        dynamic_cast< C& >( p );
         std::cout << "C" << std::endl;
-    else
-        std::cout << "Error: Could not identify class!" << std::endl; */
+    }
+    catch(const std::exception& e) {}
     return ;
 }
 
@@ -80,7 +74,7 @@ int main ( void )
 
     Base_class_ptr = generate();
     identify(Base_class_ptr);
-    identifya(ref);
+    identify(ref);
     delete Base_class_ptr;
     return (0);
 }
