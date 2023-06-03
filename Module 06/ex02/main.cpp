@@ -23,9 +23,9 @@ Base * generate( void )
         B *kid_class = new B;
         return dynamic_cast<Base *>(kid_class);
     }
-    else
+    else if( random_var == 2 )
     {
-        C *kid_class = new C;
+        C *kid_class = new C;                                                                                                                                                                                                  
         return dynamic_cast<Base *>(kid_class);
     }
 }
@@ -69,12 +69,15 @@ void identify(Base &p)
 int main ( void )
 {
     Base *Base_class_ptr;
-    B obj;
-    B & ref = obj;
+    B Bobj;
+    B & Bref = Bobj;
+    C Cobj;
+    C & Cref = Cobj;
 
     Base_class_ptr = generate();
     identify(Base_class_ptr);
-    identify(ref);
+    identify(Bref);
+    identify(Cref);
     delete Base_class_ptr;
     return (0);
 }
