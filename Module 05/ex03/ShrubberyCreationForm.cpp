@@ -5,6 +5,12 @@ ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : AForm(145, 
     return ;
 }
 
+ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
+{
+    AForm::setIsSigned(src.getIsSigned());
+    return ; 
+}
+
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
     return ;
@@ -62,6 +68,13 @@ std::string ShrubberyCreationForm::writeAsciiTree( int how_much ) const
     for(int i = 0; i < how_much; i++)
         tree += makeOneTree();
     return tree;
+}
+
+ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationForm &rhs)
+{
+    AForm::setIsSigned(rhs.getIsSigned());
+    AForm::setTarget(rhs.getTarget());
+    return *this;
 }
 
 void ShrubberyCreationForm::execute( const Bureaucrat& executor ) const

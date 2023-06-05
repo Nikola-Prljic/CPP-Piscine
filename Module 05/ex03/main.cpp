@@ -21,13 +21,38 @@ int main()
     catch(const std::exception& e){
         std::cerr << e.what() << std::endl;
     } */
-    Intern RandIntern;
-    AForm *form;
-    Bureaucrat niki("niki", 145, 150);
 
-    form = RandIntern.makeForm("a", "you");
-    niki.signForm(*form);
-    niki.executeForm(*form);
-    delete (form);
+
+    try{
+        Bureaucrat a("Niki", 150, 150);
+        RobotomyRequestForm hi1("lol");
+        RobotomyRequestForm hi2("lmfao");
+        RobotomyRequestForm hi3(hi1);
+
+        std::cout << "----------------------------------------" << std::endl << hi1 << std::endl;
+        a.signForm(hi2);
+        hi1 = hi2;
+        std::cout << hi1 << std::endl;
+        std::cout << hi3 << std::endl << "----------------------------------------" << std::endl;
+    }
+        catch(const std::exception& e){
+            std::cerr << e.what() << std::endl;
+    }
+
+    try{
+        Intern RandIntern;
+        AForm *form;
+        Bureaucrat niki("niki", 145, 150);
+
+        form = RandIntern.makeForm("a", "you");
+        if(!form)
+            return (1);
+        niki.signForm(*form);
+        niki.executeForm(*form);
+        delete (form);
+    }
+        catch(const std::exception& e){
+            std::cerr << e.what() << std::endl;
+    }
     return 0;
 }

@@ -45,9 +45,10 @@ void AForm::isExecutable( const Bureaucrat& b ) const
 std::ostream& operator<<( std::ostream& os, const AForm& f)
 {
     os << "AForm with Name : " << f.getName() << std::endl <<
-          "Is Singed ?    : " << f.getIsSigned() << std::endl <<
-          "Need to sing   : " << f.getNeedToSign() << std::endl <<
-          "Need to exe    : " << f.getNeedToExecute();
+          "Is Singed ?     : " << f.getIsSigned() << std::endl <<
+          "Need to sing    : " << f.getNeedToSign() << std::endl <<
+          "Need to exe     : " << f.getNeedToExecute() << std::endl <<
+          "Target          : " << f.getTarget();
     return os;
 }
 
@@ -61,3 +62,15 @@ std::string AForm::getTarget( void ) const { return _target; }
 int AForm::getNeedToSign( void ) const { return _need_to_sign; }
 
 int AForm::getNeedToExecute( void ) const { return _need_to_execute; }
+
+void AForm::setIsSigned( bool is_signed )
+{
+    std::swap(_is_signed, is_signed);
+    return;
+}
+
+void AForm::setTarget( std::string target )
+{
+    std::swap(_target, target);
+    return;
+}

@@ -41,7 +41,7 @@ AForm *Intern::makeForm( std::string name, std::string target )
     case SCForm:
         return (new ShrubberyCreationForm( target ));
     case Option_Invalid:
-        std::cout << "Invalid Form" << std::endl; break;
+        throw Intern::InvalidForm();
     default:
         break;
     }
