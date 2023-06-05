@@ -25,6 +25,11 @@ int main()
 
     try{
         Bureaucrat a("Niki", 150, 150);
+        Bureaucrat a2("Hos", 140, 140);
+        a = a2;
+        std::cout << a << std::endl;
+        std::cout << a2 << std::endl;
+
         RobotomyRequestForm hi1("lol");
         RobotomyRequestForm hi2("lmfao");
         RobotomyRequestForm hi3(hi1);

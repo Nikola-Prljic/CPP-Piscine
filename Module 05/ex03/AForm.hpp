@@ -24,8 +24,6 @@ public:
 
     AForm& operator=( const AForm &rhs);
 
-
-
     void beSigned( const Bureaucrat &B );
     void isExecutable( const Bureaucrat& b ) const;
     virtual void execute( const Bureaucrat& executor ) const = 0;

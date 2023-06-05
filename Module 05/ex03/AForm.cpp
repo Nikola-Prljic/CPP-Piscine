@@ -19,7 +19,10 @@ AForm::~AForm() {}
 AForm& AForm::operator=( const AForm &rhs )
 {
     if( this != &rhs )
+    {
         _is_signed = rhs.getIsSigned();
+        _target = rhs.getTarget();
+    }
     return *this;
 }
 
