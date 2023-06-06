@@ -6,6 +6,12 @@ RobotomyRequestForm::RobotomyRequestForm( std::string target ) : AForm(72, 45, "
     return ;
 }
 
+RobotomyRequestForm::RobotomyRequestForm( const RobotomyRequestForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
+{
+    AForm::setIsSigned(src.getIsSigned());
+    return ; 
+}
+
 RobotomyRequestForm::~RobotomyRequestForm()
 {
     return ;
@@ -22,6 +28,13 @@ void robotomized( std::string target)
     else
         std::cout << "robotomy " << target << " failed!" << std::endl;
     return ;
+}
+
+RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &rhs)
+{
+    AForm::setIsSigned(rhs.getIsSigned());
+    AForm::setTarget(rhs.getTarget());
+    return *this;
 }
 
 void RobotomyRequestForm::execute( const Bureaucrat& executor ) const
