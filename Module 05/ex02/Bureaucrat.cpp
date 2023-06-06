@@ -9,7 +9,7 @@ Bureaucrat::Bureaucrat( const std::string name , int grade, int execute) : _name
     return ;
 }
 
-Bureaucrat::Bureaucrat( Bureaucrat &src) : _name(src._name), _grade(src._grade)
+Bureaucrat::Bureaucrat( Bureaucrat &src) : _name(src._name), _grade(src._grade), _execute(src._execute)
 {
     return ;
 }
@@ -22,7 +22,10 @@ Bureaucrat::~Bureaucrat()
 Bureaucrat& Bureaucrat::operator=( Bureaucrat &rhs )
 {
     if( this != &rhs )
-        this->_grade = rhs.getGrade();
+    {
+        _grade = rhs.getGrade();
+        _execute = rhs.getExecute();
+    }
     return *this;
 }
 

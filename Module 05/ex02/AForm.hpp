@@ -10,7 +10,7 @@ class AForm
 {
 private:
     bool _is_signed;
-    const std::string _target;
+    std::string _target;
     const std::string _name;
     const int _need_to_sign;
     const int _need_to_execute;
@@ -53,6 +53,11 @@ public:
             virtual const char *what() const throw(){
                 return "Error: Form: Not signed";}
     };
+
+protected:
+
+    void setIsSigned( bool is_signed );
+    void setTarget( std::string target );
 };
 
 std::ostream& operator<<( std::ostream& os, const AForm& fo);

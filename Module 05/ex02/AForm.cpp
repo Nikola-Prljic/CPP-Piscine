@@ -61,3 +61,15 @@ std::string AForm::getTarget( void ) const { return _target; }
 int AForm::getNeedToSign( void ) const { return _need_to_sign; }
 
 int AForm::getNeedToExecute( void ) const { return _need_to_execute; }
+
+void AForm::setIsSigned( bool is_signed )
+{
+    std::swap(_is_signed, is_signed);
+    return;
+}
+
+void AForm::setTarget( std::string target )
+{
+    std::swap(_target, target);
+    return;
+}
