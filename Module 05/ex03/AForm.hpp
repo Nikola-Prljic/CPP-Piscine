@@ -57,9 +57,8 @@ public:
 
 protected:
 
-    void setIsSigned( bool is_signed);
+    void setIsSigned( bool is_signed );
     void setTarget( std::string target );
-
 };
 
 std::ostream& operator<<( std::ostream& os, const AForm& fo);

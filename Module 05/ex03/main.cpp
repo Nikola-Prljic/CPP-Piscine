@@ -34,6 +34,14 @@ int main()
         RobotomyRequestForm hi2("lmfao");
         RobotomyRequestForm hi3(hi1);
 
+        /* RobotomyRequestForm *hi4 = new RobotomyRequestForm("lmfao");
+        ShrubberyCreationForm *cast = dynamic_cast<ShrubberyCreationForm *> (hi4);
+
+        ShrubberyCreationForm *wtf = new ShrubberyCreationForm("wtf");
+        *wtf = *cast;
+
+        std::cout << *wtf << std::endl; */
+
         std::cout << "----------------------------------------" << std::endl << hi1 << std::endl;
         a.signForm(hi2);
         hi1 = hi2;
