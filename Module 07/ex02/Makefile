@@ -1,24 +1,36 @@
-NAME	= ex02
-RM		= rm -f
-CFLAGS	= -std=c++98 -Wall -Werror -Wextra
-C		= c++
-SRC		= main.cpp
-OBJ		= $(SRC:.cpp=.o)
+NAME = ex02
 
-all:		$(NAME)
+CXX = c++
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
-$(NAME):	$(OBJ)
-			$(C) $(CFLAGS) $(OBJ) -o $(NAME)
+SRC = main.cpp
+
+OBJDIR = ./objects/
+OBJFILES = $(SRC:.cpp=.o)
+OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
+
+DEPT = Array.hpp Array.tpp
+
+.PHONY: clean fclean all
+
+all: $(NAME)
+
+$(OBJDIR)%.o: ./%.cpp $(DEPT)
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@ -c
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-			@$(RM) $(OBJ)
-			@echo // objekt files removed //
+	@rm -rf $(OBJDIR)
+	@echo all .o and .d files deleted
 
-fclean:		clean
-			@$(RM) $(NAME)
-			@echo // all files removed //
+fclean: clean
+	@rm -f $(NAME)
+	@echo
+	@echo ...and the $(NAME) too
 
-re:			fclean all
-			@echo // Clenad and rebuild everything! //
-
-.PHONY:		all clean fclean re
+re: fclean all
