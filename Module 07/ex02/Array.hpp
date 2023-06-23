@@ -6,14 +6,16 @@
 template <typename T> class Array
 {
 private:
-    unsigned int size;
+    const unsigned int _n;
     T *ptr;
 
 public:
-    /* Array(); */
+    Array();
     Array(unsigned int n);
-    /* ~Array(); */
-    /* void getArray(); */
+    ~Array();
+    void getArray();
+    int size() const;
+    T &operator[]( int i );
 };
 
 #endif
