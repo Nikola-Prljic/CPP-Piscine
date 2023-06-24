@@ -6,23 +6,20 @@
 template <typename T> class Array
 {
 private:
-    const unsigned int _n;
+    unsigned int _n;
     T *ptr;
-    int *index_filled;
 
 public:
     Array();
-    Array( unsigned int n );
-    Array(  Array<T> &src );
+    Array( int n );
+    Array(  Array<T> const &src );
     ~Array();
 
-    void printArray();
+    T &operator[]( int i ) const;
+    Array<T> &operator=( Array<T> const &rhs);
     int size() const;
-    T &operator[]( int i );
-    Array<T> &operator=( T value);
-
+    void printArray();
 };
-
 
 template<typename T> std::ostream& operator<< (std::ostream& o, const Array <T>& x);
 

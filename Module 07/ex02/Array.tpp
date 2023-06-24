@@ -3,28 +3,17 @@
 
 #include "Array.hpp"
 
-template<typename T> Array<T>::Array() : _n(0), ptr(NULL), index_filled(NULL) {}
+template<typename T> Array<T>::Array() : _n(0), ptr(NULL){}
 
-template<typename T> Array<T>::Array( unsigned int n ) : _n(n), ptr(new T[n]), index_filled(NULL)
-{
-    index_filled = new int[_n];
-    for(int i = 0; i < (int)n; i++)
-        index_filled[i] = false;
-    std::cout << ">> unsinged int Constructor called" << std::endl;
-}
+template<typename T> Array<T>::Array( int n ) : _n(n), ptr(new T[n]){}
 
-template<typename T> Array<T>::Array(  Array<T> &src ) : _n(src.size()), ptr(NULL), index_filled(NULL)
+template<typename T> Array<T>::Array(  Array<T> const &src ) : _n(src.size()), ptr(NULL)
 {
     if(src.ptr == NULL)
         return ;
-    index_filled = new int[src.size()];
     ptr = new T[src.size()];
     for(int i = 0; i < src.size(); i++)
-    {
-        index_filled[i] = src.index_filled[i];
-        if(src.index_filled[i] == true)
-            ptr[i] = src[i];
-    }
+        ptr[i] = src[i];
     std::cout << ">> copy assingment constructor called" << std::endl;
 }
 
@@ -32,39 +21,41 @@ template <typename T> Array<T>::~Array()
 {
     if(ptr != NULL)
         delete [] ptr;
-    if(index_filled != NULL)
-        delete [] index_filled;
 }
 
 template <typename T> int Array<T>::size() const { return _n; }
 
-template <typename T> T &Array<T>::operator[]( int i )
+template <typename T> Array<T> &Array<T>::operator=( Array<T> const &rhs )
+{
+    if(rhs.ptr == NULL)
+        return *this;
+    _n = rhs._n;
+    std::cout << "+" << std::endl;
+    if(ptr != NULL)
+        delete [] ptr;
+    ptr = new T[rhs.size()];
+    for(int i = 0; i < rhs.size(); i++)
+        ptr[i] = rhs[i];
+    return *this;
+}
+
+template <typename T> T &Array<T>::operator[]( int i ) const
 {
     if(ptr == NULL)
         throw std::out_of_range("Error: ptr is NULL");
-    if(i < 0)
-        throw std::out_of_range("Error: Index must be bigger than 0");
-    if(i >= (int)_n)
-        throw std::out_of_range("Error: Index is to high");
-    index_filled[i] = true;
-    /* std::cout << "--"; */
-    /* std::cout << "Copy for value called!"<< std::endl; */
+    if(i < 0 || i >= (int)_n)
+        throw std::out_of_range("Error: out of bounds");
     return ptr[i];
 }
-
 
 template <typename T> void Array<T>::printArray()
 {
     for(int i = 0; i < (int)_n; i++)
-        if(index_filled[i] == true)
-            std::cout << ptr[i] << " ";
-}
-
-template <typename T> Array<T> &Array<T>::operator=( T value)
-{
-    value++;
-    std::cout << "finish it copy constructor!" << std::endl;
-    return *this;
+    {
+        std::cout << ptr[i];
+        if(i + 1 != (int)_n)
+            std::cout << " ";
+    }
 }
 
 template<typename T> std::ostream& operator<< (std::ostream& os, const Array <T>& ar)
