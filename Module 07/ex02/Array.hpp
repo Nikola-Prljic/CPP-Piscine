@@ -15,12 +15,14 @@ public:
     Array(  Array<T> const &src );
     ~Array();
 
-    T &operator[]( int i ) const;
+    T &operator[]( const int i ) const;
     Array<T> &operator=( Array<T> const &rhs);
     int size() const;
     void printArray();
 };
 
 template<typename T> std::ostream& operator<< (std::ostream& o, const Array <T>& x);
+
+#include "Array.tpp"
 
 #endif

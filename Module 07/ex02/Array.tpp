@@ -1,7 +1,7 @@
 #ifndef Array_TPP
-#define Array_TPP
+# define Array_TPP
 
-#include "Array.hpp"
+# include "Array.hpp"
 
 template<typename T> Array<T>::Array() : _n(0), ptr(NULL){}
 
