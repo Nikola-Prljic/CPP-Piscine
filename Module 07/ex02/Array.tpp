@@ -60,7 +60,13 @@ template <typename T> void Array<T>::printArray()
 
 template<typename T> std::ostream& operator<< (std::ostream& os, const Array <T>& ar)
 {
-    os << ar.printArray();
+    for(int i = 0; i < ar.size(); i++)
+    {
+        os << ar[i];
+        std::cout << ar[i];
+        if(i + 1 != ar.size())
+            os << " ";
+    }
     return os;
 }
 

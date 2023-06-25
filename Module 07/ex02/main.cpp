@@ -72,6 +72,7 @@ int main(int, char**)
     {
         numbers[i] = rand();
     }
+    //std::cout << numbers << std::endl;
     delete [] mirror;//
     return 0;
 }
