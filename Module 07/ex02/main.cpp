@@ -73,6 +73,6 @@ int main(int, char**)
         numbers[i] = rand();
     }
     //std::cout << numbers << std::endl;
-    delete [] mirror;//
+    delete [] mirror;
     return 0;
 }

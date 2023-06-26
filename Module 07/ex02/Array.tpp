@@ -63,7 +63,6 @@ template<typename T> std::ostream& operator<< (std::ostream& os, const Array <T>
     for(int i = 0; i < ar.size(); i++)
     {
         os << ar[i];
-        std::cout << ar[i];
         if(i + 1 != ar.size())
             os << " ";
     }
