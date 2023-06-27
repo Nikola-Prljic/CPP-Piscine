@@ -1,15 +1,15 @@
-NAME = ex02
+NAME = ex01
 
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
-SRC = main.cpp
+SRC = main.cpp Span.cpp
 
 OBJDIR = ./objects/
 OBJFILES = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
-DEPT = easyfind.hpp easyfind.tpp
+DEPT = Span.hpp
 
 .PHONY: clean fclean all
 
