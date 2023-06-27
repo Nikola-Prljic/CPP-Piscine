@@ -3,11 +3,11 @@
 
 #include "easyfind.hpp"
 
-template<typename T> int easyfind(T in, int num)
+template <typename T> bool easyfind( const T src, const int i )
 {
-    if(std::find(in.begin(), in.end(), num) == in.end())
-        return (1);
-    return (0);
+    if(std::find(src.begin(), src.end(), i) == src.end())
+        return false;
+    return true;
 }
 
 #endif
