@@ -25,15 +25,10 @@ void Span::addNumber( int num )
     is_sorted = false;
 }
 
-void is_stack_to_small( std::vector<int> _value )
+void Span::sort_span()
 {
     if(_value.empty() == true || _value.size() == 1)
         throw std::logic_error("Span: stack to small");
-}
-
-void Span::sort_span()
-{
-    is_stack_to_small(_value);
     if(is_sorted == false)
     {
         _sorted = _value;

@@ -12,6 +12,7 @@ private:
     std::vector<int> _value;
     std::vector<int> _sorted;
     bool is_sorted;
+
     Span();
     void sort_span();
 
