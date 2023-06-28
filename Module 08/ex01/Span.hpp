@@ -23,13 +23,13 @@ public:
     ~Span();
 
     Span &operator=( const Span & rhs );
-    void addNumber( int num );
+    void addNumber( const int num );
     int longestSpan();
     int shortestSpan();
 
-    std::vector<int> getSpan();
+    std::vector<int> getSpan() const;
 };
 
-std::ostream &operator<<( std::ostream& os, Span &src);
+std::ostream &operator<<( std::ostream& os, const Span &src);
 
 #endif

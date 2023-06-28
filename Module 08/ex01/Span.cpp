@@ -49,9 +49,9 @@ int Span::shortestSpan()
     return _sorted[1] - _sorted.front();
 }
 
-std::vector<int> Span::getSpan() { return _span; }
+std::vector<int> Span::getSpan() const { return _span; }
 
-std::ostream &operator<<( std::ostream& os, Span &src)
+std::ostream &operator<<( std::ostream& os, const Span &src)
 {
     std::vector<int> tmp = src.getSpan();
     for(std::vector<int>::iterator it = tmp.begin(); it != tmp.end(); it++)
