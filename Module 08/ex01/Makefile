@@ -11,7 +11,7 @@ OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
 DEPT = Span.hpp
 
-.PHONY: clean fclean all
+.PHONY: clean fclean all val
 
 all: $(NAME)
 
@@ -23,6 +23,9 @@ $(OBJDIR):
 
 $(NAME): $(OBJDIR) $(OBJ)
 	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
+
+val: all
+	valgrind ./ex01
 
 clean:
 	@rm -rf $(OBJDIR)
