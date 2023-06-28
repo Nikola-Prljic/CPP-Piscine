@@ -2,16 +2,16 @@
 
 Span::Span() {}
 
-Span::Span( unsigned int N ) : _N(N), _value(), _sorted(), is_sorted(false) {}
+Span::Span( unsigned int N ) : _N(N), _span(), _sorted(), is_sorted(false) {}
 
-Span::Span( const Span &src ) : _N(src._N), _value(src._value), _sorted(src._sorted), is_sorted(src.is_sorted) {}
+Span::Span( const Span &src ) : _N(src._N), _span(src._span), _sorted(src._sorted), is_sorted(src.is_sorted) {}
 
 Span::~Span() {}
 
 Span &Span::operator=( const Span & rhs )
 {
     _N = rhs._N;
-    _value = rhs._value;
+    _span = rhs._span;
     _sorted = rhs._sorted;
     is_sorted = rhs.is_sorted;
     return *this;
@@ -19,19 +19,19 @@ Span &Span::operator=( const Span & rhs )
 
 void Span::addNumber( int num )
 {
-    if(_value.size() >= _N)
+    if(_span.size() >= _N)
         throw std::out_of_range("Span: Full, can't add more");
-    _value.push_back(num);
+    _span.push_back(num);
     is_sorted = false;
 }
 
 void Span::sort_span()
 {
-    if(_value.empty() == true || _value.size() == 1)
+    if(_span.empty() == true || _span.size() == 1)
         throw std::logic_error("Span: stack to small");
     if(is_sorted == false)
     {
-        _sorted = _value;
+        _sorted = _span;
         std::sort(_sorted.begin(), _sorted.end());
         is_sorted = true;
     }
@@ -47,4 +47,14 @@ int Span::shortestSpan()
 {
     sort_span();
     return _sorted[1] - _sorted.front();
+}
+
+std::vector<int> Span::getSpan() { return _span; }
+
+std::ostream &operator<<( std::ostream& os, Span &src)
+{
+    std::vector<int> tmp = src.getSpan();
+    for(std::vector<int>::iterator it = tmp.begin(); it != tmp.end(); it++)
+        os << it[0] << " ";
+    return os;
 }
