@@ -12,3 +12,5 @@ template<typename T> T *MutantStack<T>::begin()
 {
     return &std::stack<T>::top();
 }
+
+//template<typename T> iterator &MutantStack::iterator::operator++( interator _iterator )

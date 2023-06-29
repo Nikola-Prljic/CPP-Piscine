@@ -16,14 +16,23 @@ public:
     ~MutantStack();
 
     T *begin();
-    class iterator
+    /* class iterator
     {
-        T *_iterator;
-    };
+        public:
+        std::stack<T> &_iterator;
+
+        iterator() : _iterator(){}
+        iterator &operator++( interator _iterator)
+        {
+            
+        }
+        iterator &operator==( std::stack<T> &iterator)
+        {
+            _iterator = iterator;
+        }
+    }; */
 
 };
-
-
 
 #include "MutantStack.tpp"
 
