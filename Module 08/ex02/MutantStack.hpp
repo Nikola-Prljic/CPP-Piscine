@@ -1,10 +1,16 @@
 #ifndef MUTANTSTACK_HPP
 # define MUTANTSTACK_HPP
 
+#include <algorithm>
 #include <stack>
 
-template<typename T> class MutantStack : public std::stack<T>
+template<typename T, typename Container = std::deque<T> >
+class MutantStack : public std::stack<T, Container>
 {
+    using std::stack<T, Container>::c;
+
+/* template<typename T> class MutantStack : public std::stack<T>
+{ */
 /* private:
     T _iterator; */
 
@@ -15,22 +21,35 @@ public:
     MutantStack( const MutantStack<T> &src);
     ~MutantStack();
 
-    T *begin();
-    /* class iterator
+    typename std::deque<T>::iterator begin() { return c.begin(); }
+    typename std::deque<T>::iterator end() { return c.end(); }
+
+    typename std::deque<T>::iterator begin() const { return c.begin(); }
+    typename std::deque<T>::iterator end() const { return c.end(); }
+
+    typename std::deque<T>::iterator operator!=() { return *this; }
+    /* T *begin(); */
+    class iterator
     {
         public:
-        std::stack<T> &_iterator;
+        typename std::deque<T>::iterator _itr;
 
-        iterator() : _iterator(){}
-        iterator &operator++( interator _iterator)
+        iterator() : _itr(){}
+       /*  iterator &operator++( interator _iterator)
         {
             
-        }
-        iterator &operator==( std::stack<T> &iterator)
+        } */
+        iterator operator=( typename std::deque<T>::iterator itr)
         {
-            _iterator = iterator;
+            _itr = itr;
+            return *this;
         }
-    }; */
+
+        typename std::deque<T>::iterator operator++()
+        {
+            return *this;
+        }
+    };
 
 };
 
