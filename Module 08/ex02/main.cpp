@@ -1,9 +1,6 @@
 #include "MutantStack.hpp"
 #include <iostream>
 
-#include <typeinfo>
-
-
 int main ()
 {
     /* MutantStack<int>::iterator i; */
@@ -29,6 +26,21 @@ int main ()
         itr++;
         itrc++;
     }
+
+    /* int *array;
+
+    array = new int(4);
+    array[0] = 1;
+    array[1] = 2;
+    array[2] = 3;
+    int *itrr = &array[0];
+    int *itrend = &array[3];
+    while(itrr != itrend)
+    {
+        std::cout << *itrr;
+        itrr++;
+    } */
+
     /* while(itr != a.end()) */
     /* for(; itr != itre; itr++)
         std::cout << "+" << std::endl; */
