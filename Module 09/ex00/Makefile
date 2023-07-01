@@ -3,13 +3,13 @@ NAME = btc
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
-SRC = main.cpp
+SRC = main.cpp BitcoinExchange.cpp
 
 OBJDIR = ./objects/
 OBJFILES = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
-DEPT = MutantStack.hpp MutantStack.tpp
+DEPT = BitcoinExchange.hpp
 
 .PHONY: clean fclean all val
 
