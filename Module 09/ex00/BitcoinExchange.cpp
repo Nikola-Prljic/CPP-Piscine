@@ -22,14 +22,10 @@ int is_date( std::string date )
 {
     int i = 0;
 
-    for( ; date[i]; i++)
+    for( ; i < 10; i++)
     {
-        if(i == 9)
-            break ;
-        if(i == 4 && date[i] == '-')
-            continue;
-        if(i == 7 && date[i] == '-')
-            continue;
+        if(i == 4 && date[i] == '-' || i == 7 && date[i] == '-')
+            continue ;
         if(isdigit(date[i]) == 0)
         {
             std::cout << "wrong!!" << std::endl;
