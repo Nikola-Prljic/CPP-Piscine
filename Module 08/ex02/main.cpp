@@ -1,15 +1,8 @@
 #include "MutantStack.hpp"
 #include <iostream>
 
-int main ()
+/* int main ()
 {
-    /* MutantStack<int>::iterator i; */
-
-    /* MutantStack::iterator<int> it; */
-    /* MutantStack<int>::iterator itr;
-    MutantStack<int>::iterator itre; */
-
-   /*  std::stack<int> b; */
     MutantStack<int> a;
     MutantStack<int> c(a);
     MutantStack<int>::iterator itr = a.begin();
@@ -27,7 +20,7 @@ int main ()
         itrc++;
     }
 
-    /* int *array;
+    int *array;
 
     array = new int(4);
     array[0] = 1;
@@ -39,20 +32,58 @@ int main ()
     {
         std::cout << *itrr;
         itrr++;
-    } */
-
-    /* while(itr != a.end()) */
-    /* for(; itr != itre; itr++)
-        std::cout << "+" << std::endl; */
-    /* std::cout << a.begin() << std::endl; */
-    /* std::cout << itr << std::endl; */
-    /* for(auto i: a)
-        std::cout << i << ' '; */
-    /* std::cout << *a.begin();
-    std::cout << ++*a.begin();
-    std::cout << *a.begin(); */
-    /* i = a.begin(); */
-    /* i = a.begin(); */
-    /* std::cout << *i-- << std::endl; */
+    }
     return 0;
+} */
+
+int main()
+{
+    MutantStack<int> mstack;
+
+    mstack.push(5);
+    mstack.push(17);
+    std::cout << mstack.top() << std::endl;
+    mstack.pop();
+    std::cout << mstack.size() << std::endl;
+    mstack.push(3);
+    mstack.push(5);
+    mstack.push(737);
+    mstack.push(0);
+    MutantStack<int>::iterator it = mstack.begin();
+    MutantStack<int>::iterator ite = mstack.end();
+    ++it;
+    --it;
+    while (it != ite)
+    {
+        std::cout << *it << std::endl;
+        ++it;
+    }
+    std::stack<int> s(mstack);
+
+    std::cout << "----------" << std::endl;
+
+    {
+        std::list<int> mlist;
+
+        mlist.push_back(5);
+        mlist.push_back(17);
+        std::cout << mlist.back() << std::endl;
+        mlist.pop_back();
+        std::cout << mlist.size() << std::endl;
+        mlist.push_back(3);
+        mlist.push_back(5);
+        mlist.push_back(737);
+        mlist.push_back(0);
+        std::list<int>::iterator it = mlist.begin();
+        std::list<int>::iterator ite = mlist.end();
+        ++it;
+        --it;
+        while (it != ite)
+        {
+            std::cout << *it << std::endl;
+            ++it;
+        }
+        std::list<int> s(mlist);
+    }
+return 0;
 }
