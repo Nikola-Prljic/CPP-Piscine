@@ -8,23 +8,13 @@ BitcoinExchange::BitcoinExchange( char *file_path ) : _data()
     open_file( file_path );
 }
 
-/* void BitcoinExchange::valid_input()
-{   
-    std::vector<std::string>::iterator itr = _data.begin();
-
-    for(; itr != _data.end(); itr++)
-    {
-        itr[0] 
-    }
-} */
-
-int is_date( std::string date )
+void BitcoinExchange::valid_date( std::string date )
 {
     int i = 0;
 
     for( ; i < 10; i++)
     {
-        if(i == 4 && date[i] == '-' || i == 7 && date[i] == '-')
+        if((i == 4 && date[i] == '-') || (i == 7 && date[i] == '-'))
             continue ;
         if(isdigit(date[i]) == 0)
         {
@@ -39,7 +29,21 @@ int is_date( std::string date )
         std::cout << "wrong!!" << std::endl;
         exit(1);
     }
-    return i;
+
+    std::string year;
+    std::stringstream ss(date);
+    std::vector<int> tmp;
+
+    for(i = 0; i < 2; i++)
+    {
+        getline(ss, year, '-');
+        tmp.push_back(atoi(year.c_str()));
+    }
+    getline(ss, year, ' ');
+    tmp.push_back(atoi(year.c_str()));
+    _data.push_back(tmp);
+    for(std::size_t i = 0; i < _data[0].size(); i++)
+        std::cout << _data[0][i] << std::endl;
 }
 
 void BitcoinExchange::open_file( char *file_path )
@@ -53,14 +57,8 @@ void BitcoinExchange::open_file( char *file_path )
         std::cout << "Error: Unable to open file!" << std::endl;
         exit(1);
     }
-    int i = 0;
     while ( getline (file, line) )
-    {
-        is_date(line);
-        /* _data[i].push_back(line);
-        _data[i].push_back(line); */
-        i++;
-    }
+        valid_date(line);
     /* for(std::vector<std::string>::iterator itr = _data.begin(); itr != _data.end(); itr++)
         std::cout << itr[0] << std::endl; */
     file.close();
