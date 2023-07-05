@@ -6,18 +6,26 @@
 #include <vector>
 #include <sstream>
 
+struct DateOrError {
+    int year;
+    int month;
+    int day;
+    int ammount;
+    std::string error;
+};
+
 class BitcoinExchange
 {
     private:
-        std::vector< std::vector<int> > _data;
-
-        BitcoinExchange();
+        //std::vector< std::vector<int> > _data;
+        std::vector < DateOrError > _data;
 
     public:
-        BitcoinExchange( char *file_path );
 
-        void open_file( char *file_path );
+        BitcoinExchange();
+        void open_file( std::ifstream &file, char *file_path );
         void valid_date( std::string date );
+        void save_date( std::string date );
 
         /* std::vector<std::string> getData(); */
 };
