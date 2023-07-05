@@ -17,6 +17,8 @@ int main( int argc, char **argv )
             btc.valid_date(line);
             btc.save_date(line);
         }
+
+        btc.print_data();
         file.close();
     }
     return 0;

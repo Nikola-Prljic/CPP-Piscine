@@ -17,7 +17,6 @@ struct DateOrError {
 class BitcoinExchange
 {
     private:
-        //std::vector< std::vector<int> > _data;
         std::vector < DateOrError > _data;
 
     public:
@@ -26,8 +25,7 @@ class BitcoinExchange
         void open_file( std::ifstream &file, char *file_path );
         void valid_date( std::string date );
         void save_date( std::string date );
-
-        /* std::vector<std::string> getData(); */
+        void print_data();
 };
 
 #endif

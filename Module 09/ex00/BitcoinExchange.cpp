@@ -35,33 +35,25 @@ void BitcoinExchange::valid_date( std::string date )
     }
 }
 
-void BitcoinExchange::save_date( std::string date )
+void BitcoinExchange::save_date( std::string line )
 {
     DateOrError tmp;
     std::string year;
-    std::stringstream ss(date);
+    std::stringstream stream(line);
 
-    getline(ss, year, '-');
+    getline(stream, year, '-');
     tmp.year = atoi(year.c_str());
 
-    getline(ss, year, '-');
+    getline(stream, year, '-');
     tmp.month = atoi(year.c_str());
 
-    getline(ss, year, ' ');
+    getline(stream, year, ' ');
     tmp.day = atoi(year.c_str());
 
-    getline(ss, year);
+    getline(stream, year);
     year.erase(0, 2);
     tmp.ammount = atoi(year.c_str());
     _data.push_back(tmp);
-
-    for(std::size_t i = 0; i < _data.size(); i++)
-    {
-        std::cout << _data[i].year << "-";
-        std::cout << _data[i].month << "-";
-        std::cout << _data[i].day << " | ";
-        std::cout << _data[i].ammount << std::endl;
-    }
 }
 
 void BitcoinExchange::open_file( std::ifstream &file, char *file_path )
@@ -73,5 +65,16 @@ void BitcoinExchange::open_file( std::ifstream &file, char *file_path )
     {
         std::cout << "Error: Unable to open file!" << std::endl;
         exit(1);
+    }
+}
+
+void BitcoinExchange::print_data()
+{
+    for(std::size_t i = 0; i < _data.size(); i++)
+    {
+        std::cout << _data[i].year << "-";
+        std::cout << _data[i].month << "-";
+        std::cout << _data[i].day << " | ";
+        std::cout << _data[i].ammount << std::endl;
     }
 }
