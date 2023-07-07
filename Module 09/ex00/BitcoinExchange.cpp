@@ -1,12 +1,12 @@
 #include "BitcoinExchange.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 
 BitcoinExchange::BitcoinExchange() : _data() {}
 
 void TmpExit( std::string msg )
 {
     std::cout << msg << std::endl;
-    exit(1);
+    std::exit(1);
 }
 
 void BitcoinExchange::valid_date( std::string date )
@@ -42,17 +42,17 @@ void BitcoinExchange::save_date( std::string line )
     std::stringstream stream(line);
 
     getline(stream, year, '-');
-    tmp.year = atoi(year.c_str());
+    tmp.year = std::atoi(year.c_str());
 
     getline(stream, year, '-');
-    tmp.month = atoi(year.c_str());
+    tmp.month = std::atoi(year.c_str());
 
     getline(stream, year, ' ');
-    tmp.day = atoi(year.c_str());
+    tmp.day = std::atoi(year.c_str());
 
     getline(stream, year);
     year.erase(0, 2);
-    tmp.ammount = atoi(year.c_str());
+    tmp.ammount = std::atoi(year.c_str());
     _data.push_back(tmp);
 }
 
@@ -64,7 +64,7 @@ void BitcoinExchange::open_file( std::ifstream &file, char *file_path )
     if(file.is_open() == false)
     {
         std::cout << "Error: Unable to open file!" << std::endl;
-        exit(1);
+        std::exit(1);
     }
 }
 
