@@ -3,36 +3,38 @@
 
 BitcoinExchange::BitcoinExchange() : _data() {}
 
-void TmpExit( std::string msg )
+int BitcoinExchange::input_error( std::string line )
 {
-    std::cout << msg << std::endl;
-    exit(1);
+    DateOrError tmp;
+
+    tmp.error = "Not a valide input: " + line;
+    _data.push_back(tmp);
+    return (1);
 }
 
-void BitcoinExchange::valid_date( std::string date )
+int BitcoinExchange::valid_line( std::string line )
 {
     int i = 0;
 
     for( ; i < 10; i++)
     {
-        if((i == 4 && date[i] != '-') || (i == 7 && date[i] != '-'))
-            TmpExit( "wrong!! - " );
+        if((i == 4 && line[i] != '-') || (i == 7 && line[i] != '-'))
+            return input_error( line );
         else if(i == 4 || i == 7)
             continue ;
-        if(isdigit(date[i]) == 0)
-            TmpExit( "wrong!! num " );
+        if(isdigit(line[i]) == 0)
+            return input_error( line );
     }
-    if(date[i] != ' ')
-        TmpExit( "wrong!!" );
+    if(line[i] != ' ')
+        return input_error( line );
     i++;
-    if(date[i] != '|')
-        TmpExit( "wrong!!" );
+    if(line[i] != '|')
+        return input_error( line );
     i += 2;
-    for(; date[i] != '\n' && date[i]; i++)
-    {
-        if(isdigit(date[i]) == 0 || i > 20)
-            TmpExit( "wrong!!" );
-    }
+    for(; line[i] != '\n' && line[i]; i++)
+        if(isdigit(line[i]) == 0 || i > 20)
+            return input_error( line );
+    return 0;
 }
 
 void BitcoinExchange::save_date( std::string line )
@@ -72,9 +74,14 @@ void BitcoinExchange::print_data()
 {
     for(std::size_t i = 0; i < _data.size(); i++)
     {
-        std::cout << _data[i].year << "-";
-        std::cout << _data[i].month << "-";
-        std::cout << _data[i].day << " | ";
-        std::cout << _data[i].ammount << std::endl;
+        if(_data[i].error.empty() == true)
+        {
+            std::cout << _data[i].year << "-";
+            std::cout << _data[i].month << "-";
+            std::cout << _data[i].day << " | ";
+            std::cout << _data[i].ammount << std::endl;
+        }
+        else
+            std::cout << _data[i].error << std::endl;
     }
 }

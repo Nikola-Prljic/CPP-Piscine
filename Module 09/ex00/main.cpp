@@ -14,8 +14,8 @@ int main( int argc, char **argv )
 
         while ( getline (file, line) )
         {
-            btc.valid_date(line);
-            btc.save_date(line);
+            if(btc.valid_line(line) == 0)
+                btc.save_date(line);
         }
 
         btc.print_data();
