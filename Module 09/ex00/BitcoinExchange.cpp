@@ -1,5 +1,5 @@
 #include "BitcoinExchange.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 
 BitcoinExchange::BitcoinExchange() : _data() {}
 
@@ -7,7 +7,7 @@ int BitcoinExchange::input_error( std::string line )
 {
     DateOrError tmp;
 
-    tmp.error = "Not a valide input: " + line;
+    tmp.error = "Error bad input: " + line;
     _data.push_back(tmp);
     return (1);
 }
@@ -37,24 +37,32 @@ int BitcoinExchange::valid_line( std::string line )
     return 0;
 }
 
-void BitcoinExchange::save_date( std::string line )
+void BitcoinExchange::dateInRange(std::stringstream &stream, DateOrError &tmp, int &ymd, char split, int start, int end)
+{
+    std::string tmp_line;
+
+    getline(stream, tmp_line, split);
+    ymd = std::atoi(tmp_line.c_str());
+    if( ymd < start || ymd > end )
+        tmp.error = "Error bad input: ";
+}
+
+void BitcoinExchange::save_line( std::string line )
 {
     DateOrError tmp;
-    std::string year;
+    std::string tmp_line;
     std::stringstream stream(line);
 
-    getline(stream, year, '-');
-    tmp.year = atoi(year.c_str());
+    dateInRange(stream, tmp, tmp.year, '-', 2009, 2022);
+    dateInRange(stream, tmp, tmp.month, '-', 1, 12);
+    dateInRange(stream, tmp, tmp.day, ' ', 1, 32);
 
-    getline(stream, year, '-');
-    tmp.month = atoi(year.c_str());
-
-    getline(stream, year, ' ');
-    tmp.day = atoi(year.c_str());
-
-    getline(stream, year);
-    year.erase(0, 2);
-    tmp.ammount = atoi(year.c_str());
+    if(tmp.error.empty() == true)
+    {
+        getline(stream, tmp_line);
+        tmp_line.erase(0, 2);
+        tmp.ammount = atoi(tmp_line.c_str());
+    }
     _data.push_back(tmp);
 }
 
@@ -66,7 +74,7 @@ void BitcoinExchange::open_file( std::ifstream &file, char *file_path )
     if(file.is_open() == false)
     {
         std::cout << "Error: Unable to open file!" << std::endl;
-        exit(1);
+        std::exit(1);
     }
 }
 
