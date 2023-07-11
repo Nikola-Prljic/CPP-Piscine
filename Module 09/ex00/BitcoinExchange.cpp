@@ -6,7 +6,9 @@ BitcoinExchange::BitcoinExchange() : _data() {}
 int BitcoinExchange::input_error( std::string line )
 {
     DateOrError tmp;
+    std::stringstream stream(line);
 
+    getline(stream, line, '|');
     tmp.error = "Error bad input: " + line;
     _data.push_back(tmp);
     return (1);
