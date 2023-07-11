@@ -5,6 +5,7 @@
 # include <fstream>
 # include <vector>
 # include <sstream>
+# include <algorithm>
 
 class BitcoinExchange
 {
@@ -19,7 +20,8 @@ private:
     };
 
     std::vector < DateOrError > _data;
-    int input_error( std::string line );
+
+    int input_error( std::string line, char delim );
     void dateInRange(std::stringstream &stream, DateOrError &tmp, int &ymd, char split, int start, int end);
 
 public:

@@ -3,12 +3,32 @@
 
 BitcoinExchange::BitcoinExchange() : _data() {}
 
-int BitcoinExchange::input_error( std::string line )
+std::string rmAllChars( std::string str, char c )
+{
+    //str.erase(std::remove_if(str.begin(), str.end(), isspace), str.end());
+    std::string dest;
+    std::string::iterator itr = str.begin();
+    while(itr != str.end())
+    {
+        if(*itr != c)
+            dest.push_back(*itr);
+        itr++;
+    }
+    return dest;
+}
+
+int BitcoinExchange::input_error( std::string line, char delim )
 {
     DateOrError tmp;
-    std::stringstream stream(line);
 
-    getline(stream, line, '|');
+    if(delim != 'a')
+    {
+        std::stringstream stream(line);
+        std::getline(stream, line, '|');
+        if(delim != '|')
+            std::getline(stream, line);
+        line = rmAllChars( line, ' ');
+    }
     tmp.error = "Error bad input: " + line;
     _data.push_back(tmp);
     return (1);
@@ -21,21 +41,27 @@ int BitcoinExchange::valid_line( std::string line )
     for( ; i < 10; i++)
     {
         if((i == 4 && line[i] != '-') || (i == 7 && line[i] != '-'))
-            return input_error( line );
+            return input_error( line , '|' );
         else if(i == 4 || i == 7)
             continue ;
         if(isdigit(line[i]) == 0)
-            return input_error( line );
+            return input_error( line, '|' );
     }
-    if(line[i] != ' ')
-        return input_error( line );
-    i++;
-    if(line[i] != '|')
-        return input_error( line );
-    i += 2;
+    if(line[i++] != ' ')
+        return input_error( line, 'a' );
+    if(line[i++] != '|')
+        return input_error( line, 'a' );
+    if(line[i++] != ' ')
+        return input_error( line, 'a' );
+    if(line[i] == 0)
+        return input_error( "need a btc ammount", 'a' );
     for(; line[i] != '\n' && line[i]; i++)
-        if(isdigit(line[i]) == 0 || i > 20)
-            return input_error( line );
+    {
+        if(isdigit(line[i]) == 0)
+            return input_error( line, '-' );
+        if(i > 16)
+            return input_error( "line to long. Ammount not more than 1000.", 'a' );
+    }
     return 0;
 }
 
