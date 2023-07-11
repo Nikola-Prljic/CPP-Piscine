@@ -61,7 +61,7 @@ void BitcoinExchange::save_line( std::string line )
     {
         getline(stream, tmp_line);
         tmp_line.erase(0, 2);
-        tmp.ammount = atoi(tmp_line.c_str());
+        tmp.ammount = std::atoi(tmp_line.c_str());
     }
     _data.push_back(tmp);
 }
