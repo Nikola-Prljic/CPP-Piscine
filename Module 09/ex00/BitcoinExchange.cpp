@@ -84,12 +84,13 @@ void BitcoinExchange::save_line( std::string line )
     dateInRange(stream, tmp, tmp.year, '-', 2009, 2022);
     dateInRange(stream, tmp, tmp.month, '-', 1, 12);
     dateInRange(stream, tmp, tmp.day, ' ', 1, 32);
-
     if(tmp.error.empty() == true)
     {
         getline(stream, tmp_line);
         tmp_line.erase(0, 2);
         tmp.ammount = std::atoi(tmp_line.c_str());
+        if( tmp.ammount > 1000 || tmp.ammount < 0 )
+            tmp.error = "Error ammount max 1000 and not negative: " + tmp_line;
     }
     _data.push_back(tmp);
 }
