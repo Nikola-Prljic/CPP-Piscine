@@ -12,13 +12,8 @@ int main( int argc, char **argv )
         BitcoinExchange btc;
 
         btc.open_file(file, argv[1]);
-
         while ( getline (file, line) )
-        {
-            if(btc.valid_line(line) == 0)
                 btc.save_line(line);
-        }
-
         btc.print_data();
         file.close();
     }

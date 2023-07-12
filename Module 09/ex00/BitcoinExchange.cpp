@@ -3,94 +3,65 @@
 
 BitcoinExchange::BitcoinExchange() : _data() {}
 
-std::string rmAllChars( std::string str, char c )
+bool strIsNum( std::string str )
 {
-    //str.erase(std::remove_if(str.begin(), str.end(), isspace), str.end());
-    std::string dest;
-    std::string::iterator itr = str.begin();
-    while(itr != str.end())
-    {
-        if(*itr != c)
-            dest.push_back(*itr);
-        itr++;
-    }
-    return dest;
+    for(std::string::iterator itr = str.begin(); itr != str.end(); itr++)
+        if(std::isdigit(*itr) == false)
+            return false;
+    return true;
 }
 
-int BitcoinExchange::input_error( std::string line, char delim )
-{
-    DateOrError tmp;
-
-    if(delim != 'a')
-    {
-        std::stringstream stream(line);
-        std::getline(stream, line, '|');
-        if(delim != '|')
-            std::getline(stream, line);
-        line = rmAllChars( line, ' ');
-    }
-    tmp.error = "Error bad input: " + line;
-    _data.push_back(tmp);
-    return (1);
-}
-
-int BitcoinExchange::valid_line( std::string line )
-{
-    int i = 0;
-
-    for( ; i < 10; i++)
-    {
-        if((i == 4 && line[i] != '-') || (i == 7 && line[i] != '-'))
-            return input_error( line , '|' );
-        else if(i == 4 || i == 7)
-            continue ;
-        if(isdigit(line[i]) == 0)
-            return input_error( line, '|' );
-    }
-    if(line[i++] != ' ')
-        return input_error( line, 'a' );
-    if(line[i++] != '|')
-        return input_error( line, 'a' );
-    if(line[i++] != ' ')
-        return input_error( line, 'a' );
-    if(line[i] == 0)
-        return input_error( "need a btc ammount", 'a' );
-    for(; line[i] != '\n' && line[i]; i++)
-    {
-        if(isdigit(line[i]) == 0)
-            return input_error( line, '-' );
-        if(i > 16)
-            return input_error( "line to long. Ammount not more than 1000.", 'a' );
-    }
-    return 0;
-}
-
-void BitcoinExchange::dateInRange(std::stringstream &stream, DateOrError &tmp, int &ymd, char split, int start, int end)
+bool BitcoinExchange::dateInRange(std::stringstream &stream, int &ymd, char split, int start, int end)
 {
     std::string tmp_line;
 
     getline(stream, tmp_line, split);
+    if(strIsNum( tmp_line ) == false)
+        return false;
     ymd = std::atoi(tmp_line.c_str());
     if( ymd < start || ymd > end )
-        tmp.error = "Error bad input: ";
+        return false;
+    return true;
+}
+
+void vaildValue( std::string line, std::string &error, int &value)
+{
+    if(line[0] != '|' || line[1] != ' ')
+    {
+        error = "Error format needs to be: date | value: \" not "  + line + "\"";
+        return ;
+    }
+    line.erase(0, 2);
+    if(strIsNum( line ) == true)
+    {
+        value = std::atoi(line.c_str());
+        if( value > 1000 )
+            error = "Error: too large a number.";
+        else if( value < 0 )
+            error = "Error: not a positive number.";
+    }
+    else
+        error = "Error vale needs to be a number: \""  + line + "\"";
 }
 
 void BitcoinExchange::save_line( std::string line )
 {
     DateOrError tmp;
-    std::string tmp_line;
+    std::string date;
     std::stringstream stream(line);
-
-    dateInRange(stream, tmp, tmp.year, '-', 2009, 2022);
-    dateInRange(stream, tmp, tmp.month, '-', 1, 12);
-    dateInRange(stream, tmp, tmp.day, ' ', 1, 32);
-    if(tmp.error.empty() == true)
+    std::stringstream stream_YYYY_MM_DD(line);
+    
+    getline(stream_YYYY_MM_DD, date, '|');
+    if(dateInRange(stream, tmp.year, '-', 2009, 2022) == false)
+        tmp.error = "Error bad input: \""  + date + "\"";
+    else if(dateInRange(stream, tmp.month, '-', 1, 12) == false)
+        tmp.error = "Error bad input: \""  + date + "\"";
+    else if(dateInRange(stream, tmp.day, ' ', 1, 32) == false)
+        tmp.error = "Error bad input: \""  + date + "\"";
+    else
     {
-        getline(stream, tmp_line);
-        tmp_line.erase(0, 2);
-        tmp.ammount = std::atoi(tmp_line.c_str());
-        if( tmp.ammount > 1000 || tmp.ammount < 0 )
-            tmp.error = "Error ammount max 1000 and not negative: " + tmp_line;
+        getline(stream, line);
+        vaildValue( line, tmp.error, tmp.ammount);
     }
     _data.push_back(tmp);
 }

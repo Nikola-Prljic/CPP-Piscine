@@ -18,17 +18,14 @@ private:
         int ammount;
         std::string error;
     };
-
     std::vector < DateOrError > _data;
 
-    int input_error( std::string line, char delim );
-    void dateInRange(std::stringstream &stream, DateOrError &tmp, int &ymd, char split, int start, int end);
+    bool dateInRange(std::stringstream &stream, int &ymd, char split, int start, int end);
 
 public:
 
     BitcoinExchange();
     void open_file( std::ifstream &file, char *file_path );
-    int valid_line( std::string line );
     void save_line( std::string date );
     void print_data();
 };
