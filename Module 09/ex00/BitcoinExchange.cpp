@@ -11,7 +11,21 @@ bool strIsNum( std::string str )
     return true;
 }
 
-bool BitcoinExchange::dateInRange(std::stringstream &stream, int &ymd, char split, int start, int end)
+bool strToNumeric( std::stringstream &ss, int &i_ammount, float &f_ammount)
+{
+    int i;
+    float f;
+    /* std::stringstream ss(sss.str()); */
+    if ((ss >> i))
+        i_ammount = i;
+    else if ((ss >> f))
+        f_ammount = f;
+    else
+        return false;
+    return true;
+}
+
+bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, char split, int start, int end)
 {
     std::string tmp_line;
 
@@ -24,24 +38,23 @@ bool BitcoinExchange::dateInRange(std::stringstream &stream, int &ymd, char spli
     return true;
 }
 
-void vaildValue( std::string line, std::string &error, int &value)
+
+void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp)
 {
+    std::string line;
+
+    getline(stream, line);
     if(line[0] != '|' || line[1] != ' ')
     {
-        error = "Error format needs to be: date | value: \" not "  + line + "\"";
+        tmp->error = "Error format needs to be: date | value: \" not "  + line + "\"";
         return ;
     }
     line.erase(0, 2);
-    if(strIsNum( line ) == true)
-    {
-        value = std::atoi(line.c_str());
-        if( value > 1000 )
-            error = "Error: too large a number.";
-        else if( value < 0 )
-            error = "Error: not a positive number.";
-    }
-    else
-        error = "Error vale needs to be a number: \""  + line + "\"";
+    stream.clear();
+    stream.str(line);
+    if(strToNumeric( stream, tmp->ammount, tmp->f_ammount ) == true)
+        return ;
+    tmp->error = "Error just Int or Float: \""  + line + "\"";
 }
 
 void BitcoinExchange::save_line( std::string line )
@@ -59,10 +72,7 @@ void BitcoinExchange::save_line( std::string line )
     else if(dateInRange(stream, tmp.day, ' ', 1, 32) == false)
         tmp.error = "Error bad input: \""  + date + "\"";
     else
-    {
-        getline(stream, line);
-        vaildValue( line, tmp.error, tmp.ammount);
-    }
+        vaildValue( stream, &tmp);
     _data.push_back(tmp);
 }
 
