@@ -11,18 +11,49 @@ bool strIsNum( std::string str )
     return true;
 }
 
-bool strToNumeric( std::stringstream &ss, int &i_ammount, float &f_ammount)
+void strToNumeric( std::string string, float &f_ammount, std::string &error)
 {
-    int i;
     float f;
-    /* std::stringstream ss(sss.str()); */
-    if ((ss >> i))
-        i_ammount = i;
-    else if ((ss >> f))
-        f_ammount = f;
-    else
-        return false;
-    return true;
+
+    std::stringstream ss(string);
+    int i = 0;
+    bool dot = false;
+
+    while(string[i] != '\0')
+    {
+        if(string[i] == '.' && dot == false)
+            dot = true;
+        else if(isdigit(string[i]) == false)
+        {
+            error = "Error just Numeric input.";
+            return ;
+        }
+        i++;
+    }
+    if (!(ss >> f))
+    {
+        error = "Error just Numeric input.";
+        return ;
+    }
+    f_ammount = f;
+    if(f_ammount > 1000)
+        error = "Error not more than 1000.";
+    else if( f_ammount < 0)
+        error = "Error no negative numbers.";
+}
+
+void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp)
+{
+    std::string line;
+
+    getline(stream, line);
+    if(line[0] != '|' || line[1] != ' ')
+    {
+        tmp->error = "Error format needs to be: date | value: \" not "  + line + "\"";
+        return ;
+    }
+    line.erase(0, 2);
+    strToNumeric( line, tmp->f_ammount, tmp->error );
 }
 
 bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, char split, int start, int end)
@@ -36,25 +67,6 @@ bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, char spl
     if( ymd < start || ymd > end )
         return false;
     return true;
-}
-
-
-void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp)
-{
-    std::string line;
-
-    getline(stream, line);
-    if(line[0] != '|' || line[1] != ' ')
-    {
-        tmp->error = "Error format needs to be: date | value: \" not "  + line + "\"";
-        return ;
-    }
-    line.erase(0, 2);
-    stream.clear();
-    stream.str(line);
-    if(strToNumeric( stream, tmp->ammount, tmp->f_ammount ) == true)
-        return ;
-    tmp->error = "Error just Int or Float: \""  + line + "\"";
 }
 
 void BitcoinExchange::save_line( std::string line )
@@ -97,7 +109,8 @@ void BitcoinExchange::print_data()
             std::cout << _data[i].year << "-";
             std::cout << _data[i].month << "-";
             std::cout << _data[i].day << " | ";
-            std::cout << _data[i].ammount << std::endl;
+            /* std::cout << _data[i].ammount; */
+            std::cout << _data[i].f_ammount << std::endl;
         }
         else
             std::cout << _data[i].error << std::endl;
