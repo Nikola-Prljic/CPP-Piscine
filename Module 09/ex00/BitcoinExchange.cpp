@@ -50,11 +50,9 @@ void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp)
 void saveTestNum( std::string line, std::string &error, int &num)
 {
     if(strIsNum( line ) == false)
-    {
         error = "Error";
-        return ;
-    }
-    num = std::atoi(line.c_str());
+    else
+        num = std::atoi(line.c_str());
 }
 
 void BitcoinExchange::saveCsvDate( std::string line )
@@ -148,4 +146,56 @@ void BitcoinExchange::print_csv_data()
         else
             std::cout << _csv_data[i].error << std::endl;
     }
+}
+
+//returns the index of next year
+std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( vectorDate::iterator itr, vectorDate::iterator end )
+{
+    int year = itr->year;
+    if( itr->year > _csv_data.back().year)
+        return itr;
+    for(size_t x = 0; x < _csv_data.size();)
+    {
+        if( year == itr->year)
+            return itr;
+        itr++;
+        if(itr == end)
+        {
+            x = 0;
+            year++;
+        }
+    }
+    return itr;
+}
+
+int BitcoinExchange::findNextMonth( int start, size_t year_index )
+{
+    for(size_t x = year_index; x < _csv_data.size();)
+    {
+        if( start == _csv_data[x].month)
+            return x + 1;
+        x++;
+        if( x == 12 )
+        {
+            x = year_index;
+            start++;
+        }
+    }
+    return -1;
+}
+
+int BitcoinExchange::findNextDay( int start, size_t month_index )
+{
+    for(size_t x = month_index; x < _csv_data.size();)
+    {
+        if( start == _csv_data[x].month)
+            return x + 1;
+        x++;
+        if( x == 32 )
+        {
+            x = month_index;
+            start++;
+        }
+    }
+    return -1;
 }

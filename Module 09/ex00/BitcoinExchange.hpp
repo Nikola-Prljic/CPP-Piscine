@@ -18,13 +18,13 @@ private:
         float f_ammount;
         std::string error;
     };
-    std::vector < DateOrError > _data;
-    std::vector < DateOrError > _csv_data;
-
     bool dateInRange(std::stringstream &stream, int &ymd, char split, int start, int end);
     void vaildValue( std::stringstream &stream, DateOrError *tmp);
 
 public:
+    typedef std::vector < DateOrError > vectorDate;
+    vectorDate _data;
+    vectorDate _csv_data;
 
     BitcoinExchange();
     bool strToFloat( std::string str, float &f);
@@ -33,6 +33,9 @@ public:
     void saveCsvDate( std::string line );
     void print_data();
     void print_csv_data();
+    vectorDate::iterator findNextYear( vectorDate::iterator itr, vectorDate::iterator end );
+    int findNextMonth( int start, size_t year_index );
+    int findNextDay( int start, size_t month_index );
 };
 
 #endif
