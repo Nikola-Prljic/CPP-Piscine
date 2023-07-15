@@ -149,19 +149,20 @@ void BitcoinExchange::print_csv_data()
 }
 
 //returns the index of next year
-std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( vectorDate::iterator itr, vectorDate::iterator end )
+std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( vectorDateItr itr )
 {
+    vectorDateItr csvItr = _csv_data.begin();
     int year = itr->year;
-    if( itr->year > _csv_data.back().year)
-        return itr;
-    for(size_t x = 0; x < _csv_data.size();)
+    /* if( itr->year > _csv_data.back().year)
+        return itr; */
+    while(csvItr != _csv_data.end())
     {
-        if( year == itr->year)
-            return itr;
-        itr++;
-        if(itr == end)
+        if( year == csvItr->year)
+            return csvItr;
+        csvItr++;
+        if(csvItr == _csv_data.end())
         {
-            x = 0;
+            csvItr = _csv_data.begin();
             year++;
         }
     }
@@ -198,4 +199,18 @@ int BitcoinExchange::findNextDay( int start, size_t month_index )
         }
     }
     return -1;
+}
+
+void BitcoinExchange::DoBtcExchange()
+{
+    vectorDateItr dataEnd = _data.end();
+
+    for(vectorDateItr dataItr = _data.begin(); dataItr != dataEnd; dataItr++)
+    {
+        if(dataItr->error.empty() == true)
+        {
+            vectorDateItr sum = findNextYear( dataItr );
+            std::cout << sum->f_ammount * dataItr->f_ammount << std::endl;
+        }
+    }
 }

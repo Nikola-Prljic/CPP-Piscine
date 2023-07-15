@@ -23,6 +23,7 @@ private:
 
 public:
     typedef std::vector < DateOrError > vectorDate;
+    typedef std::vector < DateOrError >::iterator vectorDateItr;
     vectorDate _data;
     vectorDate _csv_data;
 
@@ -33,9 +34,10 @@ public:
     void saveCsvDate( std::string line );
     void print_data();
     void print_csv_data();
-    vectorDate::iterator findNextYear( vectorDate::iterator itr, vectorDate::iterator end );
+    vectorDateItr findNextYear( vectorDateItr itr );
     int findNextMonth( int start, size_t year_index );
     int findNextDay( int start, size_t month_index );
+    void DoBtcExchange();
 };
 
 #endif

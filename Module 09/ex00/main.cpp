@@ -21,11 +21,13 @@ int main( int argc, char **argv )
         /* btc.print_data();
         btc.print_csv_data(); */
 
-        BitcoinExchange::vectorDate::iterator itr = btc._data.begin();
-        BitcoinExchange::vectorDate::iterator end = btc._data.end();
-        itr = btc.findNextYear( itr, end);
+        /* BitcoinExchange::vectorDate::iterator itr = btc._data.begin();
+        BitcoinExchange::vectorDate::iterator end = btc._data.end(); */
+        //itr = btc.findNextYear( itr, end);
 
-        std::cout << itr->f_ammount;
+        btc.DoBtcExchange();
+;
+
         /* size_t month_index = btc.findNextMonth( btc._data[0].month, year_index );
         size_t day_index = btc.findNextMonth( btc._data[0].month, month_index );
         std::cout << "found year: " <<  year_index << std::endl;
