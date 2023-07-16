@@ -123,9 +123,13 @@ void BitcoinExchange::print_data()
         if(_data[i].error.empty() == true)
         {
             std::cout << _data[i].year << "-";
+            if(_data[i].month < 10)
+                std::cout << "0";
             std::cout << _data[i].month << "-";
-            std::cout << _data[i].day << " | ";
-            std::cout << _data[i].f_ammount << std::endl;
+            if(_data[i].day < 10)
+                std::cout << "0";
+            std::cout << _data[i].day << " -> ";
+            std::cout << _data[i].result << std::endl;
         }
         else
             std::cout << _data[i].error << std::endl;
@@ -148,27 +152,39 @@ void BitcoinExchange::print_csv_data()
     }
 }
 
-//returns the index of next year
+//returns the final result
 std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( vectorDateItr itr )
 {
     vectorDateItr csvItr = _csv_data.begin();
 
-    if( itr->year > _csv_data.back().year || (itr->year == _csv_data.back().year && itr->month > _csv_data.back().month))
+    /* if( itr->year > _csv_data.back().year || (itr->year == _csv_data.back().year && itr->month > _csv_data.back().month))
         return --_csv_data.end();
     if( itr->year == _csv_data.back().year && itr->month == _csv_data.back().month && itr->day > _csv_data.back().day)
         return --_csv_data.end();
     if( itr->year < csvItr->year || (itr->year == csvItr->year && itr->month < csvItr->month))
         return csvItr;
     if( itr->year == csvItr->year && itr->month == csvItr->month && itr->day < csvItr->day)
-        return csvItr;
-    while(csvItr != _csv_data.end())
-    {
-        if( itr->year == csvItr->year && itr->month == csvItr->month && itr->day == csvItr->day )
-            return csvItr;
-        if( itr->year < csvItr->year || itr->month < csvItr->month || itr->day < csvItr->day )
-            return --csvItr;
+        return csvItr; */
+    while(itr->year > csvItr->year )
         csvItr++;
+    csvItr++;
+    if(itr->year == csvItr->year)
+    {
+        csvItr--;
+        while(itr->month > csvItr->month)
+            csvItr++;
+        csvItr++;
+        if(itr->month == csvItr->month)
+        {
+            csvItr--;
+            while(itr->day > csvItr->day)
+                csvItr++;
+        }
+        else
+            csvItr--;
     }
+    else
+        csvItr--;
     return csvItr;
 }
 
@@ -178,14 +194,11 @@ void BitcoinExchange::DoBtcExchange()
     vectorDateItr dataEnd = _data.end();
 
     for(vectorDateItr dataItr = _data.begin(); dataItr != dataEnd; dataItr++)
-    {
         if(dataItr->error.empty() == true)
         {
             vectorDateItr year = findNextYear( dataItr );
-            /* vectorDateItr month = findNextMonth( year, dataItr->month, dataItr->day); */
-            std::cout << year->f_ammount  << std::endl;
+            dataItr->result = year->f_ammount * dataItr->f_ammount;
         }
-    }
 }
 
 

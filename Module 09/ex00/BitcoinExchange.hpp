@@ -16,6 +16,7 @@ private:
         int month; 
         int day;
         float f_ammount;
+        float result;
         std::string error;
     };
     bool dateInRange(std::stringstream &stream, int &ymd, char split, int start, int end);
@@ -35,8 +36,6 @@ public:
     void print_data();
     void print_csv_data();
     vectorDateItr findNextYear( vectorDateItr itr );
-    vectorDateItr findNextMonth( vectorDateItr itrStart, int month, int day);
-    int findNextDay( int start, size_t month_index );
     void DoBtcExchange();
 };
 
