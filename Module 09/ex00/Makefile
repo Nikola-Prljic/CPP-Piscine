@@ -25,7 +25,7 @@ $(NAME): $(OBJDIR) $(OBJ)
 	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 val: all
-	valgrind ./ex02
+	valgrind --track-origins=yes ./btc input.txt
 
 clean:
 	@rm -rf $(OBJDIR)

@@ -69,7 +69,8 @@ void BitcoinExchange::saveCsvDate( std::string line )
     saveTestNum( tmp_line, tmp.error, tmp.day );
     getline(stream, tmp_line);
     strToFloat( tmp_line, tmp.f_ammount);
-    _csv_data.push_back(tmp);
+    if(tmp.error.empty() == true)
+        _csv_data.push_back(tmp);
 }
 
 bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, char split, int start, int end)
@@ -165,7 +166,7 @@ std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextY
         return csvItr;
     if( itr->year == csvItr->year && itr->month == csvItr->month && itr->day < csvItr->day)
         return csvItr; */
-    while(itr->year > csvItr->year )
+    while(itr->year > csvItr->year && csvItr != _csv_data.end())
         csvItr++;
     csvItr++;
     if(itr->year == csvItr->year)
