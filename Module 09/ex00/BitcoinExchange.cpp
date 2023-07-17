@@ -158,14 +158,6 @@ std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextY
 {
     vectorDateItr csvItr = _csv_data.begin();
 
-    /* if( itr->year > _csv_data.back().year || (itr->year == _csv_data.back().year && itr->month > _csv_data.back().month))
-        return --_csv_data.end();
-    if( itr->year == _csv_data.back().year && itr->month == _csv_data.back().month && itr->day > _csv_data.back().day)
-        return --_csv_data.end();
-    if( itr->year < csvItr->year || (itr->year == csvItr->year && itr->month < csvItr->month))
-        return csvItr;
-    if( itr->year == csvItr->year && itr->month == csvItr->month && itr->day < csvItr->day)
-        return csvItr; */
     while(itr->year > csvItr->year && csvItr != _csv_data.end())
         csvItr++;
     csvItr++;
