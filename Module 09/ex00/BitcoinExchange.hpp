@@ -19,14 +19,14 @@ private:
         float result;
         std::string error;
     };
-    bool dateInRange(std::stringstream &stream, int &ymd, char split, int start, int end);
-    void vaildValue( std::stringstream &stream, DateOrError *tmp);
-
-public:
     typedef std::deque < DateOrError > dequeDate;
     typedef std::deque < DateOrError >::iterator dequeDateItr;
     dequeDate _data;
     dequeDate _csv_data;
+    bool dateInRange( std::stringstream &stream, int &ymd, char split, int start, int end);
+    void vaildValue( std::stringstream &stream, DateOrError *tmp);
+
+public:
 
     BitcoinExchange();
     bool strToFloat( std::string str, float &f);
