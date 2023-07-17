@@ -42,7 +42,7 @@ int doCalc(int n1, int n2, int n3, int sign1, int sign2)
 
 void RPN::calc()
 {
-    char opr1, opr2;
+    int opr1, opr2;
     int result, n3;
 
     opr1 = _calc.back();
@@ -81,6 +81,16 @@ void RPN::firstInput(std::stringstream &inputstream)
     _calc.push_back(tmp[0]);
 }
 
+void RPN::ft_saveOperator( std::stringstream &inputstream )
+{
+    std::string tmp;
+    getline(inputstream, tmp, ' ');
+    if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
+        _calc.push_back(tmp[0]);
+    else
+        return std::exit(1);
+}
+
 void RPN::validInput()
 {
     std::string tmp;
@@ -98,20 +108,12 @@ void RPN::validInput()
 
     getline(inputstream, tmp, ' ');
     if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-        _calc.push_back(tmp[0]);
+        _calc.push_back(tmp[0] - '0');
     else if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
     {
-        _calc.push_back(tmp[0]);
-        getline(inputstream, tmp, ' ');
-        if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-            _calc.push_back(tmp[0] - '0');
-        else
-            return std::exit(1);
-        getline(inputstream, tmp, ' ');
-        if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-            _calc.push_back(tmp[0] - '0');
-        else
-            return std::exit(1);
+        _calc.push_back(tmp[0] - '0');
+        ft_saveOperator( inputstream );
+        ft_saveOperator( inputstream );
     }
     else
         return std::exit(1);

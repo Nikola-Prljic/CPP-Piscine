@@ -26,6 +26,7 @@ public:
     void firstInput( std::stringstream &inputstream );
     void validInput();
     void calc();
+    void ft_saveOperator( std::stringstream &inputstream );
 };
 
 #endif
