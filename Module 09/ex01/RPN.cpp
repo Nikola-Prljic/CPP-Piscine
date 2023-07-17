@@ -64,6 +64,16 @@ void RPN::calc()
     _calc.push_back(result);
 }
 
+void RPN::ft_saveOperator( std::stringstream &inputstream )
+{
+    std::string tmp;
+    getline(inputstream, tmp, ' ');
+    if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
+        _calc.push_back(tmp[0]);
+    else
+        return std::exit(1);
+}
+
 void RPN::firstInput(std::stringstream &inputstream)
 {
     std::string tmp;
@@ -75,20 +85,15 @@ void RPN::firstInput(std::stringstream &inputstream)
     if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
         return exit(1);
     _calc.push_back(tmp[0] - '0');
-    getline(inputstream, tmp, ' ');
-    if(ft_isOperator(tmp[0]) == false || tmp.size() != 1)
-        return exit(1);
-    _calc.push_back(tmp[0]);
+    ft_saveOperator( inputstream );
 }
 
-void RPN::ft_saveOperator( std::stringstream &inputstream )
+bool ft_isEofSS(std::stringstream &inputstream, std::string &tmp)
 {
-    std::string tmp;
     getline(inputstream, tmp, ' ');
-    if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-        _calc.push_back(tmp[0]);
-    else
-        return std::exit(1);
+    if( inputstream.eof() == true )
+        return true;
+    return false;
 }
 
 void RPN::validInput()
@@ -98,25 +103,23 @@ void RPN::validInput()
     firstInput( inputstream );
     calc();
 
-    getline(inputstream, tmp, ' ');
-    if(tmp.empty() == true)
-        return ;
-    if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
-        _calc.push_back(tmp[0] - '0');
-    else
-        return std::exit(1);
-
-    getline(inputstream, tmp, ' ');
-    if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-        _calc.push_back(tmp[0] - '0');
-    else if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+    while(ft_isEofSS( inputstream, tmp) == false)
     {
-        _calc.push_back(tmp[0] - '0');
-        ft_saveOperator( inputstream );
-        ft_saveOperator( inputstream );
+        if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+            _calc.push_back(tmp[0] - '0');
+        else
+            return std::exit(1);
+        getline(inputstream, tmp, ' ');
+        if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
+            _calc.push_back(tmp[0]);
+        else if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+        {
+            _calc.push_back(tmp[0] - '0');
+            ft_saveOperator( inputstream );
+            ft_saveOperator( inputstream );
+        }
+        else
+            return std::exit(1);
+        calc();
     }
-    else
-        return std::exit(1);
-
-    calc();
 }
