@@ -5,6 +5,8 @@ RPN::RPN() {}
 RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _calc()
 {
     validInput();
+    std::cout << _calc.front() << std::endl;
+    std::cout << "--ok--" << std::endl;
 }
 
 RPN::~RPN() {}
@@ -55,7 +57,6 @@ void RPN::calc()
         result = doCalc(_calc.front(), _calc.back(), n3, opr1, opr2);
         _calc.clear();
         _calc.push_back(result);
-        std::cout << _calc.front() << std::endl;
         return ;
     }
     result = doCalc(_calc.front(), _calc.back(), opr1);
@@ -63,38 +64,57 @@ void RPN::calc()
     _calc.push_back(result);
 }
 
+void RPN::firstInput(std::stringstream &inputstream)
+{
+    std::string tmp;
+    getline(inputstream, tmp, ' ');
+    if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
+        return exit(1);
+    _calc.push_back(tmp[0] - '0');
+    getline(inputstream, tmp, ' ');
+    if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
+        return exit(1);
+    _calc.push_back(tmp[0] - '0');
+    getline(inputstream, tmp, ' ');
+    if(ft_isOperator(tmp[0]) == false || tmp.size() != 1)
+        return exit(1);
+    _calc.push_back(tmp[0]);
+}
+
 void RPN::validInput()
 {
     std::string tmp;
     std::stringstream inputstream(_inputStr);
-
-    getline(inputstream, tmp, ' ');
-    if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
-        return exit(1);
-    _calc.push_back(tmp[0] - '0');
-    getline(inputstream, tmp, ' ');
-    if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
-        return exit(1);
-    _calc.push_back(tmp[0] - '0');
-    getline(inputstream, tmp, ' ');
-    if(ft_isOperator(tmp[0]) == false || tmp.size() != 1)
-        return exit(1);
-    _calc.push_back(tmp[0]);
-
+    firstInput( inputstream );
     calc();
 
     getline(inputstream, tmp, ' ');
-    if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
-        return exit(1);
-    _calc.push_back(tmp[0] - '0');
+    if(tmp.empty() == true)
+        return ;
+    if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+        _calc.push_back(tmp[0] - '0');
+    else
+        return std::exit(1);
 
     getline(inputstream, tmp, ' ');
-    if(ft_isOperator(tmp[0]) == false || tmp.size() != 1)
-        return exit(1);
-    _calc.push_back(tmp[0]);
+    if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
+        _calc.push_back(tmp[0]);
+    else if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+    {
+        _calc.push_back(tmp[0]);
+        getline(inputstream, tmp, ' ');
+        if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
+            _calc.push_back(tmp[0] - '0');
+        else
+            return std::exit(1);
+        getline(inputstream, tmp, ' ');
+        if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
+            _calc.push_back(tmp[0] - '0');
+        else
+            return std::exit(1);
+    }
+    else
+        return std::exit(1);
 
     calc();
-
-    std::cout << _calc.front() << std::endl;
-    std::cout << "--ok--" << std::endl;
 }

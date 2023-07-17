@@ -23,6 +23,7 @@ private:
 public:
     RPN( std::string inputStr);
     ~RPN();
+    void firstInput( std::stringstream &inputstream );
     void validInput();
     void calc();
 };
