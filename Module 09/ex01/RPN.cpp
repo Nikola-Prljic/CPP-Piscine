@@ -53,13 +53,14 @@ void RPN::calc()
         n3 = _calc.back();
         _calc.pop_back();
         result = doCalc(_calc.front(), _calc.back(), n3, opr1, opr2);
+        _calc.clear();
+        _calc.push_back(result);
         std::cout << _calc.front() << std::endl;
         return ;
     }
     result = doCalc(_calc.front(), _calc.back(), opr1);
     _calc.clear();
     _calc.push_back(result);
-    std::cout << _calc.front() << std::endl;
 }
 
 void RPN::validInput()
@@ -79,6 +80,21 @@ void RPN::validInput()
     if(ft_isOperator(tmp[0]) == false || tmp.size() != 1)
         return exit(1);
     _calc.push_back(tmp[0]);
+
     calc();
+
+    getline(inputstream, tmp, ' ');
+    if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
+        return exit(1);
+    _calc.push_back(tmp[0] - '0');
+
+    getline(inputstream, tmp, ' ');
+    if(ft_isOperator(tmp[0]) == false || tmp.size() != 1)
+        return exit(1);
+    _calc.push_back(tmp[0]);
+
+    calc();
+
+    std::cout << _calc.front() << std::endl;
     std::cout << "--ok--" << std::endl;
 }
