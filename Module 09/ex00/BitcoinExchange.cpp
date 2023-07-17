@@ -154,9 +154,9 @@ void BitcoinExchange::print_csv_data()
 }
 
 //returns the final result
-std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( vectorDateItr itr )
+std::deque< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( dequeDateItr itr )
 {
-    vectorDateItr csvItr = _csv_data.begin();
+    dequeDateItr csvItr = _csv_data.begin();
 
     while(itr->year > csvItr->year && csvItr != _csv_data.end())
         csvItr++;
@@ -184,12 +184,12 @@ std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextY
 
 void BitcoinExchange::DoBtcExchange()
 {
-    vectorDateItr dataEnd = _data.end();
+    dequeDateItr dataEnd = _data.end();
 
-    for(vectorDateItr dataItr = _data.begin(); dataItr != dataEnd; dataItr++)
+    for(dequeDateItr dataItr = _data.begin(); dataItr != dataEnd; dataItr++)
         if(dataItr->error.empty() == true)
         {
-            vectorDateItr year = findNextYear( dataItr );
+            dequeDateItr year = findNextYear( dataItr );
             dataItr->result = year->f_ammount * dataItr->f_ammount;
         }
 }
@@ -212,9 +212,9 @@ int BitcoinExchange::findNextDay( int start, size_t month_index )
     return -1;
 }
 
-std::vector< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextMonth( vectorDateItr itrStart, int month, int day)
+std::deque< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextMonth( dequeDateItr itrStart, int month, int day)
 {
-    vectorDateItr csvItr = itrStart;
+    dequeDateItr csvItr = itrStart;
     while(csvItr != _csv_data.end())
     {
         if(month == csvItr->month)

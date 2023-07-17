@@ -3,7 +3,7 @@
 
 # include <iostream>
 # include <fstream>
-# include <vector>
+# include <deque>
 # include <sstream>
 # include <algorithm>
 
@@ -23,10 +23,10 @@ private:
     void vaildValue( std::stringstream &stream, DateOrError *tmp);
 
 public:
-    typedef std::vector < DateOrError > vectorDate;
-    typedef std::vector < DateOrError >::iterator vectorDateItr;
-    vectorDate _data;
-    vectorDate _csv_data;
+    typedef std::deque < DateOrError > dequeDate;
+    typedef std::deque < DateOrError >::iterator dequeDateItr;
+    dequeDate _data;
+    dequeDate _csv_data;
 
     BitcoinExchange();
     bool strToFloat( std::string str, float &f);
@@ -35,7 +35,7 @@ public:
     void saveCsvDate( std::string line );
     void print_data();
     void print_csv_data();
-    vectorDateItr findNextYear( vectorDateItr itr );
+    dequeDateItr findNextYear( dequeDateItr itr );
     void DoBtcExchange();
 };
 
