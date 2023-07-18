@@ -2,11 +2,11 @@
 
 RPN::RPN() {}
 
-RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _calc()
+RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _stack()
 {
     validInput();
-    std::cout << _calc.front() << std::endl;
-    std::cout << "--ok--" << std::endl;
+    std::cout << result << std::endl;
+    /* std::cout << "--ok--" << std::endl; */
 }
 
 RPN::~RPN() {}
@@ -88,6 +88,7 @@ void RPN::firstInput(std::stringstream &inputstream)
     ft_saveOperator( inputstream );
 }
 
+
 bool ft_isEofSS(std::stringstream &inputstream, std::string &tmp)
 {
     getline(inputstream, tmp, ' ');
@@ -96,17 +97,33 @@ bool ft_isEofSS(std::stringstream &inputstream, std::string &tmp)
     return false;
 }
 
+void RPN::ft_saveDigit( bool first, const std::string &tmp )
+{
+    if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+    {
+        if( first == true)
+            result = tmp[0] - '0';
+        else
+            _calc.push_back(tmp[0] - '0');
+    }
+    else
+        return std::exit(1);
+}
+
 void RPN::validInput()
 {
     std::string tmp;
     std::stringstream inputstream(_inputStr);
-    firstInput( inputstream );
-    calc();
+
+
+    //firstInput( inputstream );
+    getline(inputstream, tmp, ' ');
+    ft_saveDigit( true, tmp );
 
     while(ft_isEofSS( inputstream, tmp) == false)
     {
         if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
-            _calc.push_back(tmp[0] - '0');
+            _stack.push_back(tmp[0] - '0');
         else
             return std::exit(1);
         getline(inputstream, tmp, ' ');
