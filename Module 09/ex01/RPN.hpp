@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <map>
+#include <list>
 #include <sstream>
 #include <cstdlib>
 
@@ -17,18 +17,19 @@ private:
         char opr2;
     };
     std::string _inputStr;
-    std::map<int, int> _stack;
+    std::list<int> _listNum;
+    std::list<int> _listOpr;
     int result;
     RPN();
 
 public:
     RPN( std::string inputStr);
     ~RPN();
-    void firstInput( std::stringstream &inputstream );
+    /* void firstInput( std::stringstream &inputstream ); */
     void validInput();
     void calc();
-    void ft_saveOperator( std::stringstream &inputstream );
-    void ft_saveDigit( bool first, const std::string &tmp );
+    bool ft_saveOperator( char c );
+    void ft_saveDigit( bool first, const char c );
 };
 
 #endif

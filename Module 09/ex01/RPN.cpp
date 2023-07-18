@@ -2,7 +2,7 @@
 
 RPN::RPN() {}
 
-RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _stack()
+RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr()
 {
     validInput();
     std::cout << result << std::endl;
@@ -45,48 +45,39 @@ void RPN::calc()
     int opr1, opr2;
     int result, n3;
 
-    opr1 = _stack.back();
-    _stack.pop_back();
-    if(_stack.back() > 9)
+    opr1 = _listNum.back();
+    _listNum.pop_back();
+    if(_listNum.back() > 9)
     {
         opr2 = opr1;
-        opr1 = _stack.back();
-        _stack.pop_back();
-        n3 = _stack.back();
-        _stack.pop_back();
-        result = doCalc(_stack.front(), _stack.back(), n3, opr1, opr2);
-        _stack.clear();
-        _stack.push_back(result);
+        opr1 = _listNum.back();
+        _listNum.pop_back();
+        n3 = _listNum.back();
+        _listNum.pop_back();
+        result = doCalc(_listNum.front(), _listNum.back(), n3, opr1, opr2);
+        _listNum.clear();
+        _listNum.push_back(result);
         return ;
     }
-    result = doCalc(_stack.front(), _stack.back(), opr1);
-    _stack.clear();
-    _stack.push_back(result);
+    result = doCalc(_listNum.front(), _listNum.back(), opr1);
+    _listNum.clear();
+    _listNum.push_back(result);
 }
 
-void RPN::ft_saveOperator( std::stringstream &inputstream )
-{
-    std::string tmp;
-    getline(inputstream, tmp, ' ');
-    if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-        _stack.push_back(tmp[0]);
-    else
-        return std::exit(1);
-}
 
-void RPN::firstInput(std::stringstream &inputstream)
+/* void RPN::firstInput(std::stringstream &inputstream)
 {
     std::string tmp;
     getline(inputstream, tmp, ' ');
     if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
         return exit(1);
-    _stack.push_back(tmp[0] - '0');
+    _listNum.push_back(tmp[0] - '0');
     getline(inputstream, tmp, ' ');
     if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
         return exit(1);
-    _stack.push_back(tmp[0] - '0');
+    _listNum.push_back(tmp[0] - '0');
     ft_saveOperator( inputstream );
-}
+} */
 
 
 bool ft_isEofSS(std::stringstream &inputstream, std::string &tmp)
@@ -97,46 +88,53 @@ bool ft_isEofSS(std::stringstream &inputstream, std::string &tmp)
     return false;
 }
 
-void RPN::ft_saveDigit( bool first, const std::string &tmp )
+bool RPN::ft_saveOperator( char c )
 {
-    if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
+    if(ft_isOperator(c) == true)
     {
-        if( first == true)
-            result = tmp[0] - '0';
-        else
-            _stack.push_back(tmp[0] - '0');
+        _listOpr.push_back( c );
+        std::cout << (char)c << std::endl;
+        return true;
     }
     else
+        std::exit(1);
+    return false;
+}
+
+void RPN::ft_saveDigit( bool first, const char c )
+{
+    if(std::isdigit(c) == true)
+    {
+        if( first == true)
+            result = c - '0';
+        else
+        {
+            _listNum.push_back( c - '0' );
+            std::cout << c - '0' << std::endl;
+        }
+    }
+    else 
         return std::exit(1);
 }
 
 void RPN::validInput()
 {
-    std::string tmp;
-    std::stringstream inputstream(_inputStr);
+    int i = 2;
 
-
-    //firstInput( inputstream );
-    getline(inputstream, tmp, ' ');
-    ft_saveDigit( true, tmp );
-
-    while(ft_isEofSS( inputstream, tmp) == false)
+    ft_saveDigit( true, _inputStr[0] );
+    while(_inputStr[i])
     {
-        if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
-            _stack.push_back(tmp[0] - '0');
-        else
-            return std::exit(1);
-        getline(inputstream, tmp, ' ');
-        if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-            _stack.push_back(tmp[0]);
-        else if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
-        {
-            _stack.push_back(tmp[0] - '0');
-            ft_saveOperator( inputstream );
-            ft_saveOperator( inputstream );
-        }
-        else
-            return std::exit(1);
-        calc();
+        ft_saveDigit( false, _inputStr[i++] );
+        if(_inputStr[i++] != ' ')
+            std::exit(1);
+        if(isdigit(_inputStr[i]) == false)
+            break ;
     }
+    while(_inputStr[i])
+    {
+        ft_saveOperator( _inputStr[i++] );
+        if(_inputStr[i++] != ' ')
+            std::exit(1);
+    }
+    //calc();
 }
