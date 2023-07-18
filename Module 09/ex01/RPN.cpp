@@ -45,23 +45,23 @@ void RPN::calc()
     int opr1, opr2;
     int result, n3;
 
-    opr1 = _calc.back();
-    _calc.pop_back();
-    if(_calc.back() > 9)
+    opr1 = _stack.back();
+    _stack.pop_back();
+    if(_stack.back() > 9)
     {
         opr2 = opr1;
-        opr1 = _calc.back();
-        _calc.pop_back();
-        n3 = _calc.back();
-        _calc.pop_back();
-        result = doCalc(_calc.front(), _calc.back(), n3, opr1, opr2);
-        _calc.clear();
-        _calc.push_back(result);
+        opr1 = _stack.back();
+        _stack.pop_back();
+        n3 = _stack.back();
+        _stack.pop_back();
+        result = doCalc(_stack.front(), _stack.back(), n3, opr1, opr2);
+        _stack.clear();
+        _stack.push_back(result);
         return ;
     }
-    result = doCalc(_calc.front(), _calc.back(), opr1);
-    _calc.clear();
-    _calc.push_back(result);
+    result = doCalc(_stack.front(), _stack.back(), opr1);
+    _stack.clear();
+    _stack.push_back(result);
 }
 
 void RPN::ft_saveOperator( std::stringstream &inputstream )
@@ -69,7 +69,7 @@ void RPN::ft_saveOperator( std::stringstream &inputstream )
     std::string tmp;
     getline(inputstream, tmp, ' ');
     if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-        _calc.push_back(tmp[0]);
+        _stack.push_back(tmp[0]);
     else
         return std::exit(1);
 }
@@ -80,11 +80,11 @@ void RPN::firstInput(std::stringstream &inputstream)
     getline(inputstream, tmp, ' ');
     if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
         return exit(1);
-    _calc.push_back(tmp[0] - '0');
+    _stack.push_back(tmp[0] - '0');
     getline(inputstream, tmp, ' ');
     if(std::isdigit(tmp[0]) == false || tmp.size() != 1)
         return exit(1);
-    _calc.push_back(tmp[0] - '0');
+    _stack.push_back(tmp[0] - '0');
     ft_saveOperator( inputstream );
 }
 
@@ -104,7 +104,7 @@ void RPN::ft_saveDigit( bool first, const std::string &tmp )
         if( first == true)
             result = tmp[0] - '0';
         else
-            _calc.push_back(tmp[0] - '0');
+            _stack.push_back(tmp[0] - '0');
     }
     else
         return std::exit(1);
@@ -128,10 +128,10 @@ void RPN::validInput()
             return std::exit(1);
         getline(inputstream, tmp, ' ');
         if(ft_isOperator(tmp[0]) == true && tmp.size() == 1)
-            _calc.push_back(tmp[0]);
+            _stack.push_back(tmp[0]);
         else if(std::isdigit(tmp[0]) == true && tmp.size() == 1)
         {
-            _calc.push_back(tmp[0] - '0');
+            _stack.push_back(tmp[0] - '0');
             ft_saveOperator( inputstream );
             ft_saveOperator( inputstream );
         }
