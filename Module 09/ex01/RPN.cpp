@@ -2,23 +2,27 @@
 
 RPN::RPN() {}
 
-RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr()
+RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr(), result(69)
 {
-    
-    validInput();
-    std::cout << "sum = " << result << std::endl;
-    /* std::cout << "--ok--" << std::endl; */
+    if(_inputStr.empty() == true)
+        std::cerr << "Error input empty" << std::endl;
+    else if(_inputStr.size() == 1)
+        std::cout << "Try input like \"8 6 *\"" << std::endl;
+    else 
+        saveInput();
 }
+
+int RPN::getResult() { return result; }
 
 RPN::~RPN() {}
 
-bool ft_isOperator( char c)
+int ft_isOperator( int c)
 {
     std::string opr = "+-*/";
     for(size_t i = 0; i < opr.size(); i++)
         if(c == opr[i])
-            return true;
-    return false;
+            return 1;
+    return 0;
 }
 
 int doCalc(int n1, int n2, int sign)
@@ -37,6 +41,11 @@ int doCalc(int n1, int n2, int sign)
 
 void RPN::calc()
 {
+    if(_listNum.size() != _listOpr.size())
+    {
+        std::cerr << "Error ammount of Numbers and operators are wrong" << std::endl;
+        std::exit(1);
+    }
     while(_listNum.empty() == false)
     {
         result = doCalc(result, _listNum.back(), _listOpr.back());
@@ -45,56 +54,45 @@ void RPN::calc()
     }
 }
 
-bool RPN::ft_saveOperator( char c )
+int RPN::saveToStack( std::list<int> &list, int c, int (*func)( int ))
 {
-    if(ft_isOperator(c) == true)
+    if(func(c))
     {
-        _listOpr.push_back( c );
-        std::cout << (char)c << std::endl;
-        return true;
+        if(!ft_isOperator( c ))
+            c -= '0';
+        list.push_back( c );
+        return 0;
     }
-    else
-        std::exit(3);
-    return false;
+    std::cerr << "Error bad input : " << (char)c << std::endl;
+    return 1;
 }
 
-void RPN::ft_saveDigit( bool first, const char c )
+void RPN::saveInput()
 {
-    if(std::isdigit(c) == true)
-    {
-        if( first == true)
-            result = c - '0';
-        else
-        {
-            _listNum.push_back( c - '0' );
-            std::cout << c - '0' << std::endl;
-        }
-    }
-    else 
-        return std::exit(2);
-}
-
-void RPN::validInput()
-{
-    size_t i = 2;
-
-    ft_saveDigit( true, _inputStr[0] );
-    while(_inputStr[i])
+    if(!std::isdigit(_inputStr[0]))
+        return ;
+    result = _inputStr[0] - '0';
+    for(size_t i = 2; _inputStr[i];)
     {
         while(i < _inputStr.size())
         {
-            ft_saveDigit( false, _inputStr[i++] );
-            if(_inputStr[i] == 0 || _inputStr[i++] != ' ')
+            if(saveToStack( _listNum, _inputStr[i++], &isdigit))
                 return ;
-            if(isdigit(_inputStr[i]) == false)
+            if(_inputStr[i] == 0 || _inputStr[i++] != ' ')
+            {
+                std::cerr << "Error bad input : " << _inputStr << std::endl;
+                return ;
+            }
+            if(std::isdigit(_inputStr[i]) == false)
                 break ;
         }
         while(i < _inputStr.size())
         {
-            ft_saveOperator( _inputStr[i++] );
+            if(saveToStack( _listOpr, _inputStr[i++], &ft_isOperator))
+                return ;
             if(_inputStr[i] != 0 && _inputStr[i++] != ' ')
                 return ;
-            if(isdigit(_inputStr[i]) == true)
+            if(std::isdigit(_inputStr[i]) == true)
                 break ;
         }
         calc();
