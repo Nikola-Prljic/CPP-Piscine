@@ -194,7 +194,7 @@ diff out in
 
 if [ $? -eq 0 ]
     then echo "tests:    ok"
-    rm out
+    rm out valgrind_test.txt
 else
     echo ko
 fi
