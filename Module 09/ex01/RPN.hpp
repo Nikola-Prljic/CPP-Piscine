@@ -25,7 +25,7 @@ private:
     int saveToStack( std::list<int> &list, int c, int (*func)( int ));
 
 public:
-    RPN( std::string inputStr );
+    RPN( const std::string inputStr );
     ~RPN();
 
     int getResult();

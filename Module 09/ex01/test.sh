@@ -5,6 +5,12 @@ make
 ./RPN "2 1 -" >> out
 ./RPN "1 2 * 2 / 2 * 2 4 - +" >> out
 ./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +" >> out
+./RPN "" 2>> out
+./RPN "a" 2>> out
+./RPN "7 2 *c" 2>> out
+./RPN "7 2 *c" 2>> out
+./RPN "7 2 * c" 2>> out
+./RPN "7c2 *" 2>> out
 echo "->out:"
 cat out
 echo "->expected:"

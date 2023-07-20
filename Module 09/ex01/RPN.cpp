@@ -2,12 +2,12 @@
 
 RPN::RPN() {}
 
-RPN::RPN( std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr(), result(69)
+RPN::RPN( const std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr(), result(69)
 {
     if(_inputStr.empty() == true)
         std::cerr << "Error input empty" << std::endl;
     else if(_inputStr.size() < 5)
-        std::cout << "Try input like \"8 6 *\"" << std::endl;
+        std::cerr << "Error try input like: 8 6 *" << std::endl;
     else if(!saveInput())
         std::cout << result << std::endl;
 }
@@ -64,7 +64,7 @@ int RPN::saveToStack( std::list<int> &list, int c, int (*func)( int ))
         list.push_back( c );
         return 0;
     }
-    std::cerr << "Error bad input : " << (char)c << std::endl;
+    std::cerr << "Error bad input" << std::endl;
     return RPN_Error;
 }
 
@@ -75,7 +75,10 @@ int RPN::saveOperatorLoop( size_t &i )
         if(saveToStack( _listOpr, _inputStr[i++], &ft_isOperator))
             return RPN_Error;
         if(_inputStr[i] != 0 && _inputStr[i++] != ' ')
+        {
+            std::cerr << "Error bad input" << std::endl;
             return RPN_Error;
+        }
         if(std::isdigit(_inputStr[i]) == true)
             return 0;
     }
@@ -86,11 +89,11 @@ int RPN::saveNumberLoop( size_t &i )
 {
     while(i < _inputStr.size())
     {
-        if(saveToStack( _listNum, _inputStr[i++], &isdigit))
+        if(saveToStack( _listNum, _inputStr[i++], &std::isdigit))
             return RPN_Error;
         if(_inputStr[i] == 0 || _inputStr[i++] != ' ')
         {
-            std::cout << "Error";
+            std::cerr << "Error bad input" << std::endl;
             return RPN_Error;
         }
         if(std::isdigit(_inputStr[i]) == false)
@@ -103,7 +106,7 @@ int RPN::saveInput()
 {
     if(!std::isdigit(_inputStr[0]))
     {
-        std::cerr << "Error bad input : " << _inputStr << std::endl;
+        std::cerr << "Error bad input" << std::endl;
         return RPN_Error;
     }
     result = _inputStr[0] - '0';
