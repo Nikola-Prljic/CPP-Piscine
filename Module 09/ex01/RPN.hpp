@@ -26,8 +26,10 @@ private:
 
 public:
     RPN( const std::string inputStr );
+    RPN( const RPN &other );
     ~RPN();
 
+    RPN &operator=( const RPN &other );
     int getResult();
 };
 

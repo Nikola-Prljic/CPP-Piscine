@@ -2,6 +2,7 @@
 
 RPN::RPN() {}
 
+
 RPN::RPN( const std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr(), result(69)
 {
     if(_inputStr.empty() == true)
@@ -12,9 +13,22 @@ RPN::RPN( const std::string inputStr ) : _inputStr(inputStr), _listNum(), _listO
         std::cout << result << std::endl;
 }
 
-int RPN::getResult() { return result; }
+RPN::RPN( const RPN &other ) : _inputStr(other._inputStr), _listNum(other._listNum), _listOpr(other._listOpr), result(other.result) {}
 
 RPN::~RPN() {}
+
+RPN &RPN::operator=( const RPN &other )
+{
+    if(this != &other)
+    {
+        _listNum = other._listNum;
+        _listOpr = other._listOpr;
+        result = other.result;
+    }
+    return *this;
+}
+
+int RPN::getResult() { return result; }
 
 int ft_isOperator( int c)
 {
