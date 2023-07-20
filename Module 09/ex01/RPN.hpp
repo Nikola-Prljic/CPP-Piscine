@@ -1,6 +1,8 @@
 #ifndef RPN_HPP
 # define RPN_HPP
 
+# define RPN_Error 1
+
 #include <iostream>
 #include <string>
 #include <list>
@@ -17,8 +19,9 @@ private:
 
     RPN();
     int clearStacks_calc();
-    void saveInput();
+    int saveInput();
     int saveOperatorLoop( size_t &i );
+    int saveNumberLoop( size_t &i );
     int saveToStack( std::list<int> &list, int c, int (*func)( int ));
 
 public:

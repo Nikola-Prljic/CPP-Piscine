@@ -3,14 +3,17 @@ make
 ./RPN "5 1 -" > out
 ./RPN "1 2 -" >> out
 ./RPN "2 1 -" >> out
-./RPN "5 1 - 3 +" >> out
-./RPN "5 1 *" >> out
-./RPN "5 2 - 3 + 4 - 3 *" >> out
+./RPN "1 2 * 2 / 2 * 2 4 - +" >> out
+./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +" >> out
 echo "->out:"
 cat out
-echo "->in:"
+echo "->expected:"
 cat in
 echo ----
 diff out in
-echo $?
+if [ $? -eq 0 ]
+    then echo ok
+else
+    echo ko
 rm out
+fi
