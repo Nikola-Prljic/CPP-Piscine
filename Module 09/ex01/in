@@ -8,6 +8,7 @@ Error try input like: 8 6 *
 Error bad input
 Error bad input
 Error bad input
+Error bad input
 Error try input like: 8 6 *
 Error bad input
 Error bad input
@@ -17,3 +18,5 @@ Error bad input
 Error ammount of Numbers and operators are wrong
 8
 Error bad input
+Error just one argument
+Error just one argument

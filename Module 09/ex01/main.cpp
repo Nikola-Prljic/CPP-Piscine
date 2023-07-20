@@ -3,6 +3,7 @@
 int main(int argc, char **argv)
 {
     if(argc != 2)
-        return 1;
-    RPN calc(argv[1]);
+        std::cerr << "Error just one argument" << std::endl;
+    else
+        RPN calc(argv[1]);
 }

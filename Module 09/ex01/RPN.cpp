@@ -104,7 +104,7 @@ int RPN::saveNumberLoop( size_t &i )
 
 int RPN::saveInput()
 {
-    if(!std::isdigit(_inputStr[0]))
+    if(!std::isdigit(_inputStr[0]) || _inputStr[1] != ' ')
     {
         std::cerr << "Error bad input" << std::endl;
         return RPN_Error;
