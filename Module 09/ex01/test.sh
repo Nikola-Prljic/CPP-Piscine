@@ -11,6 +11,15 @@ make
 ./RPN "7 2 *c" 2>> out
 ./RPN "7 2 * c" 2>> out
 ./RPN "7c2 *" 2>> out
+./RPN "7c2" 2>> out
+./RPN "      " 2>> out
+./RPN "  2 *" 2>> out
+./RPN "******" 2>> out
+./RPN "2 2 #" 2>> out
+./RPN "2 2.*" 2>> out
+./RPN "2 2 * * *" 2>> out
+./RPN "2 2 2 * *" >> out
+./RPN "2 2 2 2 2 2 + + + + +ä" 2>> out
 echo "->out:"
 cat out
 echo "->expected:"
