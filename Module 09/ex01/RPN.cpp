@@ -39,12 +39,12 @@ int doCalc(int n1, int n2, int sign)
     return sign;
 }
 
-void RPN::calc()
+int RPN::clearStacks_calc()
 {
     if(_listNum.size() != _listOpr.size())
     {
         std::cerr << "Error ammount of Numbers and operators are wrong" << std::endl;
-        std::exit(1);
+        return 1;
     }
     while(_listNum.empty() == false)
     {
@@ -52,6 +52,7 @@ void RPN::calc()
         _listNum.pop_back();
         _listOpr.pop_back();
     }
+    return 0;
 }
 
 int RPN::saveToStack( std::list<int> &list, int c, int (*func)( int ))
@@ -67,10 +68,27 @@ int RPN::saveToStack( std::list<int> &list, int c, int (*func)( int ))
     return 1;
 }
 
+int RPN::saveOperatorLoop( size_t &i )
+{
+    while(i < _inputStr.size())
+    {
+        if(saveToStack( _listOpr, _inputStr[i++], &ft_isOperator))
+            return 1;
+        if(_inputStr[i] != 0 && _inputStr[i++] != ' ')
+            return 1;
+        if(std::isdigit(_inputStr[i]) == true)
+            return 0;
+    }
+    return 0;
+}
+
 void RPN::saveInput()
 {
     if(!std::isdigit(_inputStr[0]))
+    {
+        std::cerr << "Error bad input : " << _inputStr << std::endl;
         return ;
+    }
     result = _inputStr[0] - '0';
     for(size_t i = 2; _inputStr[i];)
     {
@@ -79,22 +97,11 @@ void RPN::saveInput()
             if(saveToStack( _listNum, _inputStr[i++], &isdigit))
                 return ;
             if(_inputStr[i] == 0 || _inputStr[i++] != ' ')
-            {
-                std::cerr << "Error bad input : " << _inputStr << std::endl;
                 return ;
-            }
             if(std::isdigit(_inputStr[i]) == false)
                 break ;
         }
-        while(i < _inputStr.size())
-        {
-            if(saveToStack( _listOpr, _inputStr[i++], &ft_isOperator))
-                return ;
-            if(_inputStr[i] != 0 && _inputStr[i++] != ' ')
-                return ;
-            if(std::isdigit(_inputStr[i]) == true)
-                break ;
-        }
-        calc();
+        if(saveOperatorLoop(i) || clearStacks_calc())
+            return ;
     }
 }

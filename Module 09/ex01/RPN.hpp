@@ -16,8 +16,9 @@ private:
     int result;
 
     RPN();
-    void calc();
+    int clearStacks_calc();
     void saveInput();
+    int saveOperatorLoop( size_t &i );
     int saveToStack( std::list<int> &list, int c, int (*func)( int ));
 
 public:
