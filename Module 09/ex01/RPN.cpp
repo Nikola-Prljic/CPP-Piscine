@@ -48,7 +48,10 @@ int RPN::clearStacks_calc()
     }
     while(_listNum.empty() == false)
     {
+        // reihenfole ist falsch!!!!
+        std::cout << (char)_listOpr.back() << " " << _listNum.back() << std::endl;
         result = doCalc(result, _listNum.back(), _listOpr.back());
+        std::cout << " = " << result << std::endl;
         _listNum.pop_back();
         _listOpr.pop_back();
     }
