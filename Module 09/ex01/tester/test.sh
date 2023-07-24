@@ -1,6 +1,10 @@
 #!/bin/sh
 num=0
+cd ..
 make
+mv RPN tester
+make clean
+cd tester
 > out
 ft_test()
 {
@@ -65,3 +69,4 @@ if [ $? -eq 0 ]
 else
     echo ko
 fi
+rm RPN
