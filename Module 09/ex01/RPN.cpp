@@ -84,7 +84,7 @@ int RPN::saveToStack( std::list<int> &list, int c, int (*func)( int ))
         list.push_back( c );
         return 0;
     }
-    std::cerr << "Error bad input4" << std::endl;
+    std::cerr << "Error bad input" << std::endl;
     return RPN_Error;
 }
 
@@ -96,7 +96,7 @@ int RPN::saveOperatorLoop( size_t &i )
             return RPN_Error;
         if(_inputStr[i] != 0 && _inputStr[i++] != ' ')
         {
-            std::cerr << "Error bad input3" << std::endl;
+            std::cerr << "Error bad input" << std::endl;
             return RPN_Error;
         }
         if(ft_isdigit(_inputStr[i]))
@@ -114,7 +114,7 @@ int RPN::saveNumberLoop( size_t &i )
             return RPN_Error;
         if(_inputStr[i] == 0 || _inputStr[i++] != ' ')
         {
-            std::cerr << "Error bad input2" << std::endl;
+            std::cerr << "Error bad input" << std::endl;
             return RPN_Error;
         }
         if(std::isdigit(_inputStr[i]) == false)
@@ -127,7 +127,7 @@ int RPN::saveInput()
 {
     if(!std::isdigit(_inputStr[0]) || _inputStr[1] != ' ')
     {
-        std::cerr << "Error bad input1" << std::endl;
+        std::cerr << "Error bad input" << std::endl;
         return RPN_Error;
     }
     result = _inputStr[0] - '0';
