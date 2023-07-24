@@ -123,15 +123,35 @@ int RPN::saveNumberLoop( size_t &i )
     return 0;
 }
 
+int RPN::saveFistLine( size_t &i )
+{
+    if(saveNumberLoop(i))
+        return RPN_Error;
+    if(i > 4){
+        result = _listNum.back();
+        _listNum.pop_back();
+    }
+    else{
+        result = _listNum.front();
+        _listNum.pop_front();
+    }
+    if( saveOperatorLoop(i) || clearStacks_calc() )
+        return RPN_Error;
+    return 0;
+}
+
 int RPN::saveInput()
 {
+    size_t i = 0;
+
     if(!std::isdigit(_inputStr[0]) || _inputStr[1] != ' ')
     {
         std::cerr << "Error bad input" << std::endl;
         return RPN_Error;
     }
-    result = _inputStr[0] - '0';
-    for(size_t i = 2; _inputStr[i];)
+    if(saveFistLine(i))
+        return RPN_Error;
+    while(_inputStr[i])
         if(saveNumberLoop(i) || saveOperatorLoop(i) || clearStacks_calc())
             return RPN_Error;
     return 0;

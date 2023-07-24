@@ -35,6 +35,9 @@ ft_test "2 2 2 * *"
 ft_test "2 2 2 2 2 2 + + + + +ä"
 ft_test 3 2 *
 ft_test a s
+ft_test "9 9 * 2 2 2 * * *"
+ft_test "9 9 * 2 2 2 * **"
+ft_test "2 2 1 2 3 + + * /"
 
 if [ $num -eq 0 ]
     then echo valgrind: ok
@@ -46,7 +49,7 @@ diff out in
 
 if [ $? -eq 0 ]
     then echo "tests:    ok"
+    rm out valgrind_test.txt
 else
     echo ko
 fi
-rm out valgrind_test.txt

@@ -23,6 +23,7 @@ private:
     int saveOperatorLoop( size_t &i );
     int saveNumberLoop( size_t &i );
     int saveToStack( std::list<int> &list, int c, int (*func)( int ));
+    int saveFistLine( size_t &i );
 
 public:
     RPN( const std::string inputStr );
