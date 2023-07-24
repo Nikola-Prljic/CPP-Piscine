@@ -1,7 +1,7 @@
 #!/bin/sh
 num=0
 make
-
+> out
 ft_test()
 {
     ./RPN "$1" $2 $3 >> out 2>&1
@@ -46,9 +46,10 @@ ft_test "9 3 3 + - 3 /"
 ft_test "5 3 5 * + 2 / 2 3 4 + - * 2 * 3 * 2 1 3 4 * + - *"
 ft_test "5 3 5 * + 2 / 2 3 4 + - *"
 ft_test "5 3 5 * + 2 /"
-ft_test ""
-ft_test ""
-ft_test ""
+ft_test "5 3 3 + - 3 2 1 2 + - * -"
+ft_test "5 3 3 + - 3 2 1 2 + - * - 3 8 7 6 1 3 5 - + * + - - *"
+ft_test "5 3 3 + - 3 2 1 2 + - * - 3 8 7 6 1 3 5 - + * + - - * 3 2 1 5 8 6 9 8 7 5 + - + - + - * * * -"
+ft_test "2 3 * 2 * 2 / 3 2 1 4 - + - * 2 2 + /"
 
 if [ $num -eq 0 ]
     then echo valgrind: ok
