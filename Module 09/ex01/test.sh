@@ -38,6 +38,9 @@ ft_test a s
 ft_test "9 9 * 2 2 2 * * *"
 ft_test "9 9 * 2 2 2 * **"
 ft_test "2 2 1 2 3 + + * /"
+ft_test "1 2 3 + -"
+ft_test "1 2 3 - -"
+ft_test "5 2 3 1 2 4 9 8 * - + - * + -"
 
 if [ $num -eq 0 ]
     then echo valgrind: ok

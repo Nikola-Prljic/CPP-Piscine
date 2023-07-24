@@ -18,7 +18,7 @@ private:
     int result;
 
     RPN();
-    int clearStacks_calc();
+    int clearStacks_calc( bool first );
     int saveInput();
     int saveOperatorLoop( size_t &i );
     int saveNumberLoop( size_t &i );

@@ -52,7 +52,7 @@ int doCalc(int n1, int n2, int sign)
     return sign;
 }
 
-int RPN::clearStacks_calc()
+int RPN::clearStacks_calc( bool first )
 {
     if(_listNum.size() != _listOpr.size())
     {
@@ -61,7 +61,10 @@ int RPN::clearStacks_calc()
     }
     while(_listNum.empty() == false)
     {
-        result = doCalc(result, _listNum.back(), _listOpr.front());
+        if( first == true )
+            result = doCalc( _listNum.back(), result, _listOpr.front());
+        else 
+            result = doCalc( result, _listNum.back(), _listOpr.front());
         _listNum.pop_back();
         _listOpr.pop_front();
     }
@@ -127,15 +130,15 @@ int RPN::saveFistLine( size_t &i )
 {
     if(saveNumberLoop(i))
         return RPN_Error;
-    if(i > 4){
-        result = _listNum.back();
-        _listNum.pop_back();
-    }
-    else{
+    /* if(i > 4){ */
+    result = _listNum.back();
+    _listNum.pop_back();
+    /* } */
+    /* else{
         result = _listNum.front();
         _listNum.pop_front();
-    }
-    if( saveOperatorLoop(i) || clearStacks_calc() )
+    } */
+    if( saveOperatorLoop(i) || clearStacks_calc( true ) )
         return RPN_Error;
     return 0;
 }
@@ -152,7 +155,7 @@ int RPN::saveInput()
     if(saveFistLine(i))
         return RPN_Error;
     while(_inputStr[i])
-        if(saveNumberLoop(i) || saveOperatorLoop(i) || clearStacks_calc())
+        if(saveNumberLoop(i) || saveOperatorLoop(i) || clearStacks_calc( false ))
             return RPN_Error;
     return 0;
 }
