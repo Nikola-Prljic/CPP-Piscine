@@ -2,7 +2,6 @@
 
 RPN::RPN() {}
 
-
 RPN::RPN( const std::string inputStr ) : _inputStr(inputStr), _listNum(), _listOpr(), result(69)
 {
     if(_inputStr.empty() == true)
