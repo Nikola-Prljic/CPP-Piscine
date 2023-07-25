@@ -15,8 +15,8 @@ private:
         int year; 
         int month; 
         int day;
-        float f_ammount;
-        float result;
+        double f_ammount;
+        double result;
         std::string error;
     };
     typedef std::deque < DateOrError > dequeDate;
@@ -28,9 +28,9 @@ private:
 
 public:
 
-    BitcoinExchange();
-    bool strToFloat( std::string str, float &f);
-    void open_file( std::ifstream &file, const char *file_path );
+    BitcoinExchange( const std::string argv1 );
+    bool strToFloat( std::string str, double &f);
+    int open_file( std::ifstream &file, const std::string file_path );
     void save_line( std::string date );
     void saveCsvDate( std::string line );
     void print_data();

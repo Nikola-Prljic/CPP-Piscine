@@ -6,22 +6,7 @@ int main( int argc, char **argv )
         std::cout << "Just one argument. It must be a file name." << std::endl;
     else
     {
-        std::ifstream inputFile;
-        std::ifstream dataFile;
-        std::string line;
-
-        BitcoinExchange btc;
-
-        btc.open_file( inputFile, argv[1]);
-        while ( getline (inputFile, line) )
-            btc.save_line(line);
-        btc.open_file( dataFile, "data.csv");
-        while ( getline (dataFile, line) )
-            btc.saveCsvDate(line);  
-        btc.DoBtcExchange();
-        btc.print_data(); 
-
-        inputFile.close();
+        BitcoinExchange btc( argv[1] );
     }
     return 0;
 }

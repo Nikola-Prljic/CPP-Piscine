@@ -1,7 +1,24 @@
 #include "BitcoinExchange.hpp"
 #include <cstdlib>
 
-BitcoinExchange::BitcoinExchange() : _data(), _csv_data() {}
+BitcoinExchange::BitcoinExchange( const std::string argv1 ) : _data(), _csv_data()  
+{
+    std::ifstream inputFile;
+    std::ifstream dataFile;
+    std::string line;
+
+    if(open_file( inputFile, argv1))
+        return ;
+    while ( getline ( inputFile, line ) )
+        save_line( line );
+    inputFile.close();
+    if(open_file( dataFile, "data.csv"))
+        return ;
+    while ( getline ( dataFile, line ) )
+        saveCsvDate( line );  
+    dataFile.close();
+    DoBtcExchange();
+}
 
 bool strIsNum( std::string str )
 {
@@ -11,10 +28,11 @@ bool strIsNum( std::string str )
     return true;
 }
 
-bool BitcoinExchange::strToFloat( std::string str, float &f)
+bool BitcoinExchange::strToFloat( std::string str, double &f)
 {
     bool dot = false;
-    std::stringstream ss(str);
+
+    std::istringstream ss(str);
 
     for(int i = 0; str[i]; i++)
     {
@@ -105,16 +123,17 @@ void BitcoinExchange::save_line( std::string line )
     _data.push_back(tmp);
 }
 
-void BitcoinExchange::open_file( std::ifstream &file, const char *file_path )
+int BitcoinExchange::open_file( std::ifstream &file, const std::string file_path )
 {
     std::string line;
 
-    file.open(file_path);
+    file.open(file_path.c_str());
     if(file.is_open() == false)
     {
         std::cout << "Error: Unable to open file!" << std::endl;
-        std::exit(1);
+        return(1);
     }
+    return(0);
 }
 
 void BitcoinExchange::print_data()
@@ -172,6 +191,8 @@ std::deque< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYe
             csvItr--;
             while(itr->day > csvItr->day)
                 csvItr++;
+            if(itr->day != csvItr->day)
+                csvItr--;
         }
         else
             csvItr--;
