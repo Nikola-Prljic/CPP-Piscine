@@ -66,7 +66,7 @@ diff out in
 if [ $? -eq 0 ]
     then echo "tests:    ok"
     rm out valgrind_test.txt
+    rm RPN
 else
     echo ko
 fi
-rm RPN
