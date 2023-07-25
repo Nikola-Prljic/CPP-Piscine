@@ -18,6 +18,7 @@ BitcoinExchange::BitcoinExchange( const std::string argv1 ) : _data(), _csv_data
         saveCsvDate( line );  
     dataFile.close();
     DoBtcExchange();
+    print_data();
 }
 
 bool strIsNum( std::string str )
@@ -28,7 +29,7 @@ bool strIsNum( std::string str )
     return true;
 }
 
-bool BitcoinExchange::strToFloat( std::string str, double &f)
+bool BitcoinExchange::strToFloat( std::string str, float &f)
 {
     bool dot = false;
 
@@ -58,9 +59,9 @@ void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp)
     }
     line.erase(0, 2);
     if(strToFloat( line, tmp->f_ammount) == false)
-        tmp->error = "Error just numeric input.";
+        tmp->error = "Error: just numeric input.";
     else if( tmp->f_ammount > 1000)
-        tmp->error = "Error not more than 1000.";
+        tmp->error = "Error: too large a number.";
     else if( tmp->f_ammount < 0)
         tmp->error = "Error no negative numbers.";
 }
@@ -113,11 +114,11 @@ void BitcoinExchange::save_line( std::string line )
     
     getline(stream_YYYY_MM_DD, date, '|');
     if(dateInRange(stream, tmp.year, '-', 2009, 2022) == false)
-        tmp.error = "Error bad input: \""  + date + "\"";
+        tmp.error = "Error: bad input => "  + date;
     else if(dateInRange(stream, tmp.month, '-', 1, 12) == false)
-        tmp.error = "Error bad input: \""  + date + "\"";
+        tmp.error = "Error: bad input => "  + date;
     else if(dateInRange(stream, tmp.day, ' ', 1, 32) == false)
-        tmp.error = "Error bad input: \""  + date + "\"";
+        tmp.error = "Error: bad input => "  + date;
     else
         vaildValue( stream, &tmp);
     _data.push_back(tmp);
@@ -148,7 +149,8 @@ void BitcoinExchange::print_data()
             std::cout << _data[i].month << "-";
             if(_data[i].day < 10)
                 std::cout << "0";
-            std::cout << _data[i].day << " -> ";
+            std::cout << _data[i].day << " => ";
+            std::cout << _data[i].f_ammount << " = ";
             std::cout << _data[i].result << std::endl;
         }
         else
