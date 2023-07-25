@@ -194,7 +194,7 @@ std::deque< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYe
             while(itr->day > csvItr->day)
                 csvItr++;
             if(itr->day != csvItr->day)
-                csvItr--;
+                return --csvItr;
         }
         else
             csvItr--;
