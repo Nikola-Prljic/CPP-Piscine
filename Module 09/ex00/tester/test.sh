@@ -30,7 +30,7 @@ diff out expOut.txt
 if [ $? -eq 0 ]
     then echo "tests:    ok"
     rm out valgrind_test.txt
-    rm RPN
+    rm btc
 else
     echo ko
 fi
