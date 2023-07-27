@@ -23,12 +23,11 @@ private:
     typedef std::deque < DateOrError >::iterator dequeDateItr;
     dequeDate _data;
     dequeDate _csv_data;
+
+    BitcoinExchange();
+
     bool dateInRange( std::stringstream &stream, int &ymd, char split, int start, int end);
     void vaildValue( std::stringstream &stream, DateOrError *tmp);
-
-public:
-
-    BitcoinExchange( const std::string argv1 );
     bool strToFloat( std::string str, float &f);
     int open_file( std::ifstream &file, const std::string file_path );
     void save_line( std::string date );
@@ -37,6 +36,10 @@ public:
     void print_csv_data();
     dequeDateItr findNextYear( dequeDateItr itr );
     void DoBtcExchange();
+
+public:
+
+    BitcoinExchange( const std::string argv1 );
 };
 
 #endif

@@ -31,11 +31,14 @@ bool strIsNum( std::string str )
 
 bool BitcoinExchange::strToFloat( std::string str, float &f)
 {
+    int i = 0;
     bool dot = false;
 
     std::istringstream ss(str);
 
-    for(int i = 0; str[i]; i++)
+    if(str[0] == '-')
+        i++;
+    for(; str[i]; i++)
     {
         if(str[i] == '.' && dot == false)
             dot = true;
@@ -63,7 +66,7 @@ void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp)
     else if( tmp->f_ammount > 1000)
         tmp->error = "Error: too large a number.";
     else if( tmp->f_ammount < 0)
-        tmp->error = "Error no negative numbers.";
+        tmp->error = "Error: not a positive number.";
 }
 
 void saveTestNum( std::string line, std::string &error, int &num)
@@ -112,7 +115,7 @@ void BitcoinExchange::save_line( std::string line )
     std::stringstream stream(line);
     std::stringstream stream_YYYY_MM_DD(line);
     
-    getline(stream_YYYY_MM_DD, date, '|');
+    getline(stream_YYYY_MM_DD, date, ' ');
     if(dateInRange(stream, tmp.year, '-', 2009, 2022) == false)
         tmp.error = "Error: bad input => "  + date;
     else if(dateInRange(stream, tmp.month, '-', 1, 12) == false)
