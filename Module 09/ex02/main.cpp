@@ -6,8 +6,7 @@ int argvToVector( char **argv, std::vector<int> &input )
     int num = 0;
     for( int i = 1; argv[i]; i++ )
     {
-        if( argv[i][0] == '0' && argv[i][1] == 0 )
-        {
+        if( argv[i][0] == '0' && argv[i][1] == 0 ){
             input.push_back(0);
             continue ;
         }
