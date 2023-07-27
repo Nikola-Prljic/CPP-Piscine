@@ -1,15 +1,15 @@
-NAME = btc
+NAME = PmergeMe
 
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
-SRC = main.cpp BitcoinExchange.cpp
+SRC = main.cpp PmergeMe.cpp
 
 OBJDIR = ./objects/
 OBJFILES = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
-DEPT = BitcoinExchange.hpp
+DEPT = PmergeMe.hpp
 
 .PHONY: clean fclean all val
 
