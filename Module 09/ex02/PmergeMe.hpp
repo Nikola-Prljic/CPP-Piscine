@@ -2,16 +2,20 @@
 # define PMERGEME_HPP
 
 #include "vector"
+#include <iostream>
 
 class PmergeMe
 {
 private:
-    std::vector<int> _vector;
+    typedef std::vector<int> vectorInt;
+    vectorInt _vector;
 
     PmergeMe();
     
 public:
-    PmergeMe( char **argv );
+    PmergeMe( vectorInt input );
+    ~PmergeMe();
+    void printVector();
 };
 
 #endif
