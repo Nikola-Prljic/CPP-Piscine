@@ -2,17 +2,28 @@
 
 PmergeMe::PmergeMe( vectorInt input ) : _vector(input) 
 {
-    InsertionSort();
+    //InsertionSort();
+    MergeSort();
 }
 
 PmergeMe::~PmergeMe() {}
 
+void ft_swap(int &n1, int &n2)
+{
+    int tmp = n1;
+    n1 = n2;
+    n2 = tmp;
+}
+
 //----------------------MergeSort----------------------//
 void PmergeMe::MergeSort()
 {
-    while(1)
+    vIntItr left = _vector.begin();
+    for( vIntItr rigth = _vector.begin() + 1; left != _vector.end(); rigth += 2 )
     {
-        
+        if(left[0] > rigth[0])
+            ft_swap( left[0], rigth[0]);
+        left += 2;
     }
 }
 

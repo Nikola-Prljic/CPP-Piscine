@@ -3,9 +3,10 @@
 
 #include "vector"
 #include <iostream>
+#include <algorithm>
 
 class PmergeMe
-{    
+{
 
 private:
     typedef std::vector<int> vectorInt;
