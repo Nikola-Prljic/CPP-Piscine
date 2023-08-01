@@ -1,9 +1,12 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( vectorInt input ) : _vector(input) 
+PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _vSorted()
 {
-    //InsertionSort();
-    MergeSort();
+    sortPairs();
+    printVector();
+    InsertionSort( _vSorted );
+    std::cout << "Sorted :" << std::endl;
+    printVSorted();
 }
 
 PmergeMe::~PmergeMe() {}
@@ -15,38 +18,66 @@ void ft_swap(int &n1, int &n2)
     n2 = tmp;
 }
 
-//----------------------MergeSort----------------------//
-void PmergeMe::MergeSort()
+/* void PmergeMe::mergeVectors()
 {
-    vIntItr left = _vector.begin();
-    for( vIntItr rigth = _vector.begin() + 1; left != _vector.end(); rigth += 2 )
+    for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
     {
-        if(left[0] > rigth[0])
-            ft_swap( left[0], rigth[0]);
-        left += 2;
+        for( vIntItr itrVec = _vector.begin(); itrVec != _vector.end(); itrVec++ )
+        {
+            if
+        }
+    }
+} */
+
+//----------------------MergeSort----------------------//
+void PmergeMe::sortPairs()
+{
+    size_t reduce = 0;
+    vIntItr itr, itr2;
+    size_t len = _vector.size();
+    if( len % 2 != 0 )
+        len--;
+    for( size_t i = 0; i < len; i++ )
+    {
+        if( i % 2 == 0)
+        {
+            itr = _vector.begin() + (i - reduce);
+            itr2 = itr + 1;
+            if( itr[0] > itr2[0])
+                ft_swap( itr[0], itr2[0] );
+            _vSorted.push_back( itr[0] );
+            _vector.erase(itr);
+            reduce++;
+        }
     }
 }
 
 //--------------------InsertionSort--------------------//
-void PmergeMe::InsertionSort()
+void PmergeMe::InsertionSort( std::vector<int> &vecNum )
 {
-    for( vIntItr left = _vector.begin(); left != _vector.end(); left++ )
-        for( vIntItr right = left; right != _vector.end(); right++ )
+    for( vIntItr left = vecNum.begin(); left != vecNum.end(); left++ )
+        for( vIntItr right = left; right != vecNum.end(); right++ )
             if( left[0] > right[0])
-                moveNum( left, right );
+                moveNum( left, right, vecNum );
 }
 
-void PmergeMe::moveNum( vIntItr &left, vIntItr &right )
+void PmergeMe::moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum )
 {
     vIntItr tmp = left;
     int rightInttmp = right[0];
-    _vector.erase ( right );
-    _vector.insert ( left, rightInttmp );
+    vecNum.erase ( right );
+    vecNum.insert ( left, rightInttmp );
     left = tmp;
 }
 
 void PmergeMe::printVector()
 {
     for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
+        std::cout << itr[0] << std::endl;
+}
+
+void PmergeMe::printVSorted()
+{
+    for( vIntItr itr = _vSorted.begin(); itr != _vSorted.end(); itr++ )
         std::cout << itr[0] << std::endl;
 }

@@ -12,17 +12,20 @@ private:
     typedef std::vector<int> vectorInt;
     typedef std::vector<int>::iterator vIntItr;
     vectorInt _vector;
+    vectorInt _vSorted;
 
     PmergeMe();
-    void MergeSort();
-    void InsertionSort();
-    void moveNum( vIntItr &left, vIntItr &right );
+    void sortPairs();
+    void InsertionSort( std::vector<int> &vecNum );
+    void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
+    void mergeVectors();
 
 public:
     PmergeMe( vectorInt input );
     ~PmergeMe();
 
     void printVector();
+    void printVSorted();
 };
 
 #endif

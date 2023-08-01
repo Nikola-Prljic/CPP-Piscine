@@ -30,6 +30,5 @@ int main ( int argc, char **argv )
     if(argvToVector( argv, input ))
         return 1;
     PmergeMe sort( input );
-    sort.printVector();
     return 0;
 }
