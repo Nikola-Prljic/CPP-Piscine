@@ -19,7 +19,7 @@ private:
     void sortPairs();
     void InsertionSort( std::vector<int> &vecNum );
     void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
-    int mergeVectors();
+    void mergeVectors();
 
 
 public:
