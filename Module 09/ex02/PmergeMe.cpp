@@ -6,6 +6,8 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _vSorted()
     printVector();
     InsertionSort( _vSorted );
     std::cout << "Sorted :" << std::endl;
+    mergeVectors();
+    std::for_each(_vector.begin(), _vector.end(), &mergeVectors);
     printVSorted();
 }
 
@@ -18,16 +20,26 @@ void ft_swap(int &n1, int &n2)
     n2 = tmp;
 }
 
-/* void PmergeMe::mergeVectors()
+int PmergeMe::mergeVectors()
 {
-    for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
-    {
-        for( vIntItr itrVec = _vector.begin(); itrVec != _vector.end(); itrVec++ )
+    /* for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
+    { */
+        vIntItr itr = _vector.begin();
+        for( vIntItr itrSorted = _vSorted.begin(); itrSorted  != _vector.end(); itrSorted ++ )
         {
-            if
+            if(itr[0] < itrSorted [0])
+            {
+                _vSorted.insert(itrSorted, itr[0]);
+                break ;
+            }
         }
-    }
-} */
+        _vector.erase(itr);
+        itr = _vector.begin();
+    /* } */
+    if(_vector.empty() == false)
+        _vSorted.push_back(_vector.front());
+    return 0;
+}
 
 //----------------------MergeSort----------------------//
 void PmergeMe::sortPairs()

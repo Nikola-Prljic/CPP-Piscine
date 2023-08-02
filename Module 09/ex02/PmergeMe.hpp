@@ -1,9 +1,10 @@
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
 
-#include "vector"
+#include <vector>
 #include <iostream>
 #include <algorithm>
+#include <functional>
 
 class PmergeMe
 {
@@ -18,7 +19,8 @@ private:
     void sortPairs();
     void InsertionSort( std::vector<int> &vecNum );
     void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
-    void mergeVectors();
+    int mergeVectors();
+
 
 public:
     PmergeMe( vectorInt input );
