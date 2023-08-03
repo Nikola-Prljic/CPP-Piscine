@@ -31,7 +31,7 @@ void Harl::complain( std::string level )
 }
 
 void Harl::cmd( std::string type, void(Harl::*func)()){
-    std::cout << "[" << type << "]" << std::endl;
+    std::cout << "[ " << type << " ]" << std::endl;
     (this->*func)();
 }
 
