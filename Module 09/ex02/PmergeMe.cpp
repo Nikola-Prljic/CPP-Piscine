@@ -3,9 +3,9 @@
 PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _vSorted()
 {
     sortPairs();
-    printVector();
+    /* printVunSorted(); */
     InsertionSort( _vSorted );
-    std::cout << "Sorted :" << std::endl;
+    /* std::cout << std::endl << "Sorted :" << std::endl; */
     mergeVectors();
     printVSorted();
 }
@@ -25,7 +25,7 @@ void PmergeMe::mergeVectors()
     {
         for( vIntItr itrSorted = _vSorted.begin(); itrSorted  != _vSorted.end(); itrSorted++ )
         {
-            if( itr[0] <= itrSorted [0] )
+            if( itr[0] <= itrSorted[0] )
             {
                 _vSorted.insert(itrSorted, itr[0]);
                 break ;
@@ -36,11 +36,7 @@ void PmergeMe::mergeVectors()
                 break ;
             }
         }
-        /* _vector.erase(itr);
-        itr = _vector.begin(); */
     }
-    /* if(_vector.empty() == false)
-        _vSorted.push_back(_vector.front()); */
 }
 
 //----------------------MergeSort----------------------//
@@ -84,14 +80,24 @@ void PmergeMe::moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum 
     left = tmp;
 }
 
-void PmergeMe::printVector()
+void printVector( std::vector<int> vector )
 {
-    for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
+    /* std::vector<int>::iterator itrLastOne = --vector.end(); */
+    for( std::vector<int>::iterator itr = vector.begin(); itr != vector.end(); itr++ )
+    {
         std::cout << itr[0] << std::endl;
+        /* if( itr != itrLastOne ) */
+            /* std::cout << " "; */
+    }
+    /* std::cout << std::endl; */
+}
+
+void PmergeMe::printVunSorted()
+{
+    printVector( _vector );
 }
 
 void PmergeMe::printVSorted()
 {
-    for( vIntItr itr = _vSorted.begin(); itr != _vSorted.end(); itr++ )
-        std::cout << itr[0] << std::endl;
+    printVector( _vSorted );
 }

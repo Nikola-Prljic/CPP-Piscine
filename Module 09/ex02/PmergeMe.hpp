@@ -26,7 +26,7 @@ public:
     PmergeMe( vectorInt input );
     ~PmergeMe();
 
-    void printVector();
+    void printVunSorted();
     void printVSorted();
 };
 

@@ -1,3 +1,4 @@
+#include <bits/stdc++.h>
 #include "PmergeMe.hpp"
 #include <stdlib.h>
 
@@ -26,9 +27,21 @@ int main ( int argc, char **argv )
 {
     if(argc == 1)
         return 1;
+
+    clock_t t;
+
     std::vector<int> input;
     if(argvToVector( argv, input ))
         return 1;
+
+    t = clock();
     PmergeMe sort( input );
+    /* std::sort(input.begin(), input.end()); */
+
+    t = clock() - t;
+    double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+ 
+    printf("PmergeMe took %f seconds to execute \n", time_taken);
+
     return 0;
 }
