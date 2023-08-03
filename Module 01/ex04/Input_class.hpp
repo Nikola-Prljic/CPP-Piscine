@@ -6,7 +6,7 @@
 /*   By: nprljic <nprljic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:32:49 by nprljic           #+#    #+#             */
-/*   Updated: 2023/08/03 17:10:17 by nprljic          ###   ########.fr       */
+/*   Updated: 2023/08/03 17:42:47 by nprljic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ class Input
         std::string     in_filename;
         std::fstream    out_file;
         std::string     out_filename;
+        Input( void );
+
         void    ft_open_infile( void );
         void    ft_open_outfile( void );
         void    copy_file( void );
         void    ft_replace( std::string& line );
-        Input( void );
     
     public:
 
