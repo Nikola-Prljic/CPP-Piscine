@@ -1,25 +1,34 @@
-NAME	= ex05
-RM		= rm -f
+NAME	= harlFilter
 CXXFLAGS = -std=c++98 -Wall -Werror -Wextra
 CXX		= c++
 SRC		= main.cpp Harl.cpp
 OBJ		= $(SRC:.cpp=.o)
+OBJDIR = ./objects/
+OBJFILES = $(SRC:.cpp=.o)
+OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
+DEPT = Harl.hpp
 
-all:		$(NAME)
+.PHONY: clean fclean all val
 
-$(NAME):	$(OBJ)
-			$(CXX) $(CFLAGS)  $(OBJ) -o $(NAME)
+all: $(NAME)
+
+$(OBJDIR)%.o: ./%.cpp $(DEPT)
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@ -c
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-			@$(RM) $(OBJ)
-			@echo // objekt files removed //
+	@rm -rf $(OBJDIR)
+	@echo all .o and .d files deleted
 
-fclean:		clean
-			@$(RM) $(NAME)
-			@echo // all files removed //
+fclean: clean
+	@rm -f $(NAME)
+	@echo
+	@echo ...and the $(NAME) too
 
-re:			fclean all
-			@echo // Clenad and rebuild everything! //
-
-.PHONY:		all clean fclean re
+re: fclean all
