@@ -6,51 +6,46 @@
 /*   By: nprljic <nprljic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:38:35 by nprljic           #+#    #+#             */
-/*   Updated: 2023/03/23 15:38:51 by nprljic          ###   ########.fr       */
+/*   Updated: 2023/08/03 17:15:21 by nprljic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Input_class.hpp"
+#include <cstdlib>
 
-Input::Input( void )
+Input::Input() {}
+
+Input::Input( std::string filename, std::string s1, std::string s2 ) : s1(s1), s2(s2), in_file(NULL), in_filename(filename), out_file(NULL), out_filename(filename + ".replace")
 {
-    std::cout << "filename: ";
-    std::cin >> this->in_filename;
-    std::cout << "s1: ";
-    std::cin >> this->s1;
-    std::cout << "s2: ";
-    std::cin >> this->s2;
-    this->out_filename = this->in_filename + ".replace";
-    return ;
+    ft_open_infile();
+    ft_open_outfile();
+    copy_file();
+    if(in_file)
+        in_file.close();
+    if(out_file)
+        out_file.close();
 }
 
-Input::~Input( void )
-{
-    return ;
-}
+Input::~Input( void ){}
 
-void    Input::make_in_out( void )
+void    Input::ft_open_infile( void )
 {
-    this->in_file.open(this->in_filename, std::ios::in);
-    error_test( &this->in_file );
-    this->out_file.open(this->out_filename, std::ios::out);
-    error_test( &this->out_file );
-    return ;
-}
-
-int error_test( std::fstream* file )
-{
-    if(!file)
+    in_file.open(in_filename.c_str(), std::ios::in);
+    if(!in_file)
     {
-        std::cout << "Error: file opening failed!\n";
-        exit (EXIT_FAILURE);
+        std::perror("Error");
+        std::exit(1);
     }
-    if(!file->good())
+}
+
+void    Input::ft_open_outfile( void )
+{
+    out_file.open(out_filename.c_str(), std::ios::out);
+    if(!out_file)
     {
-        std::cout << "Error: in file!\n";
-        exit (EXIT_FAILURE);
+        std::perror("Error");
+        std::exit(1);
     }
-    return (0);
 }
 
 void    Input::copy_file( void )
@@ -69,16 +64,16 @@ void    Input::ft_replace( std::string& line )
     int start;
     int s1_len;
 
-    s1_len = this->s1.size();
+    s1_len = s1.size();
     for(int i = 0; line[i];)
     {
         x = 0;
         start = i;
-        if(line.compare(i, s1_len, this->s1) == 0)
+        if(line.compare(i, s1_len, s1) == 0)
         {
             line.erase(start, s1_len);
-            line.insert(start, this->s2);
-            i += this->s2.size();
+            line.insert(start, s2);
+            i += s2.size();
         }
         else
             i++;
