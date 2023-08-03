@@ -6,7 +6,7 @@
 /*   By: nprljic <nprljic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:38:35 by nprljic           #+#    #+#             */
-/*   Updated: 2023/08/03 17:15:21 by nprljic          ###   ########.fr       */
+/*   Updated: 2023/08/03 17:27:02 by nprljic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ void    Input::ft_open_outfile( void )
 
 void    Input::copy_file( void )
 {   
-    for (std::string line ; std::getline(this->in_file, line); )
-    {
-        ft_replace(line);
-        this->out_file << line << '\n';
-    }
+    for ( std::string line ; std::getline( in_file, line ); )
+        ft_replace( line );
     return ;
 }
 
@@ -78,5 +75,5 @@ void    Input::ft_replace( std::string& line )
         else
             i++;
     }
-    return ;
+    out_file << line + "\n";
 }
