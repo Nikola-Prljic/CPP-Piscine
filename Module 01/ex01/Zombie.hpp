@@ -6,7 +6,7 @@
 /*   By: nprljic <nprljic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 21:24:57 by nprljic           #+#    #+#             */
-/*   Updated: 2023/02/05 18:43:53 by nprljic          ###   ########.fr       */
+/*   Updated: 2023/08/04 12:35:51 by nprljic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ class Zombie
         void announce( void );
 };
 
-Zombie  *zombieHorde( int N, std::string name );
+Zombie  *zombieHorde( const int N, std::string name );
 
 #endif
