@@ -1,5 +1,4 @@
 NAME	= violence
-RM		= rm -f
 CXX		= c++
 CXXFLAGS	= -std=c++98 -Wall -Werror -Wextra
 
