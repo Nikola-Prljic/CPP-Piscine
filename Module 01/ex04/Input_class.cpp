@@ -6,7 +6,7 @@
 /*   By: nprljic <nprljic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:38:35 by nprljic           #+#    #+#             */
-/*   Updated: 2023/08/03 17:41:15 by nprljic          ###   ########.fr       */
+/*   Updated: 2023/08/04 12:13:46 by nprljic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 
 Input::Input() {}
 
-Input::Input( std::string filename, std::string s1, std::string s2 ) : s1(s1), s2(s2), in_file(NULL), in_filename(filename), out_file(NULL), out_filename(filename + ".replace")
+Input::Input( std::string filename, std::string s1, std::string s2 ) : s1(s1), s2(s2), in_file(NULL), 
+out_file(NULL)
 {
-    ft_open_infile();
-    ft_open_outfile();
+    ft_open_infile( filename );
+    ft_open_outfile( filename + ".replace" );
     copy_file();
     if(in_file)
         in_file.close();
@@ -26,11 +27,11 @@ Input::Input( std::string filename, std::string s1, std::string s2 ) : s1(s1), s
         out_file.close();
 }
 
-Input::~Input( void ){}
+Input::~Input(){}
 
-void    Input::ft_open_infile( void )
+void    Input::ft_open_infile( std::string in_filename )
 {
-    in_file.open(in_filename.c_str(), std::ios::in);
+    in_file.open( in_filename.c_str(), std::ios::in );
     if(!in_file)
     {
         std::perror("Error");
@@ -38,7 +39,7 @@ void    Input::ft_open_infile( void )
     }
 }
 
-void    Input::ft_open_outfile( void )
+void    Input::ft_open_outfile( std::string out_filename )
 {
     out_file.open(out_filename.c_str(), std::ios::out);
     if(!out_file)
