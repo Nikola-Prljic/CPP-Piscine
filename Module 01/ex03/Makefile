@@ -1,25 +1,35 @@
 NAME	= violence
 RM		= rm -f
-CFLAGS	= -std=c++98 -Wall -Werror -Wextra
+CXX		= c++
+CXXFLAGS	= -std=c++98 -Wall -Werror -Wextra
 
 SRC		= main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
-OBJ		= $(SRC:.cpp=.o)
-C		= c++
+OBJDIR = ./objects/
+OBJFILES = $(SRC:.cpp=.o)
+OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
-all:		$(NAME)
+DEPT = Weapon.hpp HumanA.hpp HumanB.hpp
 
-$(NAME):	$(OBJ)
-			$(C) $(CFLAGS)  $(OBJ) -o $(NAME)
+.PHONY: clean fclean all val
+
+all: $(NAME)
+
+$(OBJDIR)%.o: ./%.cpp $(DEPT)
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@ -c
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-			@$(RM) $(OBJ)
-			@echo // objekt files removed //
+	@rm -rf $(OBJDIR)
+	@echo all .o and .d files deleted
 
-fclean:		clean
-			@$(RM) $(NAME)
-			@echo // all files removed //
+fclean: clean
+	@rm -f $(NAME)
+	@echo
+	@echo ...and the $(NAME) too
 
-re:			fclean all
-			@echo // Clenad and rebuild everything! //
-
-.PHONY:		all clean fclean re
+re: fclean all
