@@ -3,11 +3,15 @@
 PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _vSorted()
 {
     sortPairs();
+    printVunSorted();
+    std::cout << std::endl;
+    InsertionSortAdcanced( _vector );
+    InsertionSort( _vector ); // still wrong !!!
     /* printVunSorted(); */
-    InsertionSort( _vSorted );
+    /* InsertionSort( _vSorted ); */
     /* std::cout << std::endl << "Sorted :" << std::endl; */
-    mergeVectors();
-    printVSorted();
+    /* mergeVectors(); */
+    printVunSorted();
 }
 
 PmergeMe::~PmergeMe() {}
@@ -21,7 +25,7 @@ void ft_swap(int &n1, int &n2)
 
 void PmergeMe::mergeVectors()
 {
-    for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
+    /* for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
     {
         for( vIntItr itrSorted = _vSorted.begin(); itrSorted  != _vSorted.end(); itrSorted++ )
         {
@@ -36,30 +40,31 @@ void PmergeMe::mergeVectors()
                 break ;
             }
         }
-    }
+    } */
 }
 
 //----------------------MergeSort----------------------//
 void PmergeMe::sortPairs()
 {
-    size_t reduce = 0;
-    vIntItr itr, itr2;
-    size_t len = _vector.size();
-    if( len % 2 != 0 )
-        len--;
-    for( size_t i = 0; i < len; i++ )
-    {
-        if( i % 2 == 0)
-        {
-            itr = _vector.begin() + (i - reduce);
-            itr2 = itr + 1;
-            if( itr[0] > itr2[0])
-                ft_swap( itr[0], itr2[0] );
-            _vSorted.push_back( itr[0] );
-            _vector.erase(itr);
-            reduce++;
-        }
-    }
+    int i = 0;
+    vIntItr itrEnd = _vector.end();
+    if(_vector.size() % 2 != 0)
+        itrEnd--;
+    for( vIntItr itr = _vector.begin(); itr != itrEnd; itr++ )
+        if( i++ % 2 == 0 && *itr > *(itr + 1) )
+            ft_swap( *itr, *(itr + 1) );
+}
+
+void PmergeMe::InsertionSortAdcanced( std::vector<int> &vecNum )
+{
+    for( vIntItr left = vecNum.begin(); left != vecNum.end(); left += 2 )
+        for( vIntItr right = left; right != vecNum.end(); right += 2 )
+            if( left[0] > right[0] )
+            {
+                ft_swap( *left, *right );
+                ft_swap( *(left + 1), *(right + 1) );
+            }
+
 }
 
 //--------------------InsertionSort--------------------//

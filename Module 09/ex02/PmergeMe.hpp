@@ -21,6 +21,7 @@ private:
     void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
     void mergeVectors();
 
+    void InsertionSortAdcanced( std::vector<int> &vecNum );
 
 public:
     PmergeMe( vectorInt input );
