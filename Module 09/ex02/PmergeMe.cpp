@@ -6,7 +6,8 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _vSorted()
     printVunSorted();
     std::cout << std::endl;
     InsertionSortAdcanced( _vector );
-    InsertionSort( _vector ); // still wrong !!!
+    /* mergeVectors(); */
+    /* InsertionSort( _vector ); */ // still wrong ??!!!
     /* printVunSorted(); */
     /* InsertionSort( _vSorted ); */
     /* std::cout << std::endl << "Sorted :" << std::endl; */
@@ -25,22 +26,35 @@ void ft_swap(int &n1, int &n2)
 
 void PmergeMe::mergeVectors()
 {
-    /* for( vIntItr itr = _vector.begin(); itr != _vector.end(); itr++ )
+   /*  for( vIntItr left = _vector.begin() + 1; left != _vector.end(); left += 2 )
     {
-        for( vIntItr itrSorted = _vSorted.begin(); itrSorted  != _vSorted.end(); itrSorted++ )
+        vIntItr right = left + 2;
+        if(*left > *right)
         {
-            if( itr[0] <= itrSorted[0] )
-            {
-                _vSorted.insert(itrSorted, itr[0]);
-                break ;
-            }
-            else if( itrSorted == --_vSorted.end() )
-            {
-                _vSorted.push_back(itr[0]);
-                break ;
-            }
+            for(; *left > *right; right += 2 )
+                if( left[0] > right[0] )
+                {
+                    ft_swap( *left, *right );
+                    ft_swap( *(left + 1), *(right + 1) );
+                }
         }
     } */
+    /* int i = 1; */
+    size_t size = _vector.size();
+    if(_vector.size() % 2 != 0)
+        size--;
+    size_t i = 0;
+    for( vIntItr left = _vector.begin() + 1; i < size; left++ )
+    {
+        if( i % 2 != 0 )
+        {
+            for( vIntItr right = left; right != _vector.end(); right++ )
+                if( left[0] > right[0])
+                    ft_swap(*left, *right);
+        }
+        /* i++; */
+        i++;
+    }
 }
 
 //----------------------MergeSort----------------------//
@@ -97,12 +111,6 @@ void printVector( std::vector<int> vector )
     /* std::cout << std::endl; */
 }
 
-void PmergeMe::printVunSorted()
-{
-    printVector( _vector );
-}
+void PmergeMe::printVunSorted() { printVector( _vector ); }
 
-void PmergeMe::printVSorted()
-{
-    printVector( _vSorted );
-}
+void PmergeMe::printVSorted() { printVector( _vSorted ); }
