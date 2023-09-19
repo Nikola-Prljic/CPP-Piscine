@@ -17,14 +17,14 @@ private:
     vectorInt _vSorted;
     int _groups_ammount;
 
-
     PmergeMe();
     void sortVector( int N );
-    void InsertionSort( std::vector<int> &vecNum , vIntItr start, vIntItr end );
-    void InsertionSort( std::vector<int> &vecNum );
-    void InsertionSortSplit( std::vector<int> &vecNum, int N );
-    void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
+
     void MergeSort( std::vector<int> &vecNum, int N );
+    void InsertionSortSplit( std::vector<int> &vecNum, int N );
+    void InsertionSort( std::vector<int> &vecNum );
+    void InsertionSort( std::vector<int> &vecNum , vIntItr start, vIntItr end );
+    void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
 
 public:
     PmergeMe( vectorInt input );
