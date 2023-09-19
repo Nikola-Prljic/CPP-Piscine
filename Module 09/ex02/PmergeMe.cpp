@@ -2,20 +2,27 @@
 
 PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _vSorted()
 {
-    sortPairs();
-    printVunSorted();
     std::cout << std::endl;
-    InsertionSortAdcanced( _vector );
-    /* mergeVectors(); */
-    /* InsertionSort( _vector ); */ // still wrong ??!!!
-    /* printVunSorted(); */
-    /* InsertionSort( _vSorted ); */
-    /* std::cout << std::endl << "Sorted :" << std::endl; */
-    /* mergeVectors(); */
-    printVunSorted();
+    sortVector(10);
+    std::cout << "sorted:" << std::endl;
+    printVector(_vSorted);
+    /* MergeSort( _vector );
+    printVector(_vector); */
 }
 
 PmergeMe::~PmergeMe() {}
+
+void PmergeMe::sortVector( int N )
+{
+    std::cout << "len = " << _vector.size() << std::endl;
+    if((int)_vector.size() <= N)
+        InsertionSort(_vector);
+    else
+    {
+        InsertionSortSplit( _vector, N);
+        MergeSort( _vector, N );
+    }
+}
 
 void ft_swap(int &n1, int &n2)
 {
@@ -23,66 +30,73 @@ void ft_swap(int &n1, int &n2)
     n1 = n2;
     n2 = tmp;
 }
+//----------------------MergeSort----------------------//
 
-void PmergeMe::mergeVectors()
+void PmergeMe::MergeSort( std::vector<int> &vecNum, int N )
 {
-   /*  for( vIntItr left = _vector.begin() + 1; left != _vector.end(); left += 2 )
+    vIntItr left = vecNum.begin();
+    vIntItr right = vecNum.begin() + N;
+    for(int i = 0; i < N; i++)
     {
-        vIntItr right = left + 2;
-        if(*left > *right)
+        if(*left < *right)
         {
-            for(; *left > *right; right += 2 )
-                if( left[0] > right[0] )
-                {
-                    ft_swap( *left, *right );
-                    ft_swap( *(left + 1), *(right + 1) );
-                }
+            _vSorted.push_back(*left);
+            _vSorted.push_back(*right);
         }
-    } */
-    /* int i = 1; */
-    size_t size = _vector.size();
-    if(_vector.size() % 2 != 0)
-        size--;
-    size_t i = 0;
-    for( vIntItr left = _vector.begin() + 1; i < size; left++ )
-    {
-        if( i % 2 != 0 )
+        else
         {
-            for( vIntItr right = left; right != _vector.end(); right++ )
-                if( left[0] > right[0])
-                    ft_swap(*left, *right);
+            _vSorted.push_back(*right);
+            _vSorted.push_back(*left);
         }
-        /* i++; */
-        i++;
+        /* else
+            vecNum.insert(vecNum.begin() + std::distance(vecNum.begin() + 1, left), *right); */
+        right++;
+        left++;
     }
 }
 
-//----------------------MergeSort----------------------//
-void PmergeMe::sortPairs()
+void printVector( std::vector<int> vector )
 {
-    int i = 0;
-    vIntItr itrEnd = _vector.end();
-    if(_vector.size() % 2 != 0)
-        itrEnd--;
-    for( vIntItr itr = _vector.begin(); itr != itrEnd; itr++ )
-        if( i++ % 2 == 0 && *itr > *(itr + 1) )
-            ft_swap( *itr, *(itr + 1) );
+    for( std::vector<int>::iterator itr = vector.begin(); itr != vector.end(); itr++ )
+        std::cout << itr[0] << std::endl;
 }
-
-void PmergeMe::InsertionSortAdcanced( std::vector<int> &vecNum )
-{
-    for( vIntItr left = vecNum.begin(); left != vecNum.end(); left += 2 )
-        for( vIntItr right = left; right != vecNum.end(); right += 2 )
-            if( left[0] > right[0] )
-            {
-                ft_swap( *left, *right );
-                ft_swap( *(left + 1), *(right + 1) );
-            }
-
-}
-
 //--------------------InsertionSort--------------------//
-void PmergeMe::InsertionSort( std::vector<int> &vecNum )
+void PmergeMe::InsertionSortSplit( std::vector<int> &vecNum, int N )
+{
+    N--;
+    int count = 0, i = 0;
+    int groups_ammount = ceil((double)vecNum.size() / (double)N);
+    
+    std::vector<int> groups[groups_ammount];
+    for(vIntItr left = vecNum.begin(); left != vecNum.end(); left++)
+    {
+        groups[i].push_back(left[0]);
+        if(count == N && i < N)
+        {
+            count = 0;
+            i++;
+        }
+        count++;
+    }
+    for(i = 0; i < groups_ammount; i++)
+        InsertionSort(groups[i]);
+    i = 0;
+    vIntItr ItrGroups = groups[i].begin();
+    for(vIntItr left = vecNum.begin(); left != vecNum.end(); left++)
+    {
+
+        left[0] = ItrGroups[0];
+        ItrGroups++;
+        if(ItrGroups == groups[i].end())
+        {
+            i++;
+            ItrGroups = groups[i].begin();
+        }
+    }
+    printVector(vecNum);
+}
+
+void PmergeMe::InsertionSort( std::vector<int> &vecNum)
 {
     for( vIntItr left = vecNum.begin(); left != vecNum.end(); left++ )
         for( vIntItr right = left; right != vecNum.end(); right++ )
@@ -99,17 +113,6 @@ void PmergeMe::moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum 
     left = tmp;
 }
 
-void printVector( std::vector<int> vector )
-{
-    /* std::vector<int>::iterator itrLastOne = --vector.end(); */
-    for( std::vector<int>::iterator itr = vector.begin(); itr != vector.end(); itr++ )
-    {
-        std::cout << itr[0] << std::endl;
-        /* if( itr != itrLastOne ) */
-            /* std::cout << " "; */
-    }
-    /* std::cout << std::endl; */
-}
 
 void PmergeMe::printVunSorted() { printVector( _vector ); }
 

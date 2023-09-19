@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <functional>
+#include <tgmath.h>
 
 class PmergeMe
 {
@@ -16,12 +17,11 @@ private:
     vectorInt _vSorted;
 
     PmergeMe();
-    void sortPairs();
+    void sortVector( int N );
     void InsertionSort( std::vector<int> &vecNum );
+    void InsertionSortSplit( std::vector<int> &vecNum, int N );
     void moveNum( vIntItr &left, vIntItr &right, std::vector<int> &vecNum );
-    void mergeVectors();
-
-    void InsertionSortAdcanced( std::vector<int> &vecNum );
+    void MergeSort( std::vector<int> &vecNum, int N );
 
 public:
     PmergeMe( vectorInt input );
@@ -30,5 +30,7 @@ public:
     void printVunSorted();
     void printVSorted();
 };
+
+void printVector( std::vector<int> vector );
 
 #endif
