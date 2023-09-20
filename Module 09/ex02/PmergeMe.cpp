@@ -34,20 +34,18 @@ void ft_swap(int &n1, int &n2)
 
 void PmergeMe::MergeSortGroups( std::vector<int> &vecNum, int N )
 {
-    int steps = N;
-    int end_pos = N * 2;
     vIntItr right;
     vIntItr right_end;
     int mergeSortItraration;
 
+    right = vecNum.begin() + N;
+    right_end = vecNum.begin() + N * 2;
     mergeSortItraration = _groups_ammount - 1;
     for(int i = 0; i < mergeSortItraration; i++)
     {
-        right = vecNum.begin() + N;
-        right_end = vecNum.begin() + end_pos;
         MergeSort( vecNum, right, right_end );
-        N += steps;
-        end_pos += steps;
+        right = right_end;
+        right_end += N;
     }
 }
 
@@ -56,14 +54,11 @@ void PmergeMe::MergeSort( std::vector<int> &vecNum, vIntItr right, vIntItr right
     vIntItr left = vecNum.begin();
 
     for(; left != right && right != vecNum.end() && right != right_end; left++)
-    {
         if(*left > *right)
         {
             moveNum( left, right, vecNum );
             right++;
         }
-    }    
-        
 }
 
 void printVector( std::vector<int> vector )
