@@ -55,15 +55,13 @@ void PmergeMe::MergeSort( std::vector<int> &vecNum, vIntItr right, vIntItr right
 {
     vIntItr left = vecNum.begin();
 
-    for(; left != vecNum.end() && right != vecNum.end() && right != right_end; left++)
+    for(; left != right && right != vecNum.end() && right != right_end; left++)
     {
         if(*left > *right)
         {
             moveNum( left, right, vecNum );
             right++;
         }
-        if(left == right)
-            return ;
     }    
         
 }
