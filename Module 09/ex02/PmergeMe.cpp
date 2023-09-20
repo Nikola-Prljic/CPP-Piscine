@@ -54,16 +54,18 @@ void PmergeMe::MergeSortGroups( std::vector<int> &vecNum, int N )
 void PmergeMe::MergeSort( std::vector<int> &vecNum, vIntItr right, vIntItr right_end )
 {
     vIntItr left = vecNum.begin();
-    /* vIntItr left_end = vecNum.begin() + N * 2; */
-    /* vIntItr right = vecNum.begin() + N;
-    vIntItr right_end = vecNum.begin() + 2 * N; */
 
-    for(; right != vecNum.end() && right != right_end; left++)
+    for(; left != vecNum.end() && right != vecNum.end() && right != right_end; left++)
+    {
         if(*left > *right)
         {
             moveNum( left, right, vecNum );
             right++;
         }
+        if(left == right)
+            return ;
+    }    
+        
 }
 
 void printVector( std::vector<int> vector )
