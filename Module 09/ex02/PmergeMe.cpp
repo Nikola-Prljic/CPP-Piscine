@@ -2,6 +2,11 @@
 
 PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _groups_ammount(0)
 {
+    if( _vector.size() > 5000 )
+    {
+        std::cout << "Error" << std::endl << "Vector size bigger than 5000" << std::endl;
+        return ;
+    }
     sortVector(5);
     std::cout << "sorted:" << std::endl;
     printVector();
@@ -11,11 +16,8 @@ PmergeMe::~PmergeMe() {}
 
 void PmergeMe::sortVector( int N )
 {
-    if((int)_vector.size() <= N)
-    {
-        InsertionSort();
+    if(InsertionSort_size_smaller_N(N) == true)
         return ;
-    }
     InsertionSortSplit( N );
     MergeSortGroups( N );
 }
@@ -45,12 +47,15 @@ void PmergeMe::InsertionSort( vIntItr start, vIntItr end)
                 moveNum( left, right );
 }
 
-void PmergeMe::InsertionSort()
+bool PmergeMe::InsertionSort_size_smaller_N( int N )
 {
+    if( (int)_vector.size() > N )
+        return false;
     for( vIntItr left = _vector.begin(); left != _vector.end(); left++ )
         for( vIntItr right = left; right != _vector.end(); right++ )
             if( *left > *right)
                 moveNum( left, right );
+    return true;
 }
 
 void PmergeMe::moveNum( vIntItr &left, vIntItr &right )

@@ -21,7 +21,7 @@ private:
 
     void sortVector( int N );
     void InsertionSortSplit( int N );
-    void InsertionSort();
+    bool InsertionSort_size_smaller_N( int N );
     void InsertionSort(vIntItr start, vIntItr end );
     void moveNum( vIntItr &left, vIntItr &right );
     void MergeSortGroups( int N);
