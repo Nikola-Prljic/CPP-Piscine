@@ -21,7 +21,7 @@ void PmergeMe::sortVector( int N )
         return ;
     }
     InsertionSortSplit( _vector, N);
-    MergeSort( _vector, N );
+    MergeSortGroups( _vector, N );
 }
 
 void ft_swap(int &n1, int &n2)
@@ -32,27 +32,44 @@ void ft_swap(int &n1, int &n2)
 }
 //----------------------MergeSort----------------------//
 
-void PmergeMe::MergeSort( std::vector<int> &vecNum, int N )
+void PmergeMe::MergeSortGroups( std::vector<int> &vecNum, int N )
+{
+    vIntItr right;
+    vIntItr right_end;
+    int mergeSortItraration;
+
+    right = vecNum.begin() + N;
+    right_end = vecNum.begin() + N * 2;
+    right_end = vecNum.begin();
+    mergeSortItraration = _groups_ammount - 1;
+    for(int i = 0; i < mergeSortItraration; i++)
+    {
+        MergeSort( vecNum, right, right_end );
+        right_end = right - 1;
+        std::cout << "right = " << *right << std::endl;
+        /* N += N; */
+    }
+}
+
+void PmergeMe::MergeSort( std::vector<int> &vecNum, vIntItr &right, vIntItr right_end )
 {
     vIntItr left = vecNum.begin();
     /* vIntItr left_end = vecNum.begin() + N * 2; */
-    vIntItr right = vecNum.begin() + N;
-    vIntItr right_end = vecNum.begin() + 2 * N;
+    /* vIntItr right = vecNum.begin() + N;
+    vIntItr right_end = vecNum.begin() + 2 * N; */
 
     for(; right != vecNum.end() && right != right_end; left++)
-    {
         if(*left > *right)
         {
             moveNum( left, right, vecNum );
             right++;
         }
-    }
 }
 
 void printVector( std::vector<int> vector )
 {
     for( std::vector<int>::iterator itr = vector.begin(); itr != vector.end(); itr++ )
-        std::cout << itr[0] << std::endl;
+        std::cout << *itr << std::endl;
 }
 //--------------------InsertionSort--------------------//
 void PmergeMe::InsertionSortSplit( std::vector<int> &vecNum, int N )

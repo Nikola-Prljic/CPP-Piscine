@@ -20,7 +20,8 @@ private:
     PmergeMe();
     void sortVector( int N );
 
-    void MergeSort( std::vector<int> &vecNum, int N );
+    void MergeSort( std::vector<int> &vecNum, vIntItr &right, vIntItr right_end );
+    void MergeSortGroups( std::vector<int> &vecNum, int N);
     void InsertionSortSplit( std::vector<int> &vecNum, int N );
     void InsertionSort( std::vector<int> &vecNum );
     void InsertionSort( std::vector<int> &vecNum , vIntItr start, vIntItr end );
