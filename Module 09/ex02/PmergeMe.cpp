@@ -102,3 +102,5 @@ void PmergeMe::printVector()
     for( std::vector<int>::iterator itr = _vector.begin(); itr != _vector.end(); itr++ )
         std::cout << *itr << std::endl;
 }
+
+std::vector<int> PmergeMe::getVector() { return _vector; }

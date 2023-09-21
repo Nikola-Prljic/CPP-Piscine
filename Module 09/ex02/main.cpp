@@ -23,6 +23,13 @@ int argvToVector( char **argv, std::vector<int> &input )
     return 0;
 }
 
+void tester( std::vector<int> MergeInsertSort, std::vector<int> input )
+{
+    std::sort( input.begin(), input.end() );
+    if( !equal( input.begin(), input.end(), MergeInsertSort.begin() ) )
+        std::cout << "Error\nVector is wrong sorted" << std::endl;
+}
+
 int main ( int argc, char **argv )
 {
     if(argc == 1)
@@ -35,8 +42,10 @@ int main ( int argc, char **argv )
         return 1;
 
     t = clock();
+
     PmergeMe sort( input );
-    /* std::sort(input.begin(), input.end()); */
+
+    tester( sort.getVector(), input );
 
     t = clock() - t;
     double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds

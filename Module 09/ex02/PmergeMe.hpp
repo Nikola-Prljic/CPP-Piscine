@@ -32,6 +32,7 @@ public:
     ~PmergeMe();
 
     void printVector();
+    std::vector<int> getVector();
 };
 
 
