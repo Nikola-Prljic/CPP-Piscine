@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _groups_ammount(0)
+PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _queue(), _groups_ammount(0)
 {
     if( _vector.size() > 5000 )
     {
@@ -104,3 +104,10 @@ void PmergeMe::printVector()
 }
 
 std::vector<int> PmergeMe::getVector() { return _vector; }
+
+//---------------------------------queue-----------------------------------------------//
+void PmergeMe::convertVectorToQuene()
+{
+    for( vIntItr vItr = _vector.begin(); vItr != _vector.end(); vItr++ )
+        _queue.push(*vItr);
+}
