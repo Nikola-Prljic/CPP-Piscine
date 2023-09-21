@@ -1,23 +1,24 @@
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
 
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <functional>
-#include <tgmath.h>
-#include <queue>
+# include <vector>
+# include <iostream>
+# include <algorithm>
+# include <functional>
+# include <tgmath.h>
+# include <list>
 
 class PmergeMe
 {
 
 private:
-    typedef std::vector<int> vectorInt;
-    typedef std::vector<int>::iterator vIntItr;
-    typedef std::queue<int> queueInt;
+    typedef std::vector< int > vectorInt;
+    typedef std::vector< int >::iterator vIntItr;
+    typedef std::list< int > listInt;
+    typedef std::list< int >::iterator listIntItr;
 
     vectorInt _vector;
-    queueInt _queue;
+    listInt _list;
 
     int _groups_ammount;
 
@@ -32,6 +33,9 @@ private:
     void MergeSort( vIntItr right, vIntItr right_end );
     
     void convertVectorToQuene();
+    void SortList();
+    void InsertionSortSplitList( int N );
+
 public:
     PmergeMe( vectorInt input );
     ~PmergeMe();
@@ -40,5 +44,6 @@ public:
     std::vector<int> getVector();
 };
 
+std::list<int>::iterator &operator+( std::list<int>::iterator &itr, int n );
 
 #endif

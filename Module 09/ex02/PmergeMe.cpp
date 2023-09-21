@@ -22,6 +22,7 @@ void PmergeMe::sortVector( int N )
     MergeSortGroups( N );
 }
 
+//------------------------Vector------------------------//
 //--------------------InsertionSort--------------------//
 void PmergeMe::InsertionSortSplit( int N )
 {
@@ -109,5 +110,33 @@ std::vector<int> PmergeMe::getVector() { return _vector; }
 void PmergeMe::convertVectorToQuene()
 {
     for( vIntItr vItr = _vector.begin(); vItr != _vector.end(); vItr++ )
-        _queue.push(*vItr);
+        _list.push_back(*vItr);
+}
+
+void PmergeMe::SortList()
+{
+    InsertionSortSplitList( 10 );
+}
+
+std::list<int>::iterator &operator+( std::list<int>::iterator &itr, int n )
+{
+    for( int i = 0; i < n; n++ )
+        itr++;
+    return itr;
+}
+
+void PmergeMe::InsertionSortSplitList( int N )
+{
+    listIntItr start; 
+    listIntItr end;
+
+    start = _list.begin();
+    end = _list.begin() + 5;
+    _groups_ammount = ceilf((double)_list.size() / (double)N);
+    for(int i = 0; i < _groups_ammount; i++)
+    {
+        InsertionSort( start, end);
+        start += N;
+        end += N;
+    }
 }
