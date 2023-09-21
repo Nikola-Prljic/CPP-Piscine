@@ -32,7 +32,11 @@ void PmergeMe::InsertionSortSplit( int N )
     end = _vector.begin() + N;
     _groups_ammount = ceilf((double)_vector.size() / (double)N);
     for(int i = 0; i < _groups_ammount; i++)
-        InsertionSort( start += 5, end += 5);
+    {
+        InsertionSort( start, end);
+        start += N;
+        end += N;
+    }
 }
 
 void PmergeMe::InsertionSort( vIntItr start, vIntItr end)
