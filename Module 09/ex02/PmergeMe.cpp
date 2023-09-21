@@ -57,7 +57,7 @@ bool PmergeMe::InsertionSort_size_smaller_N( int N )
 void PmergeMe::moveNum( vIntItr &left, vIntItr &right )
 {
     vIntItr tmp = left;
-    int rightInttmp = right[0];
+    int rightInttmp = *right;
     _vector.erase ( right );
     _vector.insert ( left, rightInttmp );
     left = tmp;
