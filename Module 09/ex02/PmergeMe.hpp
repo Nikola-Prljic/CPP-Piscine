@@ -38,11 +38,12 @@ private:
     
     std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n );
     void printList();
+    void printListofList();
     void convertVectorToList();
     void SortList();
     void InsertionSortSplitList( int N );
-    void InsertionSort( listIntItr start, listIntItr end);
-    void moveNum( listIntItr &left, listIntItr &right, int inc_left );
+    void InsertionSort( listInt &_list );
+    void moveNum( listIntItr &left, listIntItr &right );
 
 public:
     PmergeMe( vectorInt input );
