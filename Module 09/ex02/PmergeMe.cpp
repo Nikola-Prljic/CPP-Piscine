@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _list(), _groups_ammount(0)
+PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _list(), _listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5))
 {
     int N = 5;
     if( _vector.size() > 5000 )
@@ -8,8 +8,8 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _list(), _groups_ammount
         std::cout << "Error" << std::endl << "Vector size bigger than 5000" << std::endl;
         return ;
     }
-    _groups_ammount = ceilf((double)_vector.size() / (double)N);
-    convertVectorToQuene();
+    /* _groups_ammount = ceilf((double)_vector.size() / (double)N); */
+    convertVectorToList();
     SortList();
     sortVector(N);
     printList();
@@ -117,26 +117,52 @@ void PmergeMe::printList()
 std::vector<int> PmergeMe::getVector() { return _vector; }
 
 //---------------------------------queue-----------------------------------------------//
-void PmergeMe::convertVectorToQuene()
+
+void PmergeMe::convertVectorToList()
 {
+    int x = 0;
+    /* int y = 0; */
+    listofListItr y_itr = _listofList.begin();
+    listInt x_line;
+    listIntItr x_line_itr = x_line.begin();
+    listIntItr itr_x;
     for( vIntItr vItr = _vector.begin(); vItr != _vector.end(); vItr++ )
-        _list.push_back(*vItr);
+    {
+        x_line.push_back(*vItr);
+        if(x == _N)
+        {
+            _listofList.push_back(x_line);
+            y_itr++;
+            x_line.clear();
+            /* listIntItr  */x_line_itr = x_line.begin();
+        }
+        else
+        {
+            x_line_itr++;
+            x++;
+        }
+    }
+    exit(1);
 }
 
 void PmergeMe::SortList()
 {
-    InsertionSortSplitList( 10 );
+    InsertionSortSplitList( 5 );
 }
 
 std::list<int>::iterator PmergeMe::increaseList( std::list<int>::iterator itr, int n )
 {
-    for( int i = 0; i < n + 1 && itr != _list.end(); i++ )
+    for( int i = 0; i < n && itr != _list.end(); i++ )
         itr++;
+    if( itr == _list.end() )
+        itr--;
     return itr;
 }
 
 void PmergeMe::InsertionSortSplitList( int N )
 {
+    int start_index = 0;
+    int end_index = N;
     listIntItr start; 
     listIntItr end;
 
@@ -144,15 +170,19 @@ void PmergeMe::InsertionSortSplitList( int N )
     end = increaseList( _list.begin(), N );
     for(int i = 0; i < _groups_ammount; i++)
     {
+        std::cout << "start = " << *start << std::endl;
+        std::cout << "end = " << *end << std::endl;
         InsertionSort( start, end);
-        start = increaseList( start, N );
-        end = increaseList( end, N );
+        start_index += N;
+        end_index += N;
+        start = increaseList( _list.begin(), start_index );
+        end = increaseList( _list.begin(), end_index );
     }
 }
 
 void PmergeMe::InsertionSort( listIntItr start, listIntItr end)
 {
-    int pos_left = -1;
+    int pos_left = 0;
     for( listIntItr left = start; left != _list.end() && left != end; left++ )
     {
         for( listIntItr right = left; right != _list.end() && right != end; right++ )
@@ -164,7 +194,6 @@ void PmergeMe::InsertionSort( listIntItr start, listIntItr end)
             /* std::cout << "+" << *right << std::endl; */
         }
         pos_left++;
-        std::cout << "+" << *left << std::endl;
     }
 }
 

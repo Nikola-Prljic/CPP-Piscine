@@ -16,11 +16,15 @@ private:
     typedef std::vector< int >::iterator vIntItr;
     typedef std::list< int > listInt;
     typedef std::list< int >::iterator listIntItr;
+    typedef std::list< std::list< int > > listofList;
+    typedef std::list< std::list< int > >::iterator listofListItr;
 
     vectorInt _vector;
     listInt _list;
+    listofList _listofList;
 
     int _groups_ammount;
+    int _N;
 
     PmergeMe();
 
@@ -34,7 +38,7 @@ private:
     
     std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n );
     void printList();
-    void convertVectorToQuene();
+    void convertVectorToList();
     void SortList();
     void InsertionSortSplitList( int N );
     void InsertionSort( listIntItr start, listIntItr end);
