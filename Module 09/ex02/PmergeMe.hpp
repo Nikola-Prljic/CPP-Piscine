@@ -36,14 +36,16 @@ private:
     void MergeSortGroups( int N);
     void MergeSort( vIntItr right, vIntItr right_end );
     
-    std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n );
+    std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n, listInt &list );
     void printList();
     void printListofList();
     void convertVectorToList();
     void SortList();
-    void InsertionSortSplitList( int N );
     void InsertionSort( listInt &_list );
-    void moveNum( listIntItr &left, listIntItr &right );
+    void moveNum( listIntItr &left, listIntItr &right, listInt &list );
+    void moveNum( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList);
+    void MergeSortGroups();
+    void MergeSort( listInt &firstList, listInt &megeList );
 
 public:
     PmergeMe( vectorInt input );

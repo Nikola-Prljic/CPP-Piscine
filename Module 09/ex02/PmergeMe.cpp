@@ -152,39 +152,82 @@ void PmergeMe::convertVectorToList()
 
 void PmergeMe::SortList()
 {
-    InsertionSortSplitList( 5 );
-}
-
-std::list<int>::iterator PmergeMe::increaseList( std::list<int>::iterator itr, int n )
-{
-    for( int i = 0; i < n && itr != _list.end(); i++ )
-        itr++;
-    if( itr == _list.end() )
-        itr--;
-    return itr;
-}
-
-void PmergeMe::InsertionSortSplitList( int N )
-{
-    (void)N;
     for( listofListItr y = _listofList.begin(); y != _listofList.end(); y++ )
         InsertionSort(*y);
+    MergeSortGroups();
+}
+
+std::list<int>::iterator PmergeMe::increaseList( std::list<int>::iterator itr, int n, listInt &list )
+{
+    for( int i = 1; i < n && itr != list.end(); i++ )
+        itr++;
+    /* if( itr == list.end() )
+        itr--; */
+    return itr;
 }
 
 void PmergeMe::InsertionSort( listInt &list )
 {
+    int pos_right;
+    int pos_left = 0;
     for( listIntItr left = list.begin(); left != list.end(); left++ )
-        for( listIntItr right = left; right != list.end(); right++ )
+    {
+        pos_right = pos_left;
+        for( listIntItr right = left; right != list.end(); right++)
+        {
             if( *left > *right)
-                moveNum( left, right);
+            {
+                moveNum( left, right, list);
+                right =  increaseList(list.begin(), pos_right, list);
+                left = increaseList(list.begin(), pos_left, list);
+            }
+            pos_right++;
+        }
+        pos_left++;
+    }
 }
 
-void PmergeMe::moveNum( listIntItr &left, listIntItr &right )
+void PmergeMe::moveNum( listIntItr &left, listIntItr &right, listInt &list )
+{
+    /* listIntItr tmp = left; */
+    int rightInttmp = *right;
+
+    list.erase ( right );
+    list.insert ( left, rightInttmp );
+    /* left = tmp; */
+}
+
+
+void PmergeMe::MergeSortGroups()
+{
+    for( listofListItr y = ++_listofList.begin(); y != _listofList.end(); y++ )
+        MergeSort( _listofList.front(), *y );
+}
+
+void PmergeMe::MergeSort( listInt &firstList, listInt &megeList )
+{
+    listIntItr left = firstList.begin();
+    listIntItr right = megeList.begin();
+
+    for(; left != firstList.end() && right != megeList.end(); left++)
+        if(*left > *right)
+        {
+            moveNum( left, right, firstList, megeList);
+            right = megeList.begin();
+        }
+    if(megeList.empty() == true)
+        return ;
+    for(right = megeList.begin(); right != megeList.end(); right++)
+        firstList.push_back(*right);
+    megeList.clear();
+}
+
+void PmergeMe::moveNum( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList)
 {
     listIntItr tmp = left;
     int rightInttmp = *right;
 
-    _list.erase ( right );
-    _list.insert ( left, rightInttmp );
+    megeList.erase ( right );
+    firstList.insert ( left, rightInttmp );
     left = tmp;
 }
