@@ -1,19 +1,15 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _list(), _listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5)
+PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5)
 {
-    int N = 5;
     if( _vector.size() > 5000 )
     {
         std::cout << "Error" << std::endl << "Vector size bigger than 5000" << std::endl;
+        _vector.clear();
         return ;
     }
-    /* _groups_ammount = ceilf((double)_vector.size() / (double)N); */
     convertVectorToList();
-    SortList();
-    printListofList();
-
-    sortVector(N);
+    /* _groups_ammount = ceilf((double)_vector.size() / (double)N); */
     //printList();
     /* std::cout << "sorted:" << std::endl;
     printVector(); */
@@ -21,12 +17,17 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _list(), _listofList(), 
 
 PmergeMe::~PmergeMe() {}
 
-void PmergeMe::sortVector( int N )
+void PmergeMe::sortVector()
 {
-    if(InsertionSort_size_smaller_N(N) == true)
+    if(_vector.empty())
+    {
+        std::cout << "Vector is empty." << std::endl;
         return ;
-    InsertionSortSplit( N );
-    MergeSortGroups( N );
+    }
+    if(InsertionSort_size_smaller_N(_N) == true)
+        return ;
+    InsertionSortSplit( _N );
+    MergeSortGroups( _N );
 }
 
 //------------------------Vector------------------------//
@@ -110,12 +111,6 @@ void PmergeMe::printVector()
         std::cout << *itr << std::endl;
 }
 
-void PmergeMe::printList()
-{
-    for( listIntItr itr = _list.begin(); itr != _list.end(); itr++ )
-        std::cout << *itr << std::endl;
-}
-
 void PmergeMe::printListofList()
 {
     for( listofListItr y = _listofList.begin(); y != _listofList.end(); y++ )
@@ -152,6 +147,11 @@ void PmergeMe::convertVectorToList()
 
 void PmergeMe::SortList()
 {
+    if(_listofList.empty())
+    {
+        std::cout << "List of list is empty." << std::endl;
+        return ;
+    }
     for( listofListItr y = _listofList.begin(); y != _listofList.end(); y++ )
         InsertionSort(*y);
     MergeSortGroups();

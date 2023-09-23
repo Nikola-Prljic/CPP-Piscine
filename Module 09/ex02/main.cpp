@@ -41,16 +41,22 @@ int main ( int argc, char **argv )
     if(argvToVector( argv, input ))
         return 1;
 
-    t = clock();
 
     PmergeMe sort( input );
 
-    tester( sort.getVector(), input );
-
+    //tester( sort.getVector(), input );
+    t = clock();
+    sort.sortVector();
     t = clock() - t;
-    double time_taken = ((double)t) / CLOCKS_PER_SEC; // in seconds
+    double time_vector = ((double)t) / CLOCKS_PER_SEC; // in seconds
+
+    t = clock();
+    sort.sortVector();
+    t = clock() - t;
+    double time_list = ((double)t) / CLOCKS_PER_SEC;
  
-    printf("PmergeMe took %f seconds to execute \n", time_taken);
+    printf("Vector took %f seconds to execute \n", time_vector);
+    printf("List took %f seconds to execute \n", time_list);
 
     return (0);
 }

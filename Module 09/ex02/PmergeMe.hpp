@@ -20,7 +20,6 @@ private:
     typedef std::list< std::list< int > >::iterator listofListItr;
 
     vectorInt _vector;
-    listInt _list;
     listofList _listofList;
 
     int _groups_ammount;
@@ -28,7 +27,6 @@ private:
 
     PmergeMe();
 
-    void sortVector( int N );
     void InsertionSortSplit( int N );
     bool InsertionSort_size_smaller_N( int N );
     void InsertionSort(vIntItr start, vIntItr end );
@@ -40,7 +38,6 @@ private:
     void printList();
     void printListofList();
     void convertVectorToList();
-    void SortList();
     void InsertionSort( listInt &_list );
     void moveNum( listIntItr &left, listIntItr &right, listInt &list );
     void moveNum( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList);
@@ -50,6 +47,9 @@ private:
 public:
     PmergeMe( vectorInt input );
     ~PmergeMe();
+
+    void sortVector();
+    void SortList();
 
     void printVector();
     std::vector<int> getVector();
