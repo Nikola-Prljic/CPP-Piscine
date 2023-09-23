@@ -9,10 +9,6 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _listofList(), _groups_a
         return ;
     }
     convertVectorToList();
-    /* _groups_ammount = ceilf((double)_vector.size() / (double)N); */
-    //printList();
-    /* std::cout << "sorted:" << std::endl;
-    printVector(); */
 }
 
 PmergeMe::~PmergeMe() {}

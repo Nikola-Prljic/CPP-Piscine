@@ -4,7 +4,7 @@
 # include <vector>
 # include <iostream>
 # include <algorithm>
-# include <functional>
+//# include <functional>
 # include <tgmath.h>
 # include <list>
 
@@ -34,15 +34,13 @@ private:
     void MergeSortGroups( int N);
     void MergeSort( vIntItr right, vIntItr right_end );
     
-    std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n, listInt &list );
-    void printList();
-    void printListofList();
     void convertVectorToList();
     void InsertionSort( listInt &_list );
-    void moveNum( listIntItr &left, listIntItr &right, listInt &list );
     void moveNum( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList);
     void MergeSortGroups();
     void MergeSort( listInt &firstList, listInt &megeList );
+    void moveNum( listIntItr &left, listIntItr &right, listInt &list );
+    std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n, listInt &list );
 
 public:
     PmergeMe( vectorInt input );
@@ -52,6 +50,7 @@ public:
     void SortList();
 
     void printVector();
+    void printListofList();
     std::vector<int> getVector();
 };
 

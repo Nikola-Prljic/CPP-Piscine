@@ -32,34 +32,31 @@ void tester( std::vector<int> MergeInsertSort, std::vector<int> input )
         std::cout << "Error\nVector is wrong sorted" << std::endl;
 }
 
-int main ( int argc, char **argv )
+void sort_and_get_time( PmergeMe &sort )
 {
-    if(argc == 1)
-        return 1;
-
     clock_t t;
-
-    std::vector<int> input;
-    if(argvToVector( argv, input ))
-        return 1;
-
-
-    PmergeMe sort( input );
 
     t = clock();
     sort.sortVector();
     t = clock() - t;
     double time_vector = ((double)t) / CLOCKS_PER_SEC;
-
-    tester( sort.getVector(), input );
-
     t = clock();
     sort.SortList();
     t = clock() - t;
     double time_list = ((double)t) / CLOCKS_PER_SEC;
- 
-    printf("Vector took %f seconds to execute \n", time_vector);
-    printf("List took %f seconds to execute \n", time_list);
+    std::cout << std::fixed << "Vector took " << time_vector << "seconds to execute" << std::endl;
+    std::cout << "List took " << time_list << "seconds to execute" << std::endl;
+}
 
+int main ( int argc, char **argv )
+{
+    if(argc == 1)
+        return (1);
+    std::vector<int> input;
+    if(argvToVector( argv, input ))
+        return (1);
+    PmergeMe sort( input );
+    sort_and_get_time( sort );
+    tester( sort.getVector(), input );
     return (0);
 }
