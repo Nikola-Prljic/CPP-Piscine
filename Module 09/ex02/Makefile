@@ -1,7 +1,7 @@
 NAME = PmergeMe
 
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -g
+CXXFLAGS += -Wall -Werror -Wextra -std=c++98
 
 SRC = main.cpp PmergeMe.cpp
 
@@ -37,3 +37,6 @@ fclean: clean
 	@echo ...and the $(NAME) too
 
 re: fclean all
+
+debug: CXXFLAGS += -gdwarf-4
+debug: re

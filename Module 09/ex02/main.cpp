@@ -11,14 +11,18 @@ int argvToVector( char **argv, std::vector<int> &input )
             input.push_back(0);
             continue ;
         }
+        if( argv[i][0] == '-' && argv[i][1] == '1' && argv[i][2] == 0 ){
+            input.push_back(-1);
+            continue ;
+        }
         num = std::atoi(argv[i]);
-        if(num)
-            input.push_back(num);
-        else
+        if( num == 0 || num == -1)
         {
             std::cout << "Error: wrong input" << std::endl;
             return 1;
         }
+        else
+            input.push_back(num);
     }
     return 0;
 }

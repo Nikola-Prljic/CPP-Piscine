@@ -19,6 +19,7 @@ ft_test()
     num=$(($num + $val_error + $val_blocks))
 
     grep -q "Vector is wrong sorted" out
+    grep -q "List is wrong sorted" out
     if [ $? -ne 0 ]
         then echo "| Test $testcount : ok   |"
     else
@@ -35,13 +36,6 @@ ft_test "1"
 ft_test "42 1 22 1223 231 -2 31 222 "
 ft_test "3123 213 123 1321314 12412 12321 21 21 2 1 44 21 32 23 32 12  123 3123"
 
-if [ $num -eq 0 ]
-    then echo "| valgrind: ok  |"
-else
-    echo "| valgrind: ko  |"
-fi
-echo "-----------------"
-rm out valgrind_test.txt PmergeMe
 
 #diff out in
 
@@ -52,3 +46,32 @@ rm out valgrind_test.txt PmergeMe
 #else
 #    echo ko
 #fi
+
+MAXCOUNT=$((1 + $RANDOM % 3000))
+count=1
+
+ft_make_array()
+{
+    while [ "$count" -le $MAXCOUNT ]; do
+    number[$count]=$((1 + $RANDOM % 2147483647))
+    let "count += 1"
+    done
+}
+
+x=1
+while [ $x -le 100 ]
+do
+    ft_make_array
+    ft_test "${number[*]}"
+    x=$(( $x + 1 ))
+done
+
+if [ $num -eq 0 ]
+    then echo "| valgrind: ok  |"
+else
+    echo "| valgrind: ko  |"
+fi
+
+echo "-----------------"
+
+#rm out valgrind_test.txt PmergeMe
