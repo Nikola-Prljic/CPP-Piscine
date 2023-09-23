@@ -32,6 +32,15 @@ void tester( std::vector<int> MergeInsertSort, std::vector<int> input )
         std::cout << "Error\nVector is wrong sorted" << std::endl;
 }
 
+void tester( std::list<int> list, std::vector<int> input )
+{
+    if(list.empty())
+        return ;
+    std::sort( input.begin(), input.end() );
+    if( !equal( input.begin(), input.end(), list.begin() ) )
+        std::cout << "Error\nList is wrong sorted" << std::endl;
+}
+
 void sort_and_get_time( PmergeMe &sort )
 {
     clock_t t;
@@ -44,12 +53,13 @@ void sort_and_get_time( PmergeMe &sort )
     sort.SortList();
     t = clock() - t;
     double time_list = ((double)t) / CLOCKS_PER_SEC;
-    std::cout << std::fixed << "Vector took " << time_vector << "seconds to execute" << std::endl;
-    std::cout << "List took " << time_list << "seconds to execute" << std::endl;
+    std::cout << std::fixed << "Vector took " << time_vector << " seconds to sort" << std::endl;
+    std::cout << "List took " << time_list << " seconds to sort" << std::endl;
 }
 
 int main ( int argc, char **argv )
 {
+    (void)argv;
     if(argc == 1)
         return (1);
     std::vector<int> input;
@@ -58,5 +68,7 @@ int main ( int argc, char **argv )
     PmergeMe sort( input );
     sort_and_get_time( sort );
     tester( sort.getVector(), input );
+    tester( sort.getList(), input );
+    sort.printListofList();
     return (0);
 }

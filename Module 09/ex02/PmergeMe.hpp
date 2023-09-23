@@ -36,10 +36,10 @@ private:
     
     void convertVectorToList();
     void InsertionSort( listInt &_list );
-    void moveNum( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList);
+    void moveNum( listIntItr &left, listIntItr &right, listInt &list );
     void MergeSortGroups();
     void MergeSort( listInt &firstList, listInt &megeList );
-    void moveNum( listIntItr &left, listIntItr &right, listInt &list );
+    void InsertLeft_popRight( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList );
     std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n, listInt &list );
 
 public:
@@ -51,7 +51,10 @@ public:
 
     void printVector();
     void printListofList();
+    void printList( std::list<int> list );
+
     std::vector<int> getVector();
+    std::list<int> getList();
 };
 
 #endif

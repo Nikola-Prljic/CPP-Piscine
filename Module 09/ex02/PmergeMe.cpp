@@ -117,6 +117,12 @@ void PmergeMe::printListofList()
     }
 }
 
+void PmergeMe::printList( std::list<int> list )
+{
+    for( listIntItr x = list.begin(); x != list.end(); x++)
+        std::cout << *x << " ";
+}
+
 std::vector<int> PmergeMe::getVector() { return _vector; }
 
 //---------------------------------queue-----------------------------------------------//
@@ -157,8 +163,6 @@ std::list<int>::iterator PmergeMe::increaseList( std::list<int>::iterator itr, i
 {
     for( int i = 1; i < n && itr != list.end(); i++ )
         itr++;
-    /* if( itr == list.end() )
-        itr--; */
     return itr;
 }
 
@@ -185,32 +189,41 @@ void PmergeMe::InsertionSort( listInt &list )
 
 void PmergeMe::moveNum( listIntItr &left, listIntItr &right, listInt &list )
 {
-    /* listIntItr tmp = left; */
     int rightInttmp = *right;
 
     list.erase ( right );
     list.insert ( left, rightInttmp );
-    /* left = tmp; */
 }
 
 
 void PmergeMe::MergeSortGroups()
 {
-    for( listofListItr y = ++_listofList.begin(); y != _listofList.end(); y++ )
-        MergeSort( _listofList.front(), *y );
+    listofListItr lolItr = _listofList.begin();
+    lolItr++;
+    for( ; lolItr != _listofList.end(); )
+    {
+        MergeSort( _listofList.front(), *lolItr );
+        _listofList.erase(lolItr);
+        lolItr = _listofList.begin();
+        lolItr++;
+    }
 }
 
 void PmergeMe::MergeSort( listInt &firstList, listInt &megeList )
 {
+    int pos_left = 0;
     listIntItr left = firstList.begin();
     listIntItr right = megeList.begin();
 
     for(; left != firstList.end() && right != megeList.end(); left++)
+    {
         if(*left > *right)
         {
-            moveNum( left, right, firstList, megeList);
-            right = megeList.begin();
+            InsertLeft_popRight( left, right, firstList, megeList);
+            left = increaseList(firstList.begin(), pos_left, firstList);
         }
+        pos_left++;
+    }
     if(megeList.empty() == true)
         return ;
     for(right = megeList.begin(); right != megeList.end(); right++)
@@ -218,12 +231,11 @@ void PmergeMe::MergeSort( listInt &firstList, listInt &megeList )
     megeList.clear();
 }
 
-void PmergeMe::moveNum( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList)
+void PmergeMe::InsertLeft_popRight( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList )
 {
-    listIntItr tmp = left;
-    int rightInttmp = *right;
-
-    megeList.erase ( right );
-    firstList.insert ( left, rightInttmp );
-    left = tmp;
+    firstList.insert( left, *right );
+    megeList.pop_front();
+    right = megeList.begin();
 }
+
+std::list<int> PmergeMe::getList() { return _listofList.front(); }
