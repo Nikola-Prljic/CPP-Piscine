@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <string>
-#include <list>
+#include <queue>
 #include <sstream>
 #include <cstdlib>
 
@@ -13,8 +13,8 @@ class RPN
 {
 private:
     const std::string _inputStr;
-    std::list<int> _listNum;
-    std::list<int> _listOpr;
+    std::queue<int> _queueNum;
+    std::queue<int> _queueOpr;
 
     RPN();
     int saveInput();
@@ -22,7 +22,8 @@ private:
     int saveOperatorLoop( size_t &i );
     int clearStacks_calc();
     int doCalc(int n1, int n2, int sign);
-    int saveToStack( std::list<int> &list, int c, int (*func)( int ));
+    int saveToStack( std::queue<int> &queue, int c, int (*func)( int ));
+    void reverseNumQuene( std::queue<int> &Queue );
 
 public:
     RPN( const std::string inputStr );
