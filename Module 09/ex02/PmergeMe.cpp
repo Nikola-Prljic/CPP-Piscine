@@ -9,8 +9,8 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _unsortedVector(input),_
         return ;
     }
     convertVectorToList();
-    sort_and_get_time( _time_vector ,&PmergeMe::sortVector );
-    sort_and_get_time( _time_listofList ,&PmergeMe::SortList );
+    sort_and_get_time( _time_vector, &PmergeMe::sortVector );
+    sort_and_get_time( _time_listofList, &PmergeMe::SortList );
 }
 
 PmergeMe::~PmergeMe() {}
