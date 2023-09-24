@@ -73,6 +73,7 @@ int main ( int argc, char **argv )
     sort_and_get_time( sort );
     tester( sort.getVector(), input );
     tester( sort.getList(), input );
+    sort.printVector();
     sort.printListofList();
     return (0);
 }

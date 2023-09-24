@@ -64,11 +64,9 @@ bool PmergeMe::InsertionSort_size_smaller_N( int N )
 
 void PmergeMe::moveNum( vIntItr &left, vIntItr &right )
 {
-    vIntItr tmp = left;
     int rightInttmp = *right;
     _vector.erase ( right );
-    _vector.insert ( left, rightInttmp );
-    left = tmp;
+    left = _vector.insert ( left, rightInttmp );
 }
 
 //----------------------MergeSort----------------------//
@@ -104,7 +102,8 @@ void PmergeMe::MergeSort( vIntItr right, vIntItr right_end )
 void PmergeMe::printVector()
 {
     for( std::vector<int>::iterator itr = _vector.begin(); itr != _vector.end(); itr++ )
-        std::cout << *itr << std::endl;
+        std::cout << *itr << " ";
+    std::cout << "Vector" << std::endl;
 }
 
 void PmergeMe::printListofList()
@@ -200,7 +199,7 @@ void PmergeMe::MergeSortGroups()
 {
     listofListItr lolItr = _listofList.begin();
     lolItr++;
-    for( ; lolItr != _listofList.end(); )
+    while( lolItr != _listofList.end() )
     {
         MergeSort( _listofList.front(), *lolItr );
         _listofList.erase(lolItr);
