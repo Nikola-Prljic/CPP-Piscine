@@ -1,7 +1,7 @@
 #!/bin/sh
 num=0
 cd ..
-make
+make re
 mv RPN tester
 make clean
 cd tester
