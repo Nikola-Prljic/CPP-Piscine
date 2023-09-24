@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5)
+PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _unsortedVector(input),_listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5), _time_vector(0), _time_listofList(0)
 {
     if( _vector.size() > 5000 )
     {
@@ -9,9 +9,21 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _listofList(), _groups_a
         return ;
     }
     convertVectorToList();
+    sort_and_get_time( _time_vector ,&PmergeMe::sortVector );
+    sort_and_get_time( _time_listofList ,&PmergeMe::SortList );
 }
 
 PmergeMe::~PmergeMe() {}
+
+void PmergeMe::sort_and_get_time( double &time, void (PmergeMe::*func)() )
+{
+    clock_t t;
+
+    t = clock();
+    (this->*func)();
+    t = clock() - t;
+    time = ((double)t) / CLOCKS_PER_SEC;
+}
 
 void PmergeMe::sortVector()
 {
@@ -103,7 +115,14 @@ void PmergeMe::printVector()
 {
     for( std::vector<int>::iterator itr = _vector.begin(); itr != _vector.end(); itr++ )
         std::cout << *itr << " ";
-    std::cout << "Vector" << std::endl;
+    std::cout << std::endl;
+}
+
+void PmergeMe::printVectorUnsorted()
+{
+    for( std::vector<int>::iterator itr = _unsortedVector.begin(); itr != _unsortedVector.end(); itr++ )
+        std::cout << *itr << " ";
+    std::cout << std::endl;
 }
 
 void PmergeMe::printListofList()
@@ -238,3 +257,18 @@ void PmergeMe::InsertLeft_popRight( listIntItr &left, listIntItr &right, listInt
 }
 
 std::list<int> PmergeMe::getList() { return _listofList.front(); }
+
+double PmergeMe::get_time_vector() { return _time_vector; };
+    
+double PmergeMe::get_listofList() { return _time_listofList; };
+
+std::ostream& operator<<(std::ostream& os, PmergeMe& dt)
+{
+    os << "Before: ";
+    dt.printVector();
+    os << "After: ";
+    dt.printVectorUnsorted();
+    os << std::fixed << "Time to process a range of " << dt.getVector().size() << " elements with std::vector<int> " << dt.get_time_vector() << " s" << std::endl;
+    os << std::fixed << "Time to process a range of " << dt.getVector().size() << " elements with std::vector<int> " << dt.get_listofList() << " s" << std::endl;
+    return os;
+}

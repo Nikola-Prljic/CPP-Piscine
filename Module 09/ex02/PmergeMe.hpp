@@ -7,6 +7,7 @@
 //# include <functional>
 # include <tgmath.h>
 # include <list>
+# include <ctime>
 
 class PmergeMe
 {
@@ -20,13 +21,17 @@ private:
     typedef std::list< std::list< int > >::iterator listofListItr;
 
     vectorInt _vector;
+    vectorInt _unsortedVector;
     listofList _listofList;
 
     int _groups_ammount;
     int _N;
+    double _time_vector;
+    double _time_listofList;
 
     PmergeMe();
 
+    void sort_and_get_time( double &time, void (PmergeMe::*func)() );
     void InsertionSortSplit( int N );
     bool InsertionSort_size_smaller_N( int N );
     void InsertionSort(vIntItr start, vIntItr end );
@@ -50,11 +55,16 @@ public:
     void SortList();
 
     void printVector();
+    void printVectorUnsorted();
     void printListofList();
     void printList( std::list<int> list );
 
     std::vector<int> getVector();
     std::list<int> getList();
+    double get_time_vector();
+    double get_listofList();
 };
+
+std::ostream& operator<<(std::ostream& os, PmergeMe& dt);
 
 #endif

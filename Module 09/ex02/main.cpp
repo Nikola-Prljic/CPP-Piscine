@@ -57,7 +57,11 @@ void sort_and_get_time( PmergeMe &sort )
     sort.SortList();
     t = clock() - t;
     double time_list = ((double)t) / CLOCKS_PER_SEC;
-    std::cout << std::fixed << "Vector took " << time_vector << " seconds to sort" << std::endl;
+    std::cout << "After: ";
+    sort.printVector();
+    std::cout << "Before: ";
+    sort.printVector();
+    std::cout << std::fixed << "Time to process a range of " << sort.getVector().size() << " elements with std::vector<int> " << time_vector << " us" << std::endl;
     std::cout << "List took " << time_list << " seconds to sort" << std::endl;
 }
 
@@ -70,10 +74,11 @@ int main ( int argc, char **argv )
     if(argvToVector( argv, input ))
         return (1);
     PmergeMe sort( input );
-    sort_and_get_time( sort );
+    /* sort_and_get_time( sort ); */
+    std::cout << sort;
     tester( sort.getVector(), input );
     tester( sort.getList(), input );
-    sort.printVector();
-    sort.printListofList();
+    /* sort.printVector();
+    sort.printListofList(); */
     return (0);
 }
