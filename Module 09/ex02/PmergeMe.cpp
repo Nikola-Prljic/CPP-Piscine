@@ -1,7 +1,9 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _unsortedVector(input),_listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5), _time_vector(0), _time_listofList(0)
+PmergeMe::PmergeMe( const vectorInt input ) : _vector(input), _unsortedVector(input),_listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5), _time_vector(0), _time_listofList(0)
 {
+    if( input.empty() == true )
+        return ;
     if( _vector.size() > 5000 )
     {
         std::cout << "Error" << std::endl << "Vector size bigger than 5000" << std::endl;
@@ -11,6 +13,43 @@ PmergeMe::PmergeMe( vectorInt input ) : _vector(input), _unsortedVector(input),_
     convertVectorToList();
     sort_and_get_time( _time_vector, &PmergeMe::sortVector );
     sort_and_get_time( _time_listofList, &PmergeMe::SortList );
+}
+
+PmergeMe::PmergeMe( PmergeMe const &in )
+{
+    _vector = in._vector;
+    _unsortedVector = in._unsortedVector;
+    _listofList = in._listofList;
+    _groups_ammount = in._groups_ammount;
+    _N = in._N;
+    _time_vector = in._time_vector;
+    _time_listofList = in._time_listofList;
+}
+
+PmergeMe const &PmergeMe::operator=( PmergeMe const &in )
+{
+    if (this == &in)
+        return *this;
+    if(in._vector.empty())
+        _vector.clear();
+    else
+        _vector = in._vector;
+    if(in._unsortedVector.empty())
+        _unsortedVector.clear();
+    else
+        _unsortedVector = in._unsortedVector;
+    if(in._listofList.empty())
+    {
+        while (_listofList.empty())
+            _listofList.front().clear();
+    }
+    else
+        _listofList = in._listofList;
+    _groups_ammount = in._groups_ammount;
+    _N = in._N;
+    _time_vector = in._time_vector;
+    _time_listofList = in._time_listofList;
+    return *this;
 }
 
 PmergeMe::~PmergeMe() {}
@@ -109,20 +148,6 @@ void PmergeMe::MergeSort( vIntItr right, vIntItr right_end )
             moveNum( left, right );
             right++;
         }
-}
-
-void PmergeMe::printVector()
-{
-    for( std::vector<int>::iterator itr = _vector.begin(); itr != _vector.end(); itr++ )
-        std::cout << *itr << " ";
-    std::cout << std::endl;
-}
-
-void PmergeMe::printVectorUnsorted()
-{
-    for( std::vector<int>::iterator itr = _unsortedVector.begin(); itr != _unsortedVector.end(); itr++ )
-        std::cout << *itr << " ";
-    std::cout << std::endl;
 }
 
 void PmergeMe::printListofList()
@@ -258,17 +283,33 @@ void PmergeMe::InsertLeft_popRight( listIntItr &left, listIntItr &right, listInt
 
 std::list<int> PmergeMe::getList() { return _listofList.front(); }
 
-double PmergeMe::get_time_vector() { return _time_vector; };
-    
-double PmergeMe::get_listofList() { return _time_listofList; };
+std::vector<int> PmergeMe::getUnsortedVector() { return _unsortedVector; }
 
-std::ostream& operator<<(std::ostream& os, PmergeMe& dt)
+double PmergeMe::get_time_vector() { return _time_vector; }
+    
+double PmergeMe::get_time_ListofList() { return _time_listofList; }
+
+void PmergeMe::printVector()
+{
+    for (std::vector<int>::iterator itr = _vector.begin(); itr != _vector.end(); itr++ )
+        std::cout << *itr << " ";
+    std::cout << std::endl;
+}
+
+void VectorTo_ostream( std::ostream &os, std::vector<int> vector )
+{
+    for( std::vector<int>::iterator itr = vector.begin(); itr != vector.end(); itr++ )
+        os << *itr << " ";
+    os << std::endl;
+}
+
+std::ostream& operator<<( std::ostream& os, PmergeMe& dt )
 {
     os << "Before: ";
-    dt.printVector();
+    VectorTo_ostream( os, dt.getUnsortedVector() );
     os << "After: ";
-    dt.printVectorUnsorted();
+    VectorTo_ostream( os, dt.getVector() );
     os << std::fixed << "Time to process a range of " << dt.getVector().size() << " elements with std::vector<int> " << dt.get_time_vector() << " s" << std::endl;
-    os << std::fixed << "Time to process a range of " << dt.getVector().size() << " elements with std::vector<int> " << dt.get_listofList() << " s" << std::endl;
+    os << std::fixed << "Time to process a range of " << dt.getVector().size() << " elements with std::vector<int> " << dt.get_time_ListofList() << " s" << std::endl;
     return os;
 }

@@ -13,6 +13,7 @@ class PmergeMe
 {
 
 private:
+
     typedef std::vector< int > vectorInt;
     typedef std::vector< int >::iterator vIntItr;
     typedef std::list< int > listInt;
@@ -31,6 +32,7 @@ private:
 
     PmergeMe();
 
+    void sortVector();
     void sort_and_get_time( double &time, void (PmergeMe::*func)() );
     void InsertionSortSplit( int N );
     bool InsertionSort_size_smaller_N( int N );
@@ -39,6 +41,7 @@ private:
     void MergeSortGroups( int N);
     void MergeSort( vIntItr right, vIntItr right_end );
     
+    void SortList();
     void convertVectorToList();
     void InsertionSort( listInt &_list );
     void moveNum( listIntItr &left, listIntItr &right, listInt &list );
@@ -46,23 +49,24 @@ private:
     void MergeSort( listInt &firstList, listInt &megeList );
     void InsertLeft_popRight( listIntItr &left, listIntItr &right, listInt &firstList, listInt &megeList );
     std::list<int>::iterator increaseList( std::list<int>::iterator itr, int n, listInt &list );
-
-public:
-    PmergeMe( vectorInt input );
-    ~PmergeMe();
-
-    void sortVector();
-    void SortList();
-
-    void printVector();
-    void printVectorUnsorted();
-    void printListofList();
     void printList( std::list<int> list );
 
+public:
+
+    PmergeMe( const vectorInt input );
+    PmergeMe( PmergeMe const &in );
+    ~PmergeMe();
+
+    PmergeMe const &operator=( PmergeMe const &in );
+    void printListofList();
+    void printVector();
+
     std::vector<int> getVector();
+    std::vector<int> getUnsortedVector();
     std::list<int> getList();
     double get_time_vector();
-    double get_listofList();
+    double get_time_ListofList();
+
 };
 
 std::ostream& operator<<(std::ostream& os, PmergeMe& dt);
