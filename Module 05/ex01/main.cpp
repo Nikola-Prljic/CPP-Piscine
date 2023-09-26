@@ -4,10 +4,12 @@ int main()
 {
     try
     {
-        Bureaucrat niki("niki", 150);
-        Form a38(150, "a38");
+        Bureaucrat niki("niki", 141);
+        Form a38(140, "a38");
         std::cout << a38.getName() << std::endl;
-        //niki.decrement();
+        niki.
+        niki.signForm( a38 );
+        niki.increment();
         niki.signForm( a38 );
         std::cout << a38 << std::endl;
     }

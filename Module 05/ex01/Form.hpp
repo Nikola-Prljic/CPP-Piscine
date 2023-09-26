@@ -33,14 +33,14 @@ public:
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Grade to high!";}
+                return "Forms grade to high!";}
     };
 
     class ToLow : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Grade to low!";}
+                return "Forms grade to low!";}
     };
 };
 
