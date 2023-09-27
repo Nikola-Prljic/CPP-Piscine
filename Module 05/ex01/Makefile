@@ -1,25 +1,37 @@
 NAME	= ex01
 RM		= rm -f
-CFLAGS	= -std=c++98 -Wall -Werror -Wextra
-C		= c++
+CFLAGSXX= -std=c++98 -Wall -Werror -Wextra
+CXX		= c++
 SRC		= main.cpp Bureaucrat.cpp Form.cpp
-OBJ		= $(SRC:.cpp=.o)
+OBJDIR = ./objects/
+OBJFILES = $(SRC:.cpp=.o)
+OBJ = $(addprefix $(OBJDIR), $(OBJFILES))
 
+DEPT = Bureaucrat.hpp Form.hpp
 
-all:		$(NAME)
+.PHONY: all clean fclean re
 
-$(NAME):	$(OBJ)
-			$(C) $(CFLAGS) $(OBJ) -o $(NAME)
+all: $(NAME)
+
+$(OBJDIR)%.o: ./%.cpp $(DEPT)
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@ -c
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-			@$(RM) $(OBJ)
-			@echo // objekt files removed //
+	@rm -rf $(OBJDIR)
+	@echo // objekt files removed //
 
-fclean:		clean
-			@$(RM) $(NAME)
-			@echo // all files removed //
+fclean:	clean
+	@$(RM) $(NAME)
+	@echo // all files removed //
 
-re:			fclean all
-			@echo // Clenad and rebuild everything! //
+re: fclean all
+	@echo // Clenad and rebuild everything! //
 
-.PHONY:		all clean fclean re
+debug: CXXFLAGS += -gdwarf-4
+debug: re

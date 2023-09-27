@@ -2,31 +2,25 @@
 
 int main()
 {
-    try
-    {
+    try{
         Bureaucrat niki("niki", 141);
         Form a38(140, "a38");
         std::cout << a38.getName() << std::endl;
-        niki.
         niki.signForm( a38 );
         niki.increment();
         niki.signForm( a38 );
         std::cout << a38 << std::endl;
     }
-    catch (Bureaucrat::ToHigh &e) 
-    {
+    catch (Bureaucrat::ToHigh &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Bureaucrat::ToLow &e) 
-    {
+    catch (Bureaucrat::ToLow &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Form::ToLow &e) 
-    {
+    catch (Form::ToLow &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Form::ToHigh &e) 
-    {
+    catch (Form::ToHigh &e) {
         std::cout << e.what() << std::endl;
     }
     return 0;
