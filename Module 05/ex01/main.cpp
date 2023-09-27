@@ -3,8 +3,8 @@
 int main()
 {
     try{
-        Bureaucrat niki("niki", 141);
-        Form a38(140, "a38");
+        Bureaucrat niki("niki", 150);
+        Form a38(149, "a38");
         std::cout << a38.getName() << std::endl;
         niki.signForm( a38 );
         niki.increment();

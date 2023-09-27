@@ -4,6 +4,7 @@ int main()
 {
     try {
         Bureaucrat nik("nik", 150);
+        //nik.decrement();
         std::cout << nik << std::endl;
         nik.increment();
         std::cout << nik << std::endl;

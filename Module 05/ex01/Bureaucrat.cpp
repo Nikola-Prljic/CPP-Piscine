@@ -2,10 +2,10 @@
 
 Bureaucrat::Bureaucrat( const std::string name , int grade ) : _name(name), _grade(grade)
 {
-    if( _grade > 150 )
-        throw Bureaucrat::ToLow();
     if( _grade < 1 )
         throw Bureaucrat::ToHigh();
+    if( _grade > 150 )
+        throw Bureaucrat::ToLow();
     std::cout << "*Bureaucrat constructor called." << std::endl;
     return ;
 }
@@ -28,20 +28,14 @@ Bureaucrat& Bureaucrat::operator=( Bureaucrat &rhs )
     return *this;
 }
 
-int Bureaucrat::getGrade( void ) const
-{
-    return _grade;
-}
+int Bureaucrat::getGrade( void ) const{ return _grade; }
 
-std::string Bureaucrat::getName( void ) const
-{
-    return _name;
-}
+std::string Bureaucrat::getName( void ) const { return _name; }
 
 void Bureaucrat::decrement( void )
 {
     if((_grade + 1) > 150)
-        throw Bureaucrat::ToHigh();
+        throw Bureaucrat::ToLow();
     else
         _grade++;
     return ;
@@ -50,7 +44,7 @@ void Bureaucrat::decrement( void )
 void Bureaucrat::increment( void )
 {
     if((_grade - 1) < 1)
-        throw Bureaucrat::ToLow();
+        throw Bureaucrat::ToHigh();
     else
         _grade--;
     return ;

@@ -18,10 +18,7 @@ Form::Form( const int need_to_sign, const int need_to_execute, const std::string
     return ;
 }
 
-Form::Form( Form &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute())
-{
-    return ;
-}
+Form::Form( Form &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute()) { return ; }
 
 Form::~Form() {};
 
@@ -32,25 +29,13 @@ Form& Form::operator=( const Form &rhs )
     return *this;
 }
 
-bool Form::getIsSigned( void ) const
-{
-    return _is_signed;
-}
+bool Form::getIsSigned( void ) const { return _is_signed; }
 
-std::string Form::getName( void ) const
-{
-    return _name; 
-}
+std::string Form::getName( void ) const { return _name; }
 
-int Form::getNeedToSign( void ) const
-{ 
-    return _need_to_sign; 
-}
+int Form::getNeedToSign( void ) const { return _need_to_sign; }
 
-int Form::getNeedToExecute( void ) const
-{
-    return _need_to_execute;
-}
+int Form::getNeedToExecute( void ) const { return _need_to_execute; }
 
 void Form::beSigned( const Bureaucrat &B )
 {
