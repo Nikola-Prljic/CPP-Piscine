@@ -33,25 +33,32 @@ public:
     void isExecutable( const Bureaucrat& b ) const;
     virtual void execute( const Bureaucrat& executor ) const = 0;
 
-    class ToHigh : public std::exception
+    class GradeTooHighException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Grade to high";}
+                return "Forms grade to high";}
     };
 
-    class ToLow : public std::exception
+    class GradeTooLowException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Grade to low";}
+                return "Forms grade to low";}
     };
 
     class NotSigned : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Not signed";}
+                return "Form not signed";}
+    };
+
+    class ExecuteTooHighException : public std::exception
+    {
+        public:
+            virtual const char *what() const throw(){
+                return "Forms execute too high";}
     };
 
 protected:
