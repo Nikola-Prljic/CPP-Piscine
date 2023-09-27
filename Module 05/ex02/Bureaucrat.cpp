@@ -1,50 +1,43 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat( const std::string name , int grade, int execute) : _name(name), _grade(grade), _execute(execute)
+Bureaucrat::Bureaucrat( const std::string name , int grade ) : _name(name), _grade(grade)
 {
-    if( _grade > 150 || _execute > 150)
-        throw Bureaucrat::ToLow();
-    if( _grade < 1 || _execute < 1)
-        throw Bureaucrat::ToHigh();
+    if( _grade > 150 )
+        throw Bureaucrat::GradeTooLowException();
+    if( _grade < 1 )
+        throw Bureaucrat::GradeTooHighException();
     return ;
 }
 
-Bureaucrat::Bureaucrat( Bureaucrat &src) : _name(src._name), _grade(src._grade), _execute(src._execute) { return ; }
+Bureaucrat::Bureaucrat( Bureaucrat &src) : _name(src._name), _grade(src._grade) { return ; }
 
 Bureaucrat::~Bureaucrat() { return ; }
 
 Bureaucrat& Bureaucrat::operator=( Bureaucrat &rhs )
 {
     if( this != &rhs )
-    {
         _grade = rhs.getGrade();
-        _execute = rhs.getExecute();
-    }
     return *this;
 }
 
 int Bureaucrat::getGrade( void ) const { return _grade; }
-
-int Bureaucrat::getExecute( void ) const { return _execute; }
 
 std::string Bureaucrat::getName( void ) const { return _name; }
 
 void Bureaucrat::decrement( void )
 {
     if((_grade + 1) > 150)
-        throw Bureaucrat::ToLow();
+        throw Bureaucrat::GradeTooLowException();
     else
         _grade++;
-    return ;
 }
 
 void Bureaucrat::increment( void )
 {
     if((_grade - 1) < 1)
-        throw Bureaucrat::ToHigh();
+        throw Bureaucrat::GradeTooHighException();
     else
         _grade--;
-    return ;
 }
 
 void Bureaucrat::signForm( AForm& f ) const 
@@ -62,10 +55,8 @@ void Bureaucrat::executeForm( AForm const & form ) const
 {
     if(form.getIsSigned() == false)
         std::cout << form.getName() << " is not singed " << std::endl;
-    else if( getGrade() > form.getNeedToSign() )
+    else if( getGrade() > form.getNeedToExecute() )
         std::cout << getName() << " can't execute " << form.getName() << " because forms grade is too high"<< std::endl;
-    else if( getExecute() > form.getNeedToExecute() )
-        std::cout << getName() << " can't execute " << form.getName() << " because forms execute is too high"<< std::endl;
     else
     {
         form.execute( *this );

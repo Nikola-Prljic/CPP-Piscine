@@ -4,23 +4,24 @@ int main()
 {
     try{
         Bureaucrat niki("niki", 150);
-        Form a38(149, "a38");
+        niki.increment();
+        Form a38(149, 1, "a38");
         std::cout << a38.getName() << std::endl;
         niki.signForm( a38 );
         niki.increment();
         niki.signForm( a38 );
         std::cout << a38 << std::endl;
     }
-    catch (Bureaucrat::ToHigh &e) {
+    catch (Bureaucrat::GradeTooHighException &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Bureaucrat::ToLow &e) {
+    catch (Bureaucrat::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Form::ToLow &e) {
+    catch (Form::GradeTooHighException &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Form::ToHigh &e) {
+    catch (Form::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
     }
     return 0;

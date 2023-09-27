@@ -1,7 +1,30 @@
 #include "Bureaucrat.hpp"
 
+void test_create_grade_ToHighBureaucrat()
+{
+    try {
+        Bureaucrat nik("nik", 151);
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 0);
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+    }
+}
+
 int main()
 {
+    test_create_grade_ToHighBureaucrat();
     try {
         Bureaucrat nik("nik", 150);
         //nik.decrement();
@@ -11,10 +34,10 @@ int main()
         nik.decrement();
         std::cout << nik << std::endl;
     } 
-    catch (Bureaucrat::ToHigh &e) {
+    catch (Bureaucrat::GradeTooHighException &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Bureaucrat::ToLow &e) {
+    catch (Bureaucrat::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
     }
     std::cout << "------------------------" << std::endl;
@@ -26,10 +49,10 @@ int main()
         std::cout << nik << std::endl;
         std::cout << copyOfFio << std::endl;
     } 
-    catch (Bureaucrat::ToHigh &e) {
+    catch (Bureaucrat::GradeTooHighException &e) {
         std::cout << e.what() << std::endl;
     }
-    catch (Bureaucrat::ToLow &e) {
+    catch (Bureaucrat::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
     }
     return 0;

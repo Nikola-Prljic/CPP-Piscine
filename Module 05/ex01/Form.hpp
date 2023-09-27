@@ -16,7 +16,6 @@ private:
     Form();
 
 public:
-    Form( const int need_to_sign, const std::string name );
     Form( const int need_to_sign, const int need_to_execute, const std::string name );
     Form( Form &src );
     ~Form();
@@ -29,18 +28,18 @@ public:
 
     void beSigned( const Bureaucrat &B );
 
-    class ToHigh : public std::exception
+    class GradeTooHighException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Forms grade to high!";}
+                return "Form: grade to high";}
     };
 
-    class ToLow : public std::exception
+    class GradeTooLowException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Forms grade to low!";}
+                return "Form: grade to low";}
     };
 };
 

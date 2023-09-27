@@ -10,18 +10,16 @@ class Bureaucrat
 {
 private:
     int _grade;
-    int _execute;
     const std::string _name;
     Bureaucrat();
 
 public:
-    Bureaucrat( std::string name, int grade, int execute);
+    Bureaucrat( std::string name, int grade );
     Bureaucrat( Bureaucrat &src );
     ~Bureaucrat();
 
     Bureaucrat& operator=( Bureaucrat &rhs );
     int getGrade( void ) const;
-    int getExecute( void ) const;
     std::string getName( void ) const;
 
     void increment( void );
@@ -30,14 +28,14 @@ public:
     void signForm( AForm &f ) const;
     void executeForm( AForm const & form ) const;
 
-    class ToHigh : public std::exception
+    class GradeTooHighException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
                 return "Grade to high!";}
     };
 
-    class ToLow : public std::exception
+    class GradeTooLowException : public std::exception
     {
         public:
             virtual const char *what() const throw(){

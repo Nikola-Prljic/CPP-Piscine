@@ -24,9 +24,7 @@ void    PresidentialPardonForm::execute( Bureaucrat const & executor ) const
 {
     if( getIsSigned() == false)
         throw AForm::NotSigned();
-    else if( executor.getGrade() > getNeedToSign())
-        throw AForm::GradeTooHighException();
-    else if( executor.getExecute() > getNeedToExecute())
+    else if( executor.getGrade() > getNeedToExecute())
         throw AForm::ExecuteTooHighException();
     else
         std::cout << "Informs " << getTarget() << " has been pardoned by Zaphod Beeblebrox" << std::endl;
