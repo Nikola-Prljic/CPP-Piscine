@@ -79,9 +79,12 @@ ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationF
 
 void ShrubberyCreationForm::execute( const Bureaucrat& executor ) const
 {
-    isExecutable( executor );
     if( getIsSigned() == false)
         throw AForm::NotSigned();
-    createFile(getTarget(), writeAsciiTree(7));
-    return ;
+    else if( executor.getGrade() > getNeedToSign())
+        throw AForm::GradeTooHighException();
+    else if( executor.getExecute() > getNeedToExecute())
+        throw AForm::ExecuteTooHighException();
+    else
+        createFile(getTarget(), writeAsciiTree(7));
 }

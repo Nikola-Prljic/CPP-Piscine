@@ -30,21 +30,20 @@ public:
     int getNeedToExecute( void ) const;
 
     void beSigned( const Bureaucrat &B );
-    void isExecutable( const Bureaucrat& b ) const;
     virtual void execute( const Bureaucrat& executor ) const = 0;
 
     class GradeTooHighException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Forms grade to high";}
+                return "Form: grade to high";}
     };
 
     class GradeTooLowException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Forms grade to low";}
+                return "Form: grade to low";}
     };
 
     class NotSigned : public std::exception

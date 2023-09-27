@@ -49,24 +49,28 @@ void Bureaucrat::increment( void )
 
 void Bureaucrat::signForm( AForm& f ) const 
 {
-    try {
-        f.beSigned( *this );
-        std::cout << _name << " signed " << f.getName() << std::endl;
+    if( _grade > f.getNeedToSign() )
+    {
+        std::cout << _name << " could not sign " << f.getName() << std::endl;
+        return ;
     }
-    catch (AForm::GradeTooLowException &e) {
-        std::cout << _name << " coulnd't sign " << f.getName() << " because " << e.what() << std::endl;
-    }
-    catch (AForm::GradeTooHighException &e) {
-        std::cout << _name << " coulnd't sign " << f.getName() << " because " << e.what() << std::endl;
-    }
+    f.beSigned( *this );
+    std::cout << _name << " signed " << f.getName() << std::endl;
 }
 
-void Bureaucrat::executeForm( AForm const & form ) const
+void Bureaucrat::executeForm( AForm const & form ) const 
 {
-    form.isExecutable( *this );
-    form.execute( *this );
-    std::cout << _name << " executed " << form.getName() << std::endl;
-    return ;
+    if(form.getIsSigned() == false)
+        std::cout << form.getName() << " is not singed " << std::endl;
+    else if( getGrade() > form.getNeedToSign() )
+        std::cout << getName() << " can't execute " << form.getName() << " because forms grade is too high"<< std::endl;
+    else if( getExecute() > form.getNeedToExecute() )
+        std::cout << getName() << " can't execute " << form.getName() << " because forms execute is too high"<< std::endl;
+    else
+    {
+        form.execute( *this );
+        std::cout << getName() << " executed " << form.getName() << std::endl;
+    }
 }
 
 std::ostream& operator<<( std::ostream& os, const Bureaucrat& be )

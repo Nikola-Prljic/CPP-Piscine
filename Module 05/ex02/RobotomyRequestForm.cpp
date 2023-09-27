@@ -39,9 +39,12 @@ RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &r
 
 void RobotomyRequestForm::execute( const Bureaucrat& executor ) const
 {
-    isExecutable( executor );
-    if( getIsSigned() == false )
+    if( getIsSigned() == false)
         throw AForm::NotSigned();
-    robotomized( getTarget() );
-    return ;
+    else if( executor.getGrade() > getNeedToSign())
+        throw AForm::GradeTooHighException();
+    else if( executor.getExecute() > getNeedToExecute())
+        throw AForm::ExecuteTooHighException();    
+    else
+        robotomized( getTarget() );
 }

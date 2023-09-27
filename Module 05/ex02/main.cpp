@@ -5,10 +5,10 @@
 int main()
 {
     try{
-        Bureaucrat niki("niki", 25, 5);
+        Bureaucrat niki("niki", 150, 1);
         //Bureaucrat niki("niki", 1, 1);
         // AForm ff(); should not work! AForm is abstract class.
-        ShrubberyCreationForm a1("Franz");
+        ShrubberyCreationForm a1("Herbert");
         RobotomyRequestForm b1("Marie");
         PresidentialPardonForm c1("Beni");
         //ShrubberyCreationForm a2(a1);
