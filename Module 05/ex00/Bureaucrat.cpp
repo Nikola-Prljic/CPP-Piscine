@@ -1,6 +1,6 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat( const std::string name , int grade) : _name(name), _grade(grade)
+Bureaucrat::Bureaucrat( const std::string name , int grade) : _grade(grade), _name(name) 
 {
     if( _grade > 150 )
         throw Bureaucrat::GradeTooLowException();
@@ -10,7 +10,7 @@ Bureaucrat::Bureaucrat( const std::string name , int grade) : _name(name), _grad
     return ;
 }
 
-Bureaucrat::Bureaucrat( Bureaucrat &src) : _name(src._name), _grade(src._grade) { return ; }
+Bureaucrat::Bureaucrat( Bureaucrat &src) : _grade(src._grade), _name(src._name) { return ; }
 
 Bureaucrat::~Bureaucrat()
 {

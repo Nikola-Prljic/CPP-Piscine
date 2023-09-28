@@ -49,12 +49,26 @@ void test_create_grade_ToHighBureaucrat()
         std::cout << "ko" << std::endl;
     }
 }
+void create_intern_giveBureaucrat( std::string form_name, std::string target )
+{
+    std::cout << std::endl;
+    Intern RandIntern;
+    AForm *form;
+    Bureaucrat niki("niki", 1);
+
+    form = RandIntern.makeForm(form_name, target);
+    if(!form)
+        return ;
+    niki.signForm(*form);
+    niki.executeForm(*form);
+    delete (form);
+}
 
 int main()
 {
     test_create_grade_ToHighBureaucrat();
     /* try{
-        Bureaucrat niki("niki", 145, 150);
+        Bureaucrat niki("niki", 145 );
         // AForm ff(); should not work! AForm is abstract class.
         ShrubberyCreationForm a1("Franz");
         RobotomyRequestForm b1("Marie");
@@ -85,52 +99,23 @@ int main()
         RobotomyRequestForm hi2("lmfao");
         RobotomyRequestForm hi3(hi1);
 
-        /* RobotomyRequestForm *hi4 = new RobotomyRequestForm("lmfao");
-        ShrubberyCreationForm *cast = dynamic_cast<ShrubberyCreationForm *> (hi4);
-
-        ShrubberyCreationForm *wtf = new ShrubberyCreationForm("wtf");
-        *wtf = *cast;
-
-        std::cout << *wtf << std::endl; */
-
         std::cout << "----------------------------------------" << std::endl << hi1 << std::endl;
         a.signForm(hi2);
         hi1 = hi2;
         std::cout << hi1 << std::endl;
         std::cout << hi3 << std::endl << "----------------------------------------" << std::endl;
     }
-        catch(const std::exception& e){
-            std::cerr << e.what() << std::endl;
+    catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
     }
 
     try{
-        Intern RandIntern;
-        AForm *form;
-        Bureaucrat niki("niki", 1);
-
-        form = RandIntern.makeForm("robotomy request", "you");
-        if(!form)
-            return (1);
-        niki.signForm(*form);
-        niki.executeForm(*form);
-        delete (form);
-
-        form = RandIntern.makeForm("presidential pardon", "you");
-        if(!form)
-            return (1);
-        niki.signForm(*form);
-        niki.executeForm(*form);
-        delete (form);
-
-        form = RandIntern.makeForm("shrubbery creation", "you");
-        if(!form)
-            return (1);
-        niki.signForm(*form);
-        niki.executeForm(*form);
-        delete (form);
+        create_intern_giveBureaucrat( "robotomy request", "Lenox" );
+        create_intern_giveBureaucrat( "presidential pardon", "Shani" );
+        create_intern_giveBureaucrat( "shrubbery creation", "420 no scope" );
     }
-        catch(const std::exception& e){
-            std::cerr << e.what() << std::endl;
+    catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
     }
     return 0;
 }

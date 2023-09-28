@@ -1,6 +1,6 @@
 NAME	= ex03
 RM		= rm -f
-CFLAGSXX= -std=c++98 -Wall -Werror -Wextra
+CXXFLAGS= -std=c++98 -Wall -Werror -Wextra
 CXX		= c++
 SRC		= main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp Intern.cpp
 OBJDIR = ./objects/

@@ -6,46 +6,52 @@ Intern::Intern( Intern &rhs ) { *this = rhs; }
 
 Intern &Intern::operator=( const Intern &src ) 
 {
-    *this = src;
+    if( this != &src )
+        *this = src;
     return *this;
 }
 
 Intern::~Intern() { return ; }
 
-Options Intern::ChoseOne( std::string form )
-{
-    if("robotomy request" == form)
-        return RRForm;
-    if("shrubbery creation" == form)
-        return SCForm;
-    if("presidential pardon" == form)
-        return PPForm;  
-    return Option_Invalid;
-}
-
+//Funktion can return NULL need Protaction.
 AForm *Intern::makeForm( std::string name, std::string target )
 {
-    switch (ChoseOne( name ))
+    switch(name.compare("robotomy request"))
     {
-    case RRForm:
+        case 0:
+        {
+            std::cout << "Intern creates " << name << std::endl;
+            return (new RobotomyRequestForm( target ));
+        }
+        case -1:
+            break;
+        default:
+            break;
+    }
+    switch(name.compare("presidential pardon"))
     {
-        std::cout << "Intern creates " << name << std::endl;
-        return (new RobotomyRequestForm( target ));
+        case 0:
+        {
+            std::cout << "Intern creates " << name << std::endl;
+            return (new PresidentialPardonForm( target ));
+        }
+        case -1:
+            break;
+        default:
+            break;
     }
-    case PPForm:
+    switch(name.compare("shrubbery creation"))
     {
-        std::cout << "Intern creates " << name << std::endl;
-        return (new PresidentialPardonForm( target ));
+        case 0:
+        {
+            std::cout << "Intern creates " << name << std::endl;
+            return (new ShrubberyCreationForm( target ));
+        }
+        case -1:
+            break;
+        default:
+            break;
     }
-    case SCForm:
-    {
-        std::cout << "Intern creates " << name << std::endl;
-        return (new ShrubberyCreationForm( target ));
-    }
-    case Option_Invalid:
-        throw Intern::InvalidForm();
-    default:
-        break;
-    }
-    return nullptr;
+    std::cout << "Intern can't create " << name << std::endl;
+    return NULL;
 }

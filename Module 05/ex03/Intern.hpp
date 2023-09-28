@@ -10,8 +10,6 @@ enum Options { Option_Invalid, RRForm, SCForm, PPForm };
 
 class Intern
 {
-    private:
-        Options ChoseOne( std::string form );
     public:
         Intern();
         Intern( Intern &rhs );

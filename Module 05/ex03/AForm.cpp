@@ -6,13 +6,9 @@ AForm::AForm( const int need_to_sign, const int need_to_execute, const std::stri
         throw AForm::GradeTooHighException();
     if ( _need_to_sign > 150 || _need_to_sign > 150 )
         throw AForm::GradeTooLowException();
-    return ;
 }
 
-AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute()), _name(src.getName()), _target(src.getTarget())
-{
-    return ;
-}
+AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_execute(src.getNeedToExecute()), _need_to_sign(src.getNeedToSign()),  _name(src.getName()), _target(src.getTarget()) { return ; }
 
 AForm::~AForm() {}
 
@@ -31,7 +27,6 @@ void AForm::beSigned( const Bureaucrat &B )
     if(_need_to_sign < B.getGrade())
         throw AForm::GradeTooLowException();
     _is_signed = true;
-    return ;
 }
 
 std::ostream& operator<<( std::ostream& os, const AForm& f)
@@ -58,11 +53,9 @@ int AForm::getNeedToExecute( void ) const { return _need_to_execute; }
 void AForm::setIsSigned( bool is_signed )
 {
     std::swap(_is_signed, is_signed);
-    return;
 }
 
 void AForm::setTarget( std::string target )
 {
     std::swap(_target, target);
-    return;
 }

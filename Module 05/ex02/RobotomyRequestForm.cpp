@@ -1,5 +1,4 @@
 #include "RobotomyRequestForm.hpp"
-#include <ctime>
 
 RobotomyRequestForm::RobotomyRequestForm( std::string target ) : AForm(72, 45, "RobotomyRequestForm", target)
 {
@@ -10,13 +9,9 @@ RobotomyRequestForm::RobotomyRequestForm( const RobotomyRequestForm &src ) : AFo
 {
     AForm::setIsSigned(src.getIsSigned());
     AForm::setTarget(src.getTarget());
-    return ; 
 }
 
-RobotomyRequestForm::~RobotomyRequestForm()
-{
-    return ;
-}
+RobotomyRequestForm::~RobotomyRequestForm() { return ; }
 
 void robotomized( std::string target)
 {

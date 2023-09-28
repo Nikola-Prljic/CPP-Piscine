@@ -10,9 +10,9 @@ class Form
 {
 private:
     bool _is_signed;
-    const std::string _name;
-    const int _need_to_sign;
     const int _need_to_execute;
+    const int _need_to_sign;
+    const std::string _name;
     Form();
 
 public:

@@ -9,7 +9,7 @@ AForm::AForm( const int need_to_sign, const int need_to_execute, const std::stri
     return ;
 }
 
-AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_sign(src.getNeedToSign()), _need_to_execute(src.getNeedToExecute()), _name(src.getName()), _target(src.getTarget())
+AForm::AForm( AForm &src ) : _is_signed(src._is_signed), _need_to_execute(src.getNeedToExecute()), _need_to_sign(src.getNeedToSign()), _name(src.getName()), _target(src.getTarget())
 {
     return ;
 }

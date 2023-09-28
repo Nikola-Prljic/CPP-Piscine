@@ -1,6 +1,6 @@
 NAME	= ex01
 RM		= rm -f
-CFLAGSXX= -std=c++98 -Wall -Werror -Wextra
+CXXFLAGS= -std=c++98 -Wall -Werror -Wextra
 CXX		= c++
 SRC		= main.cpp Bureaucrat.cpp Form.cpp
 OBJDIR = ./objects/

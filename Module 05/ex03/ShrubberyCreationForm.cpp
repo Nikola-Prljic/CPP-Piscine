@@ -21,7 +21,7 @@ void ShrubberyCreationForm::createFile( std::string target_name, std::string wri
 {
     std::fstream form;
 
-    form.open( target_name += "_shrubbery", std::ios::out );
+    form.open( (target_name += "_shrubbery").c_str(), std::ios::out );
 	if (!form)
 		std::cout << "Error: File not created!";
     else

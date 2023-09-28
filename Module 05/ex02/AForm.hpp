@@ -3,6 +3,7 @@
 
 # include "iostream"
 # include "Bureaucrat.hpp"
+# include <stdlib.h>
 
 class Bureaucrat;
 
@@ -10,10 +11,10 @@ class AForm
 {
 private:
     bool _is_signed;
-    std::string _target;
-    const std::string _name;
-    const int _need_to_sign;
     const int _need_to_execute;
+    const int _need_to_sign;
+    const std::string _name;
+    std::string _target;
     AForm();
 
 public:
