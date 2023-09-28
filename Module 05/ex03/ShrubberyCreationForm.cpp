@@ -8,6 +8,7 @@ ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : AForm(145, 
 ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
 {
     AForm::setIsSigned(src.getIsSigned());
+    AForm::setTarget(src.getTarget());
     return ; 
 }
 
@@ -79,9 +80,10 @@ ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationF
 
 void ShrubberyCreationForm::execute( const Bureaucrat& executor ) const
 {
-    isExecutable( executor );
     if( getIsSigned() == false)
         throw AForm::NotSigned();
-    createFile(getTarget(), writeAsciiTree(7));
-    return ;
+    else if( executor.getGrade() > getNeedToExecute())
+        throw AForm::ExecuteTooHighException();
+    else
+        createFile(getTarget(), writeAsciiTree(7));
 }

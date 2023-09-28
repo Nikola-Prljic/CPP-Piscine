@@ -9,6 +9,7 @@ RobotomyRequestForm::RobotomyRequestForm( std::string target ) : AForm(72, 45, "
 RobotomyRequestForm::RobotomyRequestForm( const RobotomyRequestForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
 {
     AForm::setIsSigned(src.getIsSigned());
+    AForm::setTarget(src.getTarget());
     return ; 
 }
 

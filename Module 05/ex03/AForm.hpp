@@ -25,21 +25,20 @@ public:
     AForm& operator=( const AForm &rhs);
 
     void beSigned( const Bureaucrat &B );
-    void isExecutable( const Bureaucrat& b ) const;
     virtual void execute( const Bureaucrat& executor ) const = 0;
 
-    class ToHigh : public std::exception
+    class GradeTooHighException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Grade to high";}
+                return "Form: grade to high";}
     };
 
-    class ToLow : public std::exception
+    class GradeTooLowException : public std::exception
     {
         public:
             virtual const char *what() const throw(){
-                return "Error: Form: Grade to low";}
+                return "Form: grade to low";}
     };
 
     class NotSigned : public std::exception
@@ -47,6 +46,13 @@ public:
         public:
             virtual const char *what() const throw(){
                 return "Error: Form: Not signed";}
+    };
+
+    class ExecuteTooHighException : public std::exception
+    {
+        public:
+            virtual const char *what() const throw(){
+                return "Forms execute too high";}
     };
 
     bool getIsSigned( void ) const;

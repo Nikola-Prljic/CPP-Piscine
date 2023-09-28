@@ -8,6 +8,7 @@ PresidentialPardonForm::PresidentialPardonForm( std::string target) : AForm(25, 
 PresidentialPardonForm::PresidentialPardonForm( const PresidentialPardonForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
 {
     AForm::setIsSigned(src.getIsSigned());
+    AForm::setTarget(src.getTarget());
     return ; 
 }
 

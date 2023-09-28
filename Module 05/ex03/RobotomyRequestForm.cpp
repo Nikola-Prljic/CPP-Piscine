@@ -9,6 +9,7 @@ RobotomyRequestForm::RobotomyRequestForm( std::string target ) : AForm(72, 45, "
 RobotomyRequestForm::RobotomyRequestForm( const RobotomyRequestForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
 {
     AForm::setIsSigned(src.getIsSigned());
+    AForm::setTarget(src.getTarget());
     return ; 
 }
 
@@ -39,9 +40,10 @@ RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &r
 
 void RobotomyRequestForm::execute( const Bureaucrat& executor ) const
 {
-    isExecutable( executor );
-    if( getIsSigned() == false )
+    if( getIsSigned() == false)
         throw AForm::NotSigned();
-    robotomized( getTarget() );
-    return ;
+    else if( executor.getGrade() > getNeedToExecute())
+        throw AForm::ExecuteTooHighException();    
+    else
+        robotomized( getTarget() );
 }

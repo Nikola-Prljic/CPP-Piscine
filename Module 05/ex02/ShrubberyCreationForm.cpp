@@ -8,7 +8,8 @@ ShrubberyCreationForm::ShrubberyCreationForm( std::string target ) : AForm(145, 
 ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm &src ) : AForm(src.getNeedToSign(), src.getNeedToExecute(), src.getName(), src.getTarget()) 
 {
     AForm::setIsSigned(src.getIsSigned());
-    return ; 
+    AForm::setTarget(src.getTarget());
+    return ;
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm()

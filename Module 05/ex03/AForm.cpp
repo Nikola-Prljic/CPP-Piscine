@@ -3,9 +3,9 @@
 AForm::AForm( const int need_to_sign, const int need_to_execute, const std::string name, const std::string target ) : _is_signed( false ), _need_to_execute(need_to_execute), _need_to_sign(need_to_sign), _name(name), _target(target)
 {
     if ( _need_to_sign < 1 || _need_to_execute < 1 )
-        throw AForm::ToLow();
+        throw AForm::GradeTooHighException();
     if ( _need_to_sign > 150 || _need_to_sign > 150 )
-        throw AForm::ToHigh();
+        throw AForm::GradeTooLowException();
     return ;
 }
 
@@ -28,20 +28,9 @@ AForm& AForm::operator=( const AForm &rhs )
 
 void AForm::beSigned( const Bureaucrat &B )
 {
-    if(_need_to_sign > B.getGrade())
-        throw AForm::ToLow();
-    if(_need_to_execute > B.getExecute())
-        throw AForm::ToLow();
+    if(_need_to_sign < B.getGrade())
+        throw AForm::GradeTooLowException();
     _is_signed = true;
-    return ;
-}
-
-void AForm::isExecutable( const Bureaucrat& b ) const
-{
-    if( _need_to_sign > b.getGrade() )
-        throw AForm::ToLow();
-    if( _need_to_execute > b.getExecute() )
-        throw AForm::ToLow();
     return ;
 }
 

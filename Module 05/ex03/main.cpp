@@ -1,7 +1,58 @@
 # include "Intern.hpp"
 
+void test_create_grade_ToHighBureaucrat()
+{
+    try {
+        Bureaucrat nik("nik", 151);
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 0);
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 150);
+        nik.decrement();
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 1);
+        nik.increment();
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+}
+
 int main()
 {
+    test_create_grade_ToHighBureaucrat();
     /* try{
         Bureaucrat niki("niki", 145, 150);
         // AForm ff(); should not work! AForm is abstract class.
@@ -24,8 +75,8 @@ int main()
 
 
     try{
-        Bureaucrat a("Niki", 150, 150);
-        Bureaucrat a2("Hos", 140, 140);
+        Bureaucrat a("Niki", 150);
+        Bureaucrat a2("Hos", 140);
         a = a2;
         std::cout << a << std::endl;
         std::cout << a2 << std::endl;
@@ -55,9 +106,23 @@ int main()
     try{
         Intern RandIntern;
         AForm *form;
-        Bureaucrat niki("niki", 145, 150);
+        Bureaucrat niki("niki", 1);
 
-        form = RandIntern.makeForm("a", "you");
+        form = RandIntern.makeForm("robotomy request", "you");
+        if(!form)
+            return (1);
+        niki.signForm(*form);
+        niki.executeForm(*form);
+        delete (form);
+
+        form = RandIntern.makeForm("presidential pardon", "you");
+        if(!form)
+            return (1);
+        niki.signForm(*form);
+        niki.executeForm(*form);
+        delete (form);
+
+        form = RandIntern.makeForm("shrubbery creation", "you");
         if(!form)
             return (1);
         niki.signForm(*form);

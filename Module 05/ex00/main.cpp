@@ -7,18 +7,46 @@ void test_create_grade_ToHighBureaucrat()
     } 
     catch (Bureaucrat::GradeTooHighException &e) {
         std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
     }
     catch (Bureaucrat::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
     }
     try {
         Bureaucrat nik("nik", 0);
     } 
     catch (Bureaucrat::GradeTooHighException &e) {
         std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
     }
     catch (Bureaucrat::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 150);
+        nik.decrement();
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 1);
+        nik.increment();
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
     }
 }
 
@@ -55,5 +83,5 @@ int main()
     catch (Bureaucrat::GradeTooLowException &e) {
         std::cout << e.what() << std::endl;
     }
-    return 0;
+    return (0);
 }

@@ -2,10 +2,61 @@
 # include "RobotomyRequestForm.hpp"
 # include "PresidentialPardonForm.hpp"
 
+void test_create_grade_ToHighBureaucrat()
+{
+    try {
+        Bureaucrat nik("nik", 151);
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 0);
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 150);
+        nik.decrement();
+    } 
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    try {
+        Bureaucrat nik("nik", 1);
+        nik.increment();
+    }
+    catch (Bureaucrat::GradeTooHighException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ok" << std::endl;
+    }
+    catch (Bureaucrat::GradeTooLowException &e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "ko" << std::endl;
+    }
+}
+
 int main()
 {
+    test_create_grade_ToHighBureaucrat();
     try{
-        Bureaucrat niki("niki", 100);
+        Bureaucrat niki("niki", 150);
         //Bureaucrat niki("niki", 1 );
         // AForm ff(); should not work! AForm is abstract class.
         ShrubberyCreationForm a1("Herbert");
