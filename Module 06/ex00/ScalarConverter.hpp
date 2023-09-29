@@ -6,6 +6,7 @@
 #include <climits>
 #include <float.h>
 #include <sstream>
+#include <stdlib.h>
 
 enum e_type {
     NONE,

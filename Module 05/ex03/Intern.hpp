@@ -4,9 +4,6 @@
 # include "ShrubberyCreationForm.hpp"
 # include "RobotomyRequestForm.hpp"
 # include "PresidentialPardonForm.hpp"
-# include <map>
-
-enum Options { Option_Invalid, RRForm, SCForm, PPForm };
 
 class Intern
 {

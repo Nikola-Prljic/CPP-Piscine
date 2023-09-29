@@ -1,20 +1,20 @@
 #include "ScalarConverter.hpp"
 
-std::string ScalarConverter::_input{ "0" };
+std::string ScalarConverter::_input = "0";/* { "0" }; */
 
-char ScalarConverter::_char{ '0' };
+char ScalarConverter::_char = '0';/* { '0' }; */
 
-int ScalarConverter::_int{ 0 };
+int ScalarConverter::_int = 0;/* { 0 }; */
 
-float ScalarConverter::_float{ 0 };
+float ScalarConverter::_float = 0;/* { 0 }; */
 
-double ScalarConverter::_double{ 0 };
+double ScalarConverter::_double = 0;/* { 0 }; */
 
-long double ScalarConverter::_ld{ 0 };
+long double ScalarConverter::_ld = 0;/* { 0 }; */
 
-e_type ScalarConverter::_type{ NONE };
+e_type ScalarConverter::_type = NONE;/* { NONE }; */
 
-std::string ScalarConverter::error_msg[]{"","",""};
+std::string ScalarConverter::error_msg[4]; /* {"","",""}; */
 
 ScalarConverter::ScalarConverter() { return ; }
 
@@ -52,14 +52,12 @@ void ScalarConverter::toChar( int c )
     if( c > '~' || c < ' ')
         error_msg[0] = "Is not printable";
     _char = (char)c;
-    std::cout << _char;
     return ;
 }
 
 void ScalarConverter::toFloatOrDuble()
 {
     float   f;
-    double  d;
 
     std::istringstream ss(_input);
     if(ss >> f)
@@ -74,7 +72,6 @@ void ScalarConverter::toFloatOrDuble()
         error_msg[1] = "overflow";
         error_msg[2] = "overflow";
     }
-    return ;
 }
 
 bool ScalarConverter::toDouble()
@@ -105,7 +102,7 @@ void ScalarConverter::isBiggerFloat()
 void ScalarConverter::covert_from_int()
 {
     _type = INT;
-    _int = std::atoi( _input.c_str() );
+    _int = atoi( _input.c_str() );
     toChar(_int);
     _float = (float)_int;
     _double = (double)_int;
@@ -146,6 +143,8 @@ void ScalarConverter::covert_from_double()
 
 void ScalarConverter::convert( std::string input )
 {
+    for(int i = 0; i < 4; i++)
+        error_msg[i] = "";
     _input = input;
     if(isPseudoLiterals() != "0")
         setPseudoLiterals();
@@ -203,7 +202,7 @@ bool ScalarConverter::isFloat()
     int dot = 0;
     int len = 0;
 
-    if(_input.back() != 'f')
+    if(_input[_input.size() - 1] != 'f')
         return false;
     len = _input.size() - 1;
     if(_input[0] == '-')
@@ -269,7 +268,7 @@ void ScalarConverter::setPseudoLiterals()
     {
         error_msg[2] = isPseudoLiterals();
         std::string tmp = isPseudoLiterals();
-        tmp.pop_back();
+        tmp.erase(tmp.end() - 1);
         error_msg[3] = tmp;
     }
     return ;
