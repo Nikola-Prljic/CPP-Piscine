@@ -77,6 +77,8 @@ int main ( void )
     C & Cref = Cobj;
 
     Base_class_ptr = generate();
+    if(!Base_class_ptr)
+        return (1);
     identify(Base_class_ptr);
     identify(Bref);
     identify(Cref);
