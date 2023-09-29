@@ -12,7 +12,8 @@ Serializer::Serializer( Serializer &rhs )
 
 Serializer &Serializer::operator=( Serializer &src)
 {
-    *this = src;
+    if(this != &src)
+        *this = src;
     return *this;
 }
 

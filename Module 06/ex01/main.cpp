@@ -1,4 +1,5 @@
 #include "Serializer.hpp"
+#include <stdint.h>
 
 int main( void )
 {

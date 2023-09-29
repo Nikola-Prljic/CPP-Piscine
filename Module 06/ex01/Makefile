@@ -1,17 +1,29 @@
 NAME	= ex01
 RM		= rm -f
-CFLAGS	= -std=c++98 -Wall -Werror -Wextra
-C		= c++
+CXX		= c++
+CXXFLAGS= -std=c++98 -Wall -Werror -Wextra
 SRC		= main.cpp Serializer.cpp
-OBJ		= $(SRC:.cpp=.o)
+OBJDIR	= ./objects/
+OBJFILES = $(SRC:.cpp=.o)
+OBJ		= $(addprefix $(OBJDIR), $(OBJFILES))
 
-all:		$(NAME)
+DEPT = Serializer.hpp
 
-$(NAME):	$(OBJ)
-			$(C) $(CFLAGS) $(OBJ) -o $(NAME)
+.PHONY: all clean fclean re
+
+all: $(NAME)
+
+$(OBJDIR)%.o: ./%.cpp $(DEPT)
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@ -c
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-			@$(RM) $(OBJ)
+			@rm -rf $(OBJDIR)
 			@echo // objekt files removed //
 
 fclean:		clean
@@ -21,4 +33,5 @@ fclean:		clean
 re:			fclean all
 			@echo // Clenad and rebuild everything! //
 
-.PHONY:		all clean fclean re
+debug: CXXFLAGS += -gdwarf-4
+debug: re
