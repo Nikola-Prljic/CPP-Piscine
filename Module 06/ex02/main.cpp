@@ -2,11 +2,12 @@
 #include "B.hpp"
 #include "C.hpp"
 #include <ctime>
+#include <stdlib.h>
 
 int ft_random()
 {
-    std::srand(std::time(nullptr));
-    int random_variable = std::rand() % 3;
+    srand(time(NULL));
+    int random_variable = rand() % 3;
     return random_variable;
 }
 
@@ -28,6 +29,7 @@ Base * generate( void )
         C *kid_class = new C;                                                                                                                                                                                                  
         return dynamic_cast<Base *>(kid_class);
     }
+    return NULL;
 }
 
 void identify(Base* p)
@@ -47,19 +49,19 @@ void identify(Base &p)
 {
     try
     {
-        dynamic_cast< A& >( p );
+        (void)dynamic_cast< A& >( p );
         std::cout << "A" << std::endl;
     }
     catch(const std::exception& e) {}
     try
     {
-        dynamic_cast< B& >( p );
+        (void)dynamic_cast< B& >( p );
         std::cout << "B" << std::endl;
     }
     catch(const std::exception& e) {}
     try
     {
-        dynamic_cast< C& >( p );
+        (void)dynamic_cast< C& >( p );
         std::cout << "C" << std::endl;
     }
     catch(const std::exception& e) {}
