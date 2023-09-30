@@ -1,20 +1,22 @@
 #include "ScalarConverter.hpp"
 
-std::string ScalarConverter::_input = "0";/* { "0" }; */
+std::string ScalarConverter::_input = "0";
 
-char ScalarConverter::_char = '0';/* { '0' }; */
+char ScalarConverter::_char = '0';
 
-int ScalarConverter::_int = 0;/* { 0 }; */
+int ScalarConverter::_int = 0;
 
-float ScalarConverter::_float = 0;/* { 0 }; */
+float ScalarConverter::_float = 0;
 
-double ScalarConverter::_double = 0;/* { 0 }; */
+double ScalarConverter::_double = 0;
 
-long double ScalarConverter::_ld = 0;/* { 0 }; */
+long double ScalarConverter::_ld = 0;
 
-e_type ScalarConverter::_type = NONE;/* { NONE }; */
+e_type ScalarConverter::_type = NONE;
 
-std::string ScalarConverter::error_msg[4]; /* {"","",""}; */
+std::string ScalarConverter::error_msg[4];
+
+bool ScalarConverter::_longerSix = false;
 
 ScalarConverter::ScalarConverter() { return ; }
 
@@ -79,10 +81,18 @@ bool ScalarConverter::toDouble()
     long double x;
 
     std::istringstream ss(_input);
-    if(ss >> x && (x >= DBL_MIN && x <= DBL_MAX))
+    if(ss >> x )
     {
-        _double = static_cast<double>(x);
-        return true;
+        if(x > -1 && x <= std::numeric_limits<double>::max())
+        {
+            _double = static_cast<double>(x);
+            return true;
+        }
+        if(x < 0 && x >= -std::numeric_limits<double>::max())
+        {
+            _double = static_cast<double>(x);
+            return true;
+        }
     }
     for(int i = 1; i < 4; i++)
         error_msg[i] = "overflow";
@@ -94,7 +104,7 @@ void ScalarConverter::isBiggerFloat()
     _ld = (long double)_double;
     if( _ld > INT_MAX || _ld < INT_MIN)
         error_msg[1] = "overflow";
-    if( _ld > FLT_MAX || _ld < FLT_MIN)
+    if( _ld > std::numeric_limits<float>::max() || _ld < -std::numeric_limits<float>::max() )
         error_msg[2] = "overflow";
     return ;
 }
@@ -130,6 +140,7 @@ void ScalarConverter::covert_from_float()
     isBiggerFloat();
     return ;
 }
+
 
 void ScalarConverter::covert_from_double()
 {
@@ -297,6 +308,17 @@ bool floatIsJustNull( std::string str )
     return false;
 }
 
+bool MoreThanSixDigis( std::string input )
+{
+    int i = 0;
+
+    while(input[i] && input[i] != '.')
+        i++;
+    if(i > 6)
+        return true;
+    return false;
+}
+
 void printErrorMsg( std::ostream& os, ScalarConverter& sc, std::string choseTypeMsg )
 {
     os << choseTypeMsg << " : ";
@@ -309,21 +331,20 @@ void printErrorMsg( std::ostream& os, ScalarConverter& sc, std::string choseType
         else if ( choseTypeMsg == "float")
         {
             os << sc.getFloat(); 
-            if(sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ))
+            if( ( sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ) ) && MoreThanSixDigis(sc.getInput()) == false )
                 os << ".0";
             os << "f";
         }
         else if ( choseTypeMsg == "double")
         {
             os << sc.getDouble();
-            if(sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ))
+            if(( sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ) ) && MoreThanSixDigis(sc.getInput()) == false )
                 os << ".0";
         }
     }
     else
         os << sc.getErrorMsg( choseTypeMsg );
     os << std::endl;
-    return;
 }
 
 std::string ScalarConverter::getErrorMsg( std::string error_type_msg ) 

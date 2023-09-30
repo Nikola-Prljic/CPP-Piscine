@@ -7,6 +7,7 @@
 #include <float.h>
 #include <sstream>
 #include <stdlib.h>
+#include <limits>
 
 enum e_type {
     NONE,
@@ -29,6 +30,7 @@ class ScalarConverter
         static float   _float;
         static double  _double;
         static long double  _ld;
+        static bool _longerSix;
 
     public:
         ScalarConverter();
@@ -59,7 +61,7 @@ class ScalarConverter
         static double getDouble();
         static std::string getInput();
         static e_type getType();
-        
+
         static std::string getErrorMsg( std::string error_type_msg );
 };
 
