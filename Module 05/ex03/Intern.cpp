@@ -13,7 +13,6 @@ Intern &Intern::operator=( const Intern &src )
 
 Intern::~Intern() { return ; }
 
-//Funktion can return NULL need Protaction.
 AForm *Intern::makeForm( std::string name, std::string target )
 {
     switch(name.compare("robotomy request"))
@@ -52,6 +51,8 @@ AForm *Intern::makeForm( std::string name, std::string target )
         default:
             break;
     }
-    std::cout << "Intern can't create " << name << std::endl;
+    std::cout << "Intern can't create \"" << name << "\""<< std::endl;
+    std::cout << "-> try \"robotomy request\", \"presidential pardon\" or \"shrubbery creation\"" << std::endl;
+    throw Intern::InvalidForm();
     return NULL;
 }
