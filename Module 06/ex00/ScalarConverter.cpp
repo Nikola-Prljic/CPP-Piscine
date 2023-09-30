@@ -83,12 +83,12 @@ bool ScalarConverter::toDouble()
     std::istringstream ss(_input);
     if(ss >> x )
     {
-        if(x > -1 && x <= std::numeric_limits<double>::max())
+        if(x > -1 && x <= std::numeric_limits<double>::max() && x >= std::numeric_limits<double>::min())
         {
             _double = static_cast<double>(x);
             return true;
         }
-        if(x < 0 && x >= -std::numeric_limits<double>::max())
+        if(x < 0 && x >= -std::numeric_limits<double>::max() && x <= -std::numeric_limits<double>::min())
         {
             _double = static_cast<double>(x);
             return true;
@@ -104,9 +104,10 @@ void ScalarConverter::isBiggerFloat()
     _ld = (long double)_double;
     if( _ld > INT_MAX || _ld < INT_MIN)
         error_msg[1] = "overflow";
-    if( _ld > std::numeric_limits<float>::max() || _ld < -std::numeric_limits<float>::max() )
+    if( _ld > -1 && (_ld > std::numeric_limits<float>::max() || _ld < std::numeric_limits<float>::min() ) )
         error_msg[2] = "overflow";
-    return ;
+    else if( _ld < 0 && (_ld > -std::numeric_limits<float>::max() || _ld < -std::numeric_limits<float>::min() ) )
+        error_msg[2] = "overflow";
 }
 
 void ScalarConverter::covert_from_int()
