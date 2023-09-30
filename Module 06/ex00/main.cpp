@@ -25,6 +25,7 @@ int main(int argc, char **argv)
     a.convert(argv[1]);
     std::cout << a << std::endl;
 
+    return 1;
     test_overflow( "2147483647", "");
     test_overflow( "-2147483648", "");
     test_overflow( "340282346600000000000000000000000000000.0f",  "");

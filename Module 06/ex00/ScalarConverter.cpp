@@ -16,8 +16,6 @@ e_type ScalarConverter::_type = NONE;
 
 std::string ScalarConverter::error_msg[4];
 
-bool ScalarConverter::_longerSix = false;
-
 ScalarConverter::ScalarConverter() { return ; }
 
 ScalarConverter::ScalarConverter( ScalarConverter & rhs )
@@ -149,6 +147,7 @@ void ScalarConverter::covert_from_double()
     toChar(_double);
     _int = static_cast<int>(_double);
     _float = static_cast<float>(_double);
+    std::cout << "float ==== " << _float << std::endl;
     isBiggerFloat();
     return ;
 }

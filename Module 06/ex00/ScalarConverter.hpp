@@ -30,7 +30,6 @@ class ScalarConverter
         static float   _float;
         static double  _double;
         static long double  _ld;
-        static bool _longerSix;
 
     public:
         ScalarConverter();
@@ -65,7 +64,6 @@ class ScalarConverter
         static std::string getErrorMsg( std::string error_type_msg );
 };
 
-std::ostream& fixed(std::ostream& os);
 std::ostream& operator<<(std::ostream& os, ScalarConverter& sc);
 
 #endif
