@@ -4,11 +4,7 @@ Serializer::Serializer() {}
 
 Serializer::~Serializer() {}
 
-Serializer::Serializer( Serializer &rhs ) 
-{
-    *this = rhs;
-    return ;
-}
+Serializer::Serializer( Serializer &rhs ) { *this = rhs; }
 
 Serializer &Serializer::operator=( Serializer &src)
 {

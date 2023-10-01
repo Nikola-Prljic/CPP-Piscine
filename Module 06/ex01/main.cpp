@@ -3,13 +3,14 @@
 
 int main( void )
 {
+    Serializer convert;
+
     uintptr_t newPtr;
     Data stuff;
 
     stuff.name = "Niki";
     stuff.age = 26;
 
-    Serializer convert;
 
     newPtr = convert.serialize( &stuff );
     std::cout << convert.deserialize(newPtr)->age << std::endl;
