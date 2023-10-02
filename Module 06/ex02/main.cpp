@@ -6,7 +6,6 @@
 
 int ft_random()
 {
-    srand(time(NULL));
     int random_variable = rand() % 3;
     return random_variable;
 }
@@ -34,6 +33,7 @@ Base * generate( void )
 
 void identify(Base* p)
 {
+    std::cout << "pointer   = "; 
     if ( dynamic_cast< A* >( p ) )
         std::cout << "A" << std::endl;
     else if ( dynamic_cast< B* >( p ) )
@@ -41,47 +41,51 @@ void identify(Base* p)
     else if ( dynamic_cast< C* >( p ) )
         std::cout << "C" << std::endl;
     else
-        std::cout << "Error: Could not identify class!" << std::endl;
-    return ;
+        std::cout << "Error Could not identify class!" << std::endl;
 }
 
 void identify(Base &p)
 {
+    std::cout << "reference = ";
     try
     {
         (void)dynamic_cast< A& >( p );
         std::cout << "A" << std::endl;
+        return ;
     }
     catch(const std::exception& e) {}
     try
     {
         (void)dynamic_cast< B& >( p );
         std::cout << "B" << std::endl;
+        return ;
     }
     catch(const std::exception& e) {}
     try
     {
         (void)dynamic_cast< C& >( p );
         std::cout << "C" << std::endl;
+        return ;
     }
     catch(const std::exception& e) {}
-    return ;
+    std::cout << "Error Could not identify class!" << std::endl;
 }
 
 int main ( void )
 {
     Base *Base_class_ptr;
+    /* B Bobj;
+    B & Bref = Bobj; */
+    A Aobj;
     B Bobj;
-    B & Bref = Bobj;
-    C Cobj;
-    C & Cref = Cobj;
+    srand(time(NULL));
 
     Base_class_ptr = generate();
-    if(!Base_class_ptr)
-        return (1);
+    Base_class_ptr = NULL;
     identify(Base_class_ptr);
-    identify(Bref);
-    identify(Cref);
+    identify(*Base_class_ptr);
+    identify(Aobj);
+    identify(Bobj);
     delete Base_class_ptr;
     return (0);
 }

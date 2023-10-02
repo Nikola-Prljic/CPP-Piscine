@@ -1,6 +1,6 @@
 NAME	= ex00
 RM		= rm -f
-CFLAGS	= -std=c++98 -Wall -Werror -Wextra
+CXXFLAGS= -std=c++98 -Wall -Werror -Wextra
 CXX		= c++
 SRC		= main.cpp
 OBJ		= $(SRC:.cpp=.o)
@@ -8,7 +8,7 @@ OBJ		= $(SRC:.cpp=.o)
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-			$(CXX) $(CFLAGS) $(OBJ) -o $(NAME)
+			$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 clean:
 			@$(RM) $(OBJ)

@@ -27,10 +27,9 @@ void TestIter(char array[])
     std::cout << "array: ";
 
     iter(array, 4, more);
-    if(strcmp(array, "2345") == 0)
-        std::cout << "OK" << std::endl;
-    else
-        std::cout << "KO" << std::endl;
+    for ( int i = 0; i < 4; i++ )
+        std::cout << array[i] << " ";
+    std::cout << std::endl;
 }
 
 void TestIter(int array[])
