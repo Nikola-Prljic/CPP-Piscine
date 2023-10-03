@@ -31,8 +31,10 @@ class ScalarConverter
         static double  _double;
         static long double  _ld;
 
-    public:
         ScalarConverter();
+
+    public:
+        ScalarConverter( std::string input);
         ScalarConverter( ScalarConverter & rhs );
 
         ScalarConverter& operator=( ScalarConverter src );

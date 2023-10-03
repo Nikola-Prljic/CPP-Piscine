@@ -16,7 +16,11 @@ e_type ScalarConverter::_type = NONE;
 
 std::string ScalarConverter::error_msg[4];
 
-ScalarConverter::ScalarConverter() { return ; }
+ScalarConverter::ScalarConverter( std::string input ) 
+{ 
+    _input = input;
+    convert(_input); 
+}
 
 ScalarConverter::ScalarConverter( ScalarConverter & rhs )
 {
@@ -64,7 +68,6 @@ void ScalarConverter::toFloatOrDuble()
     {
         _type = FLOAT;
         _float = f;
-        error_msg[1] = "overflow";
     }
     else if(toDouble() == true)
     {
@@ -131,13 +134,11 @@ void ScalarConverter::covert_from_char()
 void ScalarConverter::covert_from_float()
 {
     toFloatOrDuble();
-    if(_type == DOUBLE)
-        covert_from_double();
+    /* if(_type == DOUBLE) */
+    covert_from_double();
     toChar(_float);
     _int = static_cast<int>(_float);
-    _double = static_cast<double>(_float);
     isBiggerFloat();
-    return ;
 }
 
 
@@ -147,9 +148,7 @@ void ScalarConverter::covert_from_double()
     toChar(_double);
     _int = static_cast<int>(_double);
     _float = static_cast<float>(_double);
-    std::cout << "float ==== " << _float << std::endl;
     isBiggerFloat();
-    return ;
 }
 
 void ScalarConverter::convert( std::string input )
@@ -159,7 +158,7 @@ void ScalarConverter::convert( std::string input )
     _input = input;
     if(isPseudoLiterals() != "0")
         setPseudoLiterals();
-    else if(isInt() == true)
+    if(isInt() == true)
         covert_from_int();
     else if(isChar() == true)
         covert_from_char();
@@ -303,6 +302,8 @@ bool floatIsJustNull( std::string str )
     i++;
     while(str[i] == '0')
         i++;
+    if(str[i] == 'f' && str[i + 1] == '\0')
+        return true;
     if(str[i] == '\0')
         return true;
     return false;
@@ -330,10 +331,13 @@ void printErrorMsg( std::ostream& os, ScalarConverter& sc, std::string choseType
             os << sc.getInt();
         else if ( choseTypeMsg == "float")
         {
-            os << sc.getFloat(); 
-            if( ( sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ) ) && MoreThanSixDigis(sc.getInput()) == false )
-                os << ".0";
-            os << "f";
+            os << sc.getFloat();
+            if(MoreThanSixDigis(sc.getInput()) == false)
+            {
+                if( ( sc.getType() == INT || sc.getType() == CHAR || floatIsJustNull( sc.getInput() ) ))
+                    os << ".0";
+                os << "f";
+            }
         }
         else if ( choseTypeMsg == "double")
         {
@@ -344,7 +348,6 @@ void printErrorMsg( std::ostream& os, ScalarConverter& sc, std::string choseType
     }
     else
         os << sc.getErrorMsg( choseTypeMsg );
-    os << std::endl;
 }
 
 std::string ScalarConverter::getErrorMsg( std::string error_type_msg ) 
@@ -364,8 +367,11 @@ std::string ScalarConverter::getErrorMsg( std::string error_type_msg )
 std::ostream& operator<<( std::ostream& os, ScalarConverter& sc )
 {
     printErrorMsg( os, sc, "char" );
+    os << std::endl;
     printErrorMsg( os, sc, "int" );
+    os << std::endl;
     printErrorMsg( os, sc, "float" );
+    os << std::endl;
     printErrorMsg( os, sc, "double" );
     return os;
 }

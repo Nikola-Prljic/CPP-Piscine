@@ -2,9 +2,8 @@
 
 void test_overflow( std::string input, std::string test_name )
 {
-    ScalarConverter test;
+    ScalarConverter test(input);
 
-    test.convert(input);
     std::cout << "Test:   ";
     if(test_name == "")
         std::cout << input << std::endl;
@@ -21,8 +20,7 @@ int main(int argc, char **argv)
         std::cout << "Error: Just one arg" << std::endl;
         return (0);
     }
-    ScalarConverter a;
-    a.convert(argv[1]);
+    ScalarConverter a(argv[1]);
     std::cout << a << std::endl;
 
     return 1;
