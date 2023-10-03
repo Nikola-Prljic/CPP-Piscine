@@ -12,8 +12,10 @@ typedef struct Data
 
 class Serializer
 {
-    public:
+    private:
         Serializer();
+
+    public:
         Serializer( Serializer &rhs );
         ~Serializer();
 
