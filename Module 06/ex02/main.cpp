@@ -81,7 +81,7 @@ int main ( void )
     srand(time(NULL));
 
     Base_class_ptr = generate();
-    Base_class_ptr = NULL;
+    /* Base_class_ptr = NULL; */
     identify(Base_class_ptr);
     identify(*Base_class_ptr);
     identify(Aobj);
