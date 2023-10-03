@@ -68,13 +68,11 @@ void ScalarConverter::toFloatOrDuble()
     {
         _type = FLOAT;
         _float = f;
+        return ;
     }
-    else if(toDouble() == true)
-    {
-        _type = DOUBLE;
-        error_msg[1] = "overflow";
-        error_msg[2] = "overflow";
-    }
+    error_msg[1] = "overflow";
+    error_msg[2] = "overflow";
+    error_msg[3] = "overflow";
 }
 
 bool ScalarConverter::toDouble()
@@ -114,11 +112,31 @@ void ScalarConverter::isBiggerFloat()
 void ScalarConverter::covert_from_int()
 {
     _type = INT;
-    _int = atoi( _input.c_str() );
-    toChar(_int);
-    _float = (float)_int;
-    _double = (double)_int;
-    return ;
+    long long num = 0;
+
+    if( _input == "0" || _input == "-1")
+    {
+        _int = atol(_input.c_str());
+        toChar(_int);
+        _float = static_cast<float>(_int);
+        _double = static_cast<double>(_int);
+        return ;
+    }
+    num = atol(_input.c_str());
+    if( num > INT_MAX || num < INT_MIN || num == -1 || num == 0)
+    {
+        error_msg[0] = "overflow";
+        error_msg[1] = "overflow";
+        error_msg[2] = "overflow";
+        error_msg[3] = "overflow";
+    }
+    else
+    {
+        _int = num;
+        toChar(_int);
+        _float = static_cast<float>(_int);
+        _double = static_cast<double>(_int);
+    }
 }
 
 void ScalarConverter::covert_from_char()
@@ -134,10 +152,9 @@ void ScalarConverter::covert_from_char()
 void ScalarConverter::covert_from_float()
 {
     toFloatOrDuble();
-    /* if(_type == DOUBLE) */
-    covert_from_double();
     toChar(_float);
     _int = static_cast<int>(_float);
+    _double = static_cast<double>(_float);
     isBiggerFloat();
 }
 
@@ -177,21 +194,21 @@ void ScalarConverter::convert( std::string input )
 bool ScalarConverter::isInt()
 {
     int i = 0;
-    long long num;
+    /* long long num; */
 
-    if( _input == "0" || _input == "-1")
-        return true;
+    /* if( _input == "0" || _input == "-1")
+        return true; */
     if(_input[0] == '-')
         i = 1;
     for(; _input[i]; i++)
         if (isdigit(_input[i]) == 0)
             return false;
-    num = std::atol( _input.c_str() );
-    if( num > INT_MAX || num < INT_MIN )
-        return false;
-    if(num != 0 && num != -1)
-        return true;
-    return false;
+    /* num = std::atol( _input.c_str() ); */
+    /* if( num > INT_MAX || num < INT_MIN )
+        return false; */
+    /* if(num != 0 && num != -1)
+        return true; */
+    return true;
 }
 
 bool ScalarConverter::isChar()
