@@ -83,6 +83,7 @@ bool ScalarConverter::toDouble()
     std::istringstream ss(_input);
     if(ss >> x )
     {
+        _ld = x;
         if(x > -1 && x <= std::numeric_limits<double>::max() && x >= std::numeric_limits<double>::min())
         {
             _double = static_cast<double>(x);
@@ -101,20 +102,21 @@ bool ScalarConverter::toDouble()
 
 void ScalarConverter::isBiggerFloat()
 {
-    std::cout << _ld;
     if( _ld > INT_MAX || _ld < INT_MIN)
         error_msg[1] = "overflow";
     if( _ld > -1 && (_ld > std::numeric_limits<float>::max() || _ld < std::numeric_limits<float>::min() ) )
     {
         error_msg[1] = "overflow";
         error_msg[2] = "overflow";
-        error_msg[3] = "overflow";
+        if(_type == FLOAT)
+            error_msg[3] = "overflow";
     }
     else if( _ld < 0 && (_ld < -std::numeric_limits<float>::max() || _ld > -std::numeric_limits<float>::min() ) )
     {
         error_msg[1] = "overflow";
         error_msg[2] = "overflow";
-        error_msg[3] = "overflow";
+        if(_type == FLOAT)
+            error_msg[3] = "overflow";
     }
 }
 
@@ -184,7 +186,7 @@ void ScalarConverter::convert( std::string input )
     _input = input;
     if(isPseudoLiterals() != "0")
         setPseudoLiterals();
-    if(isInt() == true)
+    else if(isInt() == true)
         covert_from_int();
     else if(isChar() == true)
         covert_from_char();
