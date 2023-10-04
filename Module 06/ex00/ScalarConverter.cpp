@@ -61,13 +61,14 @@ void ScalarConverter::toChar( int c )
 
 void ScalarConverter::toFloatOrDuble()
 {
-    float   f;
+    long double   f;
 
     std::istringstream ss(_input);
     if(ss >> f)
     {
+        _ld = static_cast<long double>(f);
         _type = FLOAT;
-        _float = f;
+        _float = static_cast<float>(f);
         return ;
     }
     error_msg[1] = "overflow";
@@ -100,13 +101,21 @@ bool ScalarConverter::toDouble()
 
 void ScalarConverter::isBiggerFloat()
 {
-    _ld = (long double)_double;
+    std::cout << _ld;
     if( _ld > INT_MAX || _ld < INT_MIN)
         error_msg[1] = "overflow";
     if( _ld > -1 && (_ld > std::numeric_limits<float>::max() || _ld < std::numeric_limits<float>::min() ) )
+    {
+        error_msg[1] = "overflow";
         error_msg[2] = "overflow";
-    else if( _ld < 0 && (_ld > -std::numeric_limits<float>::max() || _ld < -std::numeric_limits<float>::min() ) )
+        error_msg[3] = "overflow";
+    }
+    else if( _ld < 0 && (_ld < -std::numeric_limits<float>::max() || _ld > -std::numeric_limits<float>::min() ) )
+    {
+        error_msg[1] = "overflow";
         error_msg[2] = "overflow";
+        error_msg[3] = "overflow";
+    }
 }
 
 void ScalarConverter::covert_from_int()
@@ -184,30 +193,19 @@ void ScalarConverter::convert( std::string input )
     else if(isDouble() == true)
         covert_from_double();
     else
-    {
         for(int i = 0; i < 4; i++)
             error_msg[i] = "Not possible";
-    }
     return ;
 }
 
 bool ScalarConverter::isInt()
 {
     int i = 0;
-    /* long long num; */
-
-    /* if( _input == "0" || _input == "-1")
-        return true; */
     if(_input[0] == '-')
         i = 1;
     for(; _input[i]; i++)
         if (isdigit(_input[i]) == 0)
             return false;
-    /* num = std::atol( _input.c_str() ); */
-    /* if( num > INT_MAX || num < INT_MIN )
-        return false; */
-    /* if(num != 0 && num != -1)
-        return true; */
     return true;
 }
 
