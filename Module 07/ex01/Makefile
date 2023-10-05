@@ -32,6 +32,3 @@ fclean:		clean
 
 re:			fclean all
 			@echo // Clenad and rebuild everything! //
-
-
-.PHONY:		all clean fclean re
