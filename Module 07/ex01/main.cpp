@@ -52,6 +52,5 @@ int main ( void )
     TestIter(array1);
     TestIter(array2);
     TestIter(array3);
-
     return (0);
 }

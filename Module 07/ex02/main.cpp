@@ -1,34 +1,28 @@
+#include <iostream>
+#include <cstdlib>
 #include "Array.hpp"
-#include <stdlib.h>
 
 #define MAX_VAL 750
-/* int main ( void )
+
+void basic_test()
 {
-    int n = 5;
-    Array<int> a(n);
-    Array<int> nix;
-
-    Array<int> copy(a);
-    try
-    {
-        for(int i = 0; i < n; i++)
-            a[i] = 22;
-        std::cout << a[1];
-        a = nix;
-        a = copy;
-        a.printArray();
+    Array<long> num(5);
+    for(int i = 0; i < num.size(); i++){
+        num[i] = i + 3;
     }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
+    Array<int> num2(10);
+    for(int i = 0; i < num2.size(); i++){
+        num2[i] = i + -1;
     }
-
-    a.getArray();
-    return (0);
-} */
+    num = num2;
+    Array<long> num3(num);
+    std::cout << num2<< std::endl;
+}
 
 int main(int, char**)
 {
+    basic_test();
+
     Array<int> numbers(MAX_VAL);
     int* mirror = new int[MAX_VAL];
     srand(time(NULL));
@@ -44,35 +38,31 @@ int main(int, char**)
         Array<int> test(tmp);
     }
 
-    for (int i = 0; i < MAX_VAL; i++)
-    {
-        if (mirror[i] != numbers[i])
-        {
+    for (int i = 0; i < MAX_VAL; i++){
+        if (mirror[i] != numbers[i]){
             std::cerr << "didn't save the same value!!" << std::endl;
             return 1;
         }
     }
-    try
-    {
+
+    std::cout << std::endl << "Test for out of range:" << std::endl;
+    try{
         numbers[-2] = 0;
     }
-    catch(const std::exception& e)
-    {
+    catch(const std::exception& e){
         std::cerr << e.what() << '\n';
     }
-    try
-    {
+
+    try{
         numbers[MAX_VAL] = 0;
     }
-    catch(const std::exception& e)
-    {
+    catch(const std::exception& e){
         std::cerr << e.what() << '\n';
     }
-    for (int i = 0; i < MAX_VAL; i++)
-    {
+
+    for (int i = 0; i < MAX_VAL; i++){
         numbers[i] = rand();
     }
-    //std::cout << numbers << std::endl;
-    delete [] mirror;
+    delete [] mirror;//
     return 0;
 }
