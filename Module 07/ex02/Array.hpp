@@ -8,9 +8,9 @@ template <typename T> class Array
 private:
     unsigned int _n;
     T *ptr;
-    Array();
 
 public:
+    Array();
     Array( const int &n );
     Array(  Array<T> const &src );
     ~Array();

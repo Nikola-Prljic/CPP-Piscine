@@ -4,6 +4,13 @@
 #include <iostream>
 
 template <typename T>
+void iter(T array[], const int &len, void(* vFunctionCall)(const T &args))
+{
+    for(int i = 0; i < len; i++)
+        vFunctionCall(array[i]);
+}
+
+template <typename T>
 void iter(T array[], const int &len, void(* vFunctionCall)(T &args))
 {
     for(int i = 0; i < len; i++)
