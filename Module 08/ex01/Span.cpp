@@ -2,7 +2,7 @@
 
 Span::Span() {}
 
-Span::Span( unsigned int N ) : _N(N), _span(), _sorted(), is_sorted(false) {}
+Span::Span( const unsigned int &N ) : _N(N), _span(), _sorted(), is_sorted(false) {}
 
 Span::Span( const Span &src ) : _N(src._N), _span(src._span), _sorted(src._sorted), is_sorted(src.is_sorted) {}
 
@@ -17,7 +17,7 @@ Span &Span::operator=( const Span & rhs )
     return *this;
 }
 
-void Span::addNumber( int num )
+void Span::addNumber( const int &num )
 {
     if(_span.size() >= _N)
         throw std::out_of_range("Span: Full, can't add more");

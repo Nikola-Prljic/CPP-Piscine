@@ -18,12 +18,12 @@ private:
     void sort_span();
 
 public:
-    Span( unsigned int N );
+    Span( const unsigned int &N );
     Span( const Span &src );
     ~Span();
 
     Span &operator=( const Span & rhs );
-    void addNumber( const int num );
+    void addNumber( const int &num );
     int longestSpan();
     int shortestSpan();
 
