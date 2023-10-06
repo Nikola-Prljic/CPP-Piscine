@@ -18,11 +18,12 @@
 
 int main()
 {
+    const int lookFor = 2;
     int array[] = {2, 1, 4, 55, 22, 13};
     int n = sizeof(array) / sizeof(array[0]);
+    std::vector<int> num_vector(array, array + n);
 
-    std::vector<int> a(array, array + n);
-    if(easyfind(a, 2) == false)
-        return 1;
+    if( easyfind(num_vector, lookFor) == true )
+        std::cout << "found: " << lookFor << std::endl;
     return 0;
 }

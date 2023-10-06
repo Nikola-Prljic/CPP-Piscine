@@ -3,7 +3,7 @@
 
 #include "easyfind.hpp"
 
-template <typename T> bool easyfind( const T src, const int i )
+template <typename T> bool easyfind( const T &src, const int &i )
 {
     if(std::find(src.begin(), src.end(), i) == src.end())
         return false;
