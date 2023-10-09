@@ -1,5 +1,47 @@
 #include "Span.hpp"
 
+void big_test()
+{
+    try {
+        std::vector<int>    l( 10000 );
+        std::srand( time ( NULL ) );
+        std::generate( l.begin(), l.end(), std::rand );
+
+        Span span( l.size() );
+
+        span.addNumber( l.begin(), l.end() );
+
+        std::cout << "Longest span: " << span.longestSpan() << std::endl;
+        std::cout << "Shortest span: " << span.shortestSpan() << std::endl;
+        
+    } catch ( std::exception& e ) {
+        std::cout << e.what() << std::endl; 
+    }
+}
+
+void range_test()
+{
+    std::vector<int> ls;
+
+    ls.push_back(1);
+    ls.push_back(2);
+    ls.push_back(3);
+    ls.push_back(4);
+
+    Span sp(5);
+    try
+    {
+        sp.addNumber(4);
+        sp.addNumber(2);
+        sp.addNumber(ls.begin() + 1, ls.end());
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << sp << std::endl;
+}
+
 int main()
 {
     Span sp = Span(5);
@@ -61,5 +103,17 @@ int main()
     }
     std::cout << " -> small span test: ok" << std::endl;
     std::cout << "------------------------" << std::endl;
+
+    std::cout << " -> add range: " << std::endl;
+    range_test();
+    big_test();
+    Span sp1 = Span(5);
+    sp1.addNumber(6);
+    sp1.addNumber(3);
+    sp1.addNumber(17);
+    sp1.addNumber(9);
+    sp1.addNumber(11);
+    std::cout << sp1.shortestSpan() << std::endl;
+    std::cout << sp1.longestSpan() << std::endl;
     return 0;
 }

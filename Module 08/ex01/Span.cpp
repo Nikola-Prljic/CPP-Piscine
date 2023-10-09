@@ -25,10 +25,17 @@ void Span::addNumber( const int &num )
     is_sorted = false;
 }
 
+void Span::addNumber( std::vector<int>::const_iterator begin, std::vector<int>::const_iterator end)
+{
+    if ( _span.size() >= _N || _span.size() + (end - begin) > _N)
+        throw std::out_of_range("Span: Full, can't add more");
+    _span.insert( _span.end(), begin, end );
+}
+
 void Span::sort_span()
 {
     if(_span.empty() == true || _span.size() == 1)
-        throw std::logic_error("Span: stack to small");
+        throw std::logic_error("Span: to small");
     if(is_sorted == false)
     {
         _sorted = _span;
@@ -46,10 +53,16 @@ int Span::longestSpan()
 int Span::shortestSpan()
 {
     sort_span();
-    return _sorted[1] - _sorted.front();
+    int span = -1;
+    for(size_t i = 0; i < (_sorted.size() - 1); i++)
+        if(_sorted[i + 1] - _sorted[i] < span || span == -1)
+            span = _sorted[i + 1] - _sorted[i];
+    return span;
 }
 
 std::vector<int> Span::getSpan() const { return _span; }
+
+unsigned int Span::getN() const { return _N; }
 
 std::ostream &operator<<( std::ostream& os, const Span &src)
 {
