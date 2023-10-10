@@ -22,13 +22,14 @@ public:
     Span( const Span &src );
     ~Span();
 
-    Span &operator=( const Span & rhs );
-    void addNumber( const int &num );
-    void addNumber( std::vector<int>::iterator start, std::vector<int>::iterator end);
-    int longestSpan();
-    int shortestSpan();
+    Span    &operator=( const Span & rhs );
+    void    addNumber( const int &num );
+    void    addNumber( std::vector<int>::const_iterator begin, std::vector<int>::const_iterator end);
+    int     longestSpan();
+    int     shortestSpan();
 
     std::vector<int> getSpan() const;
+    unsigned int getN() const;
 };
 
 std::ostream &operator<<( std::ostream& os, const Span &src);
