@@ -5,7 +5,7 @@
 #include "vector"
 #include "algorithm"
 
-template <typename T> bool easyfind(const T &src, const int &i);
+template <typename T> int easyfind(const T &src, const int &i);
 
 #include "easyfind.tpp"
 

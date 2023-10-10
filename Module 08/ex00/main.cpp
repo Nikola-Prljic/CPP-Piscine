@@ -1,5 +1,6 @@
 #include "easyfind.hpp"
 #include <vector>
+#include <list>
 
 /* int main()
 {
@@ -21,9 +22,9 @@ int main()
     const int lookFor = 2;
     int array[] = {2, 1, 4, 55, 22, 13};
     int n = sizeof(array) / sizeof(array[0]);
-    std::vector<int> num_vector(array, array + n);
+    std::list<int> num_vector(array, array + n);
 
-    if( easyfind(num_vector, lookFor) == true )
+    if( easyfind(num_vector, lookFor) )
         std::cout << "found: " << lookFor << std::endl;
     return 0;
 }

@@ -25,6 +25,11 @@ void Span::addNumber( const int &num )
     is_sorted = false;
 }
 
+void Span::addNumber( std::vector<int>::iterator start, std::vector<int>::iterator end)
+{
+    _span.insert( start, end, _span.end() );
+}
+
 void Span::sort_span()
 {
     if(_span.empty() == true || _span.size() == 1)

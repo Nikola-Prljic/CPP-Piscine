@@ -61,5 +61,10 @@ int main()
     }
     std::cout << " -> small span test: ok" << std::endl;
     std::cout << "------------------------" << std::endl;
+
+    std::vector<int> vec;
+    vec.push_back(1);
+
+    sp.addNumber(vec.begin(), vec.end());
     return 0;
 }
