@@ -32,14 +32,18 @@ private:
     int open_file( std::ifstream &file, const std::string file_path );
     void save_line( std::string date );
     void saveCsvDate( std::string line );
-    void print_data();
-    void print_csv_data();
     dequeDateItr findNextYear( dequeDateItr itr );
     void DoBtcExchange();
+    void print_csv_data();
+
+    bool validDate(int year, int month, int day);
 
 public:
 
-    BitcoinExchange( const std::string argv1 );
+    BitcoinExchange( const std::string &argv1 );
+    BitcoinExchange( const BitcoinExchange &src );
+    BitcoinExchange &operator=( const BitcoinExchange &src );
+    void print_data();
 };
 
 #endif

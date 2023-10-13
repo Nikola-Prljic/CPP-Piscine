@@ -6,5 +6,5 @@ int main( int argc, char **argv )
         std::cout << "Just one argument. It must be a file name." << std::endl;
     else
         BitcoinExchange btc( argv[1] );
-    return 0;
+    return (0);
 }

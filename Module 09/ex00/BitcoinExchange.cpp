@@ -1,7 +1,8 @@
 #include "BitcoinExchange.hpp"
 #include <cstdlib>
+#include <ctime>
 
-BitcoinExchange::BitcoinExchange( const std::string argv1 ) : _data(), _csv_data()  
+BitcoinExchange::BitcoinExchange( const std::string &argv1 ) : _data(), _csv_data()  
 {
     std::ifstream inputFile;
     std::ifstream dataFile;
@@ -116,11 +117,14 @@ void BitcoinExchange::save_line( std::string line )
     std::stringstream stream_YYYY_MM_DD(line);
     
     getline(stream_YYYY_MM_DD, date, ' ');
-    if(dateInRange(stream, tmp.year, '-', 2009, 2022) == false)
+
+    if(dateInRange(stream, tmp.year, '-', 1950, 2023) == false)
         tmp.error = "Error: bad input => "  + date;
     else if(dateInRange(stream, tmp.month, '-', 1, 12) == false)
         tmp.error = "Error: bad input => "  + date;
     else if(dateInRange(stream, tmp.day, ' ', 1, 32) == false)
+        tmp.error = "Error: bad input => "  + date;
+    else if(validDate(tmp.year, tmp.month, tmp.day) == false)
         tmp.error = "Error: bad input => "  + date;
     else
         vaildValue( stream, &tmp);
@@ -177,6 +181,19 @@ void BitcoinExchange::print_csv_data()
     }
 }
 
+bool BitcoinExchange::validDate( int year, int month, int day)
+{
+    struct tm t = {};
+
+    t.tm_year = year;
+    t.tm_mon = month;
+    t.tm_mday = day;
+    std::time_t ta = std::mktime(&t);
+    if ( ta < 0 || year != t.tm_year || month != t.tm_mon || day != t.tm_mday )
+        return false;
+    return true;
+}
+
 //returns the final result
 std::deque< BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( dequeDateItr itr )
 {
@@ -220,3 +237,16 @@ void BitcoinExchange::DoBtcExchange()
         }
 }
 
+BitcoinExchange::BitcoinExchange( const BitcoinExchange &src ) : _data(src._data), _csv_data(src._csv_data)
+{
+    return ;
+}
+
+BitcoinExchange &BitcoinExchange::operator=( const BitcoinExchange &src )
+{
+    if(this == &src)
+        return *this;
+    _data = src._data;
+    _csv_data = src._csv_data;
+    return *this;
+}
