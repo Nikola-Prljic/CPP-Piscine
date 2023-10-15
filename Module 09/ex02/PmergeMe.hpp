@@ -53,7 +53,7 @@ private:
 
 public:
 
-    PmergeMe( const vectorInt input );
+    PmergeMe( const vectorInt input, int argv_to_vector_time);
     PmergeMe( PmergeMe const &in );
     ~PmergeMe();
 

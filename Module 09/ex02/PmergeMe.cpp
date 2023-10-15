@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe( const vectorInt input ) : _vector(input), _unsortedVector(input),_listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5), _time_vector(0), _time_listofList(0)
+PmergeMe::PmergeMe( const vectorInt input, int argv_to_vector_time ) : _vector(input), _unsortedVector(input),_listofList(), _groups_ammount(ceilf((double)_vector.size() / (double)5)), _N(5), _time_vector(argv_to_vector_time), _time_listofList(argv_to_vector_time)
 {
     if( input.empty() == true )
         return ;
@@ -10,7 +10,6 @@ PmergeMe::PmergeMe( const vectorInt input ) : _vector(input), _unsortedVector(in
         _vector.clear();
         return ;
     }
-    convertVectorToList();
     sort_and_get_time( _time_vector, &PmergeMe::sortVector );
     sort_and_get_time( _time_listofList, &PmergeMe::SortList );
 }
@@ -61,7 +60,7 @@ void PmergeMe::sort_and_get_time( double &time, void (PmergeMe::*func)() )
     t = clock();
     (this->*func)();
     t = clock() - t;
-    time = ((double)t) / CLOCKS_PER_SEC;
+    time += ((double)t) / CLOCKS_PER_SEC;
 }
 
 void PmergeMe::sortVector()
@@ -192,6 +191,7 @@ void PmergeMe::convertVectorToList()
 
 void PmergeMe::SortList()
 {
+    convertVectorToList();
     if(_listofList.empty())
     {
         std::cout << "List of list is empty." << std::endl;
