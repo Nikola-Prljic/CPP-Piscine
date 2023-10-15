@@ -211,31 +211,18 @@ std::list<int>::iterator PmergeMe::increaseList( std::list<int>::iterator itr, i
 
 void PmergeMe::InsertionSort( listInt &list )
 {
-    int pos_right;
-    int pos_left = 0;
     for( listIntItr left = list.begin(); left != list.end(); left++ )
-    {
-        pos_right = pos_left;
-        for( listIntItr right = left; right != list.end(); right++)
-        {
+        for( listIntItr right = left; right != list.end(); )
             if( *left > *right)
-            {
                 moveNum( left, right, list);
-                right =  increaseList(list.begin(), pos_right, list);
-                left = increaseList(list.begin(), pos_left, list);
-            }
-            pos_right++;
-        }
-        pos_left++;
-    }
+            else
+                right++;
 }
 
 void PmergeMe::moveNum( listIntItr &left, listIntItr &right, listInt &list )
 {
-    int rightInttmp = *right;
-
-    list.erase ( right );
-    list.insert ( left, rightInttmp );
+    left = list.insert ( left, *right );
+    right = list.erase ( right );
 }
 
 
