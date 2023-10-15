@@ -119,6 +119,7 @@ void PmergeMe::moveNum( vIntItr &left, vIntItr &right )
     left = _vector.insert ( left, rightInttmp );
 }
 
+//------------------------Vector------------------------//
 //----------------------MergeSort----------------------//
 void PmergeMe::MergeSortGroups( int N )
 {
@@ -167,7 +168,7 @@ void PmergeMe::printList( std::list<int> list )
 
 std::vector<int> PmergeMe::getVector() { return _vector; }
 
-//---------------------------------queue-----------------------------------------------//
+//---------------------------------list-----------------------------------------------//
 
 void PmergeMe::convertVectorToList()
 {
