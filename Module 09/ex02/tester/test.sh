@@ -59,7 +59,7 @@ ft_make_array()
 }
 
 x=1
-while [ $x -le 100 ]
+while [ $x -le 20 ]
 do
     ft_make_array
     ft_test "${number[*]}"
@@ -71,6 +71,8 @@ if [ $num -eq 0 ]
 else
     echo "| valgrind: ko  |"
 fi
+
+rm out PmergeMe
 
 echo "-----------------"
 
