@@ -1,32 +1,61 @@
 #include "PmergeMe.hpp"
+#include <sstream>
 
 PmergeMe::PmergeMe( char **argv )
 {
-    argvToVector( argv );
+    if(argvToVector( argv ))
+        return ;
+    print_vector( vector );
+    std::cout << std::endl;
 }
 
+//-----------------------------Convert and Print---------------------------------------------------
+
 //With error handling
+bool PmergeMe::ft_isnum(char *str)
+{
+    int i;
+
+    i = 0;
+    if(str[i] == '-')
+        i = 1;
+    for ( ; str[i]; i++)
+        if( !( std::isdigit(str[i]) ) )
+        {
+            std::cout << "Error" << std::endl << "It is not an integer: " << str << std::endl;
+            return ( false );
+        }
+    return ( true );
+}
+
+//returns 1 if it fails overflow or no num
 int PmergeMe::argvToVector( char **argv )
 {
-    long num = 0;
-    for( int i = 1; argv[i]; i++ )
+    int num;
+    std::stringstream ss;
+
+    for(int i = 1; argv[i]; i++)
     {
-        if( argv[i][0] == '0' && argv[i][1] == 0 ){
-            vector.push_back(0);
-            continue ;
-        }
-        if( argv[i][0] == '-' && argv[i][1] == '1' && argv[i][2] == 0 ){
-            vector.push_back(-1);
-            continue ;
-        }
-        num = std::atol(argv[i]);
-        if( num == 0 || num == -1)
+        if( ft_isnum(argv[i]) == false )
+            return (1);
+        std::stringstream ss(argv[i]);
+        ss >> num;
+        if(ss.fail())
         {
-            std::cout << "Error: wrong input" << std::endl;
-            return 1;
+            std::cout << "Error" << std::endl << "Overflow" << std::endl;
+            return (1);
         }
-        else
-            vector.push_back(num);
+        vector.push_back(num);
     }
     return (0);
+}
+
+void PmergeMe::print_vector( const std::vector<int> &v )
+{
+    for( size_t i = 0; i < v.size(); i++ )
+    {
+        std::cout << v[i];
+        if(i != v.size() - 1)
+            std::cout << " ";
+    }
 }
