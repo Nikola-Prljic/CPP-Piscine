@@ -5,9 +5,70 @@ PmergeMe::PmergeMe( char **argv )
 {
     if(argvToVector( argv ))
         return ;
-    print_vector( vector );
+    vv.push_back(vector);
+    ford_johnson_vector( vv, 0 );
+
+    //print_vector( vector );
     std::cout << std::endl;
+    std::cout << "vector of vectors"<< std::endl;
+    print_vector( vv[0] );
+    std::cout << std::endl;
+    print_vector( vv[1] );
+    std::cout << std::endl;
+    print_vector( vv[2] );
+    std::cout << std::endl;
+    print_vector( vv[3] );
 }
+
+//-----------------------------Ford Johnson Vector-------------------------------------------------
+void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v, int i )
+{
+    size_t x = 0;
+    for(size_t y = 0; y < v_v.size(); y++)
+    {
+        if(y + 1 > v_v.size())
+            continue ;
+        v_v[y].push_back(v_v[y + 1][x]);
+
+        if(x < v_v[y + 1].size() - 1)
+            v_v[y].push_back(v_v[y + 1][x + 1]);
+
+        v_v.erase(v_v.begin() + (y + 1));
+        std::cout << "size = " << v_v.size() << std::endl;
+        //x += 2;
+    }
+    return;
+    //if(v[i] < v[i + 1] && (size_t)i < v.size() / 2)
+    //    iter_swap(v.begin() + i, v.begin() + i + 1);
+    //if(v[i + 2] < v[i + 3])
+    //    iter_swap(v.begin() + i + 2, v.begin() + i + 3);
+    i++;
+    std::cout << "a";
+    if(v_v.size() == (size_t)i)
+        return ;
+    ford_johnson_vector( v_v, i);
+    return ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //-----------------------------Convert and Print---------------------------------------------------
 
@@ -32,7 +93,6 @@ bool PmergeMe::ft_isnum(char *str)
 int PmergeMe::argvToVector( char **argv )
 {
     int num;
-    std::stringstream ss;
 
     for(int i = 1; argv[i]; i++)
     {
@@ -45,7 +105,16 @@ int PmergeMe::argvToVector( char **argv )
             std::cout << "Error" << std::endl << "Overflow" << std::endl;
             return (1);
         }
-        vector.push_back(num);
+
+        // PUSH BACK INTO PAIRS
+        if( i % 2 == 0 )
+        {
+            vector.push_back(num);
+            vv.push_back(vector);
+            vector.clear();
+        }
+        else
+            vector.push_back(num);
     }
     return (0);
 }
