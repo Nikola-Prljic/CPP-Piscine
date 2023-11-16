@@ -23,6 +23,7 @@ public:
     int argvToVector( char **argv );
 
     void print_vector( const std::vector<int> &v );
+    void print_vv( const std::vector< std::vector<int> > &v );
 };
 
 #endif

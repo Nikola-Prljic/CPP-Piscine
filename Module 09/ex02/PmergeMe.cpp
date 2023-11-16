@@ -6,38 +6,41 @@ PmergeMe::PmergeMe( char **argv )
     if(argvToVector( argv ))
         return ;
     vv.push_back(vector);
+
+    print_vv( vv );
+
     ford_johnson_vector( vv, 0 );
 
     //print_vector( vector );
-    std::cout << std::endl;
-    std::cout << "vector of vectors"<< std::endl;
-    print_vector( vv[0] );
-    std::cout << std::endl;
-    print_vector( vv[1] );
-    std::cout << std::endl;
-    print_vector( vv[2] );
-    std::cout << std::endl;
-    print_vector( vv[3] );
+    print_vv( vv );
 }
 
 //-----------------------------Ford Johnson Vector-------------------------------------------------
 void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v, int i )
 {
     size_t x = 0;
-    for(size_t y = 0; y < v_v.size(); y++)
+    for(size_t y = 0; y < v_v.size() - 1; y++)
     {
-        if(y + 1 > v_v.size())
-            continue ;
-        v_v[y].push_back(v_v[y + 1][x]);
 
-        if(x < v_v[y + 1].size() - 1)
+        if( y + 1 > v_v.size() )
+            continue ;
+
+        if( v_v[y + 1].empty() == false)
+            v_v[y].push_back(v_v[y + 1][x]);
+
+        if( x < v_v[y + 1].size() - 1 && v_v[y + 1].empty() == false)
             v_v[y].push_back(v_v[y + 1][x + 1]);
 
-        v_v.erase(v_v.begin() + (y + 1));
-        std::cout << "size = " << v_v.size() << std::endl;
+        v_v.erase( v_v.begin() + (y + 1) );
+        std::cout << std::endl << "size = " << v_v.size() << std::endl;
+        std::cout << "y = " << y << std::endl;
+        print_vv( v_v );
+        std::cout << "----------------------" << std::endl;
+        /* if( v_v[y + 1].empty() == true )
+            v_v.erase( v_v.begin() + ( y + 1 ) ); */
         //x += 2;
     }
-    return;
+    return ;
     //if(v[i] < v[i + 1] && (size_t)i < v.size() / 2)
     //    iter_swap(v.begin() + i, v.begin() + i + 1);
     //if(v[i + 2] < v[i + 3])
@@ -126,5 +129,14 @@ void PmergeMe::print_vector( const std::vector<int> &v )
         std::cout << v[i];
         if(i != v.size() - 1)
             std::cout << " ";
+    }
+}
+
+void PmergeMe::print_vv( const std::vector< std::vector<int> > &v )
+{
+    for( size_t i = 0; i < v.size(); i++)
+    {
+        print_vector( v[i] );
+        std::cout << std::endl;
     }
 }
