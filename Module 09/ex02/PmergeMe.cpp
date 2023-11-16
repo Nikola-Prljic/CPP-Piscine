@@ -22,16 +22,26 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v, int i 
     for(size_t y = 0; y < v_v.size() - 1; y++)
     {
 
-        if( y + 1 > v_v.size() )
-            continue ;
+        /* if( y + 1 > v_v.size() )
+            continue ; */
 
-        if( v_v[y + 1].empty() == false)
+        /* if( v_v[y + 1].empty() == false)
+        {
             v_v[y].push_back(v_v[y + 1][x]);
-
-        if( x < v_v[y + 1].size() - 1 && v_v[y + 1].empty() == false)
-            v_v[y].push_back(v_v[y + 1][x + 1]);
-
-        v_v.erase( v_v.begin() + (y + 1) );
+            v_v[y + 1].erase(v_v[y + 1].begin());
+        }
+        if(v_v[y + 1].empty() == false)
+        {
+            v_v[y].push_back(v_v[y + 1][x]);
+            v_v[y + 1].erase(v_v[y + 1].begin());
+        } */
+        while(v_v[y + 1].empty() == false)
+        {
+            v_v[y].push_back(v_v[y + 1][x]);
+            v_v[y + 1].erase(v_v[y + 1].begin());
+        }
+        if(v_v[ y + 1 ].empty() == true)
+            v_v.erase( v_v.begin() + (y + 1) );
         std::cout << std::endl << "size = " << v_v.size() << std::endl;
         std::cout << "y = " << y << std::endl;
         print_vv( v_v );
@@ -40,14 +50,18 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v, int i 
             v_v.erase( v_v.begin() + ( y + 1 ) ); */
         //x += 2;
     }
-    return ;
+
+    // delete if last row is empty
+    if(v_v[ v_v.size() - 1 ].empty() == true)
+        v_v.erase( v_v.begin() + v_v.size() - 1 );
+    /* return ; */
     //if(v[i] < v[i + 1] && (size_t)i < v.size() / 2)
     //    iter_swap(v.begin() + i, v.begin() + i + 1);
     //if(v[i + 2] < v[i + 3])
     //    iter_swap(v.begin() + i + 2, v.begin() + i + 3);
     i++;
     std::cout << "a";
-    if(v_v.size() == (size_t)i)
+    if(v_v.size() == 1)
         return ;
     ford_johnson_vector( v_v, i);
     return ;
