@@ -7,63 +7,73 @@ PmergeMe::PmergeMe( char **argv )
         return ;
     vv.push_back(vector);
 
-    print_vv( vv );
+    /* print_vv( vv ); */
 
-    ford_johnson_vector( vv, 0 );
+    ford_johnson_vector( vv );
 
     //print_vector( vector );
     print_vv( vv );
 }
 
-//-----------------------------Ford Johnson Vector-------------------------------------------------
-void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v, int i )
+void swap_pairs( std::vector< std::vector<int> > &v_v )
 {
+    for( size_t y = 0; y + 1 < v_v.size(); y += 2 )
+        if( v_v[y][0] < v_v[y + 1][0] )
+            std::iter_swap( v_v.begin() + y, v_v.begin() + y + 1);
+}
+
+void split_vector_into_pairs( std::vector< std::vector<int> > &v_v )
+{
+    size_t y = 1;
+    std::vector<int> v;
+    for( size_t x = 0; x < v_v[0].size(); x += 2 )
+    {
+        v.push_back(v_v[0][x]);
+        if(x + 1 < v_v[0].size())
+            v.push_back(v_v[0][x + 1]);
+        v_v.push_back(v);
+        v.clear();
+        y++;
+    }
+    v_v.erase( v_v.begin() );
+}
+
+//-----------------------------Ford Johnson Vector-------------------------------------------------
+void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v )
+{
+    swap_pairs(v_v);
+    /* return ; */
+
     size_t x = 0;
     for(size_t y = 0; y < v_v.size() - 1; y++)
     {
-
-        /* if( y + 1 > v_v.size() )
-            continue ; */
-
-        /* if( v_v[y + 1].empty() == false)
-        {
-            v_v[y].push_back(v_v[y + 1][x]);
-            v_v[y + 1].erase(v_v[y + 1].begin());
-        }
-        if(v_v[y + 1].empty() == false)
-        {
-            v_v[y].push_back(v_v[y + 1][x]);
-            v_v[y + 1].erase(v_v[y + 1].begin());
-        } */
         while(v_v[y + 1].empty() == false)
         {
             v_v[y].push_back(v_v[y + 1][x]);
             v_v[y + 1].erase(v_v[y + 1].begin());
         }
         if(v_v[ y + 1 ].empty() == true)
-            v_v.erase( v_v.begin() + (y + 1) );
+            v_v.erase( v_v.begin() + ( y + 1 ) );
+
+
         std::cout << std::endl << "size = " << v_v.size() << std::endl;
         std::cout << "y = " << y << std::endl;
         print_vv( v_v );
         std::cout << "----------------------" << std::endl;
-        /* if( v_v[y + 1].empty() == true )
-            v_v.erase( v_v.begin() + ( y + 1 ) ); */
-        //x += 2;
+
     }
 
     // delete if last row is empty
     if(v_v[ v_v.size() - 1 ].empty() == true)
         v_v.erase( v_v.begin() + v_v.size() - 1 );
     /* return ; */
-    //if(v[i] < v[i + 1] && (size_t)i < v.size() / 2)
-    //    iter_swap(v.begin() + i, v.begin() + i + 1);
-    //if(v[i + 2] < v[i + 3])
-    //    iter_swap(v.begin() + i + 2, v.begin() + i + 3);
-    i++;
-    std::cout << "a";
+
     if(v_v.size() == 1)
+    {
+        split_vector_into_pairs( v_v );
         return ;
-    ford_johnson_vector( v_v, i);
+    }
+    ford_johnson_vector( v_v );
     return ;
 }
 
@@ -127,6 +137,8 @@ int PmergeMe::argvToVector( char **argv )
         if( i % 2 == 0 )
         {
             vector.push_back(num);
+            if( vector.size() == 2 && vector[0] < vector[1] )
+                std::iter_swap(vector.begin(), vector.begin() + 1);
             vv.push_back(vector);
             vector.clear();
         }

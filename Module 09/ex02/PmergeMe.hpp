@@ -16,7 +16,7 @@ private:
 public:
     PmergeMe( char **argv );
 
-    void ford_johnson_vector( std::vector< std::vector<int> > &v_v, int i );
+    void ford_johnson_vector( std::vector< std::vector<int> > &v_v );
 
     //input to vector and test is num
     bool ft_isnum(char *str);
