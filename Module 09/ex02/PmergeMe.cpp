@@ -66,33 +66,16 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v )
     // delete if last row is empty
     if(v_v[ v_v.size() - 1 ].empty() == true)
         v_v.erase( v_v.begin() + v_v.size() - 1 );
-    /* return ; */
 
+    // if size of v of v is 1 end recursive
     if(v_v.size() == 1)
     {
         split_vector_into_pairs( v_v );
         return ;
     }
+
     ford_johnson_vector( v_v );
-    return ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -102,9 +85,8 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v )
 //With error handling
 bool PmergeMe::ft_isnum(char *str)
 {
-    int i;
+    int i = 0;
 
-    i = 0;
     if(str[i] == '-')
         i = 1;
     for ( ; str[i]; i++)
@@ -116,6 +98,7 @@ bool PmergeMe::ft_isnum(char *str)
     return ( true );
 }
 
+
 //returns 1 if it fails overflow or no num
 int PmergeMe::argvToVector( char **argv )
 {
@@ -123,8 +106,10 @@ int PmergeMe::argvToVector( char **argv )
 
     for(int i = 1; argv[i]; i++)
     {
+
         if( ft_isnum(argv[i]) == false )
             return (1);
+
         std::stringstream ss(argv[i]);
         ss >> num;
         if(ss.fail())
@@ -138,7 +123,7 @@ int PmergeMe::argvToVector( char **argv )
         {
             vector.push_back(num);
             if( vector.size() == 2 && vector[0] < vector[1] )
-                std::iter_swap(vector.begin(), vector.begin() + 1);
+                std::iter_swap( vector.begin(), vector.begin() + 1 );
             vv.push_back(vector);
             vector.clear();
         }
@@ -147,6 +132,8 @@ int PmergeMe::argvToVector( char **argv )
     }
     return (0);
 }
+
+
 
 void PmergeMe::print_vector( const std::vector<int> &v )
 {
