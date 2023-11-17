@@ -10,73 +10,73 @@ PmergeMe::PmergeMe( char **argv )
     print_vv( vv );
 }
 
-void swap_pairs( std::vector< std::vector<int> > &v_v )
+void swap_pairs( std::vector< std::vector<int> > &pairs )
 {
-    for( size_t y = 0; y + 2 < v_v.size(); y += 2 )
-        if( v_v[y][0] > v_v[y + 1][0] )
-            std::iter_swap( v_v.begin() + y, v_v.begin() + y + 1);
+    for( size_t y = 0; y + 2 < pairs.size(); y += 2 )
+        if( pairs[y][0] > pairs[y + 1][0] )
+            std::iter_swap( pairs.begin() + y, pairs.begin() + y + 1);
 }
 
-void split_vector_into_chains( std::vector< std::vector<int> > &v_v )
+void split_vector_into_chains( std::vector< std::vector<int> > &pairs )
 {
     std::vector<int> main_chain;
     std::vector<int> second_chain;
 
     //create the 2 chains from the pairs
-    for( size_t x = 0; x < v_v[0].size(); x += 2 )
+    for( size_t element = 0; element < pairs[0].size(); element += 2 )
     {
-        main_chain.push_back(v_v[0][x]);
+        main_chain.push_back(pairs[0][element]);
 
-        /* if(x + 1 < v_v[0].size()) USELESS BECAUSE ALWAYS EVEN */
+        /* if(x + 1 < pairs[0].size()) USELESS BECAUSE ALWAYS EVEN */
 
-        second_chain.push_back(v_v[0][x + 1]);
+        second_chain.push_back(pairs[0][element + 1]);
     }
     /* if( main_chain.size() > second_chain.size() ) USELESS BECAUSE ALWAYS EVEN
     {
         second_chain.push_back( main_chain.back() );
         main_chain.erase( main_chain.end() - 1);
     } */
-    v_v.push_back( main_chain );
-    v_v.push_back( second_chain );
-    v_v.erase( v_v.begin() );
+    pairs.push_back( main_chain );
+    pairs.push_back( second_chain );
+    pairs.erase( pairs.begin() );
+}
+
+void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
+{
+    for(size_t y = 0; y < pairs.size() - 1; y++)
+    {
+        while( pairs[y + 1].empty() == false )
+        {
+            pairs[y].push_back(pairs[y + 1][0]);
+            pairs[y + 1].erase(pairs[y + 1].begin());
+        }
+        if( pairs[ y + 1 ].empty() == true )
+            pairs.erase( pairs.begin() + ( y + 1 ) );
+
+        std::cout << std::endl << "size = " << pairs.size() << std::endl;
+        std::cout << "y = " << y << std::endl;
+        print_vv( pairs );
+        std::cout << "----------------------" << std::endl;
+    }
 }
 
 //-----------------------------Ford Johnson Vector-------------------------------------------------
-void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &v_v )
+void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
 {
     //if one pair is bigger than the other swap it
-    if(vector.size() == 1)
+    if( vector.size() == 1 )
         return ;
-    swap_pairs(v_v);
-
-    size_t x = 0;
-    for(size_t y = 0; y < v_v.size() - 1; y++)
-    {
-        while(v_v[y + 1].empty() == false)
-        {
-            v_v[y].push_back(v_v[y + 1][x]);
-            v_v[y + 1].erase(v_v[y + 1].begin());
-        }
-        if(v_v[ y + 1 ].empty() == true)
-            v_v.erase( v_v.begin() + ( y + 1 ) );
-
-        std::cout << std::endl << "size = " << v_v.size() << std::endl;
-        std::cout << "y = " << y << std::endl;
-        print_vv( v_v );
-        std::cout << "----------------------" << std::endl;
-    }
+    swap_pairs(pairs);
+    join_pairs_together( pairs );
 
     // delete if last row is empty
-    if(v_v[ v_v.size() - 1 ].empty() == true)
-        v_v.erase( v_v.begin() + v_v.size() - 1 );
+    if( pairs[ pairs.size() - 1 ].empty() == true )
+        pairs.erase( pairs.begin() + pairs.size() - 1 );
 
-    // if size of v of v is 1 end recursive
-    if(v_v.size() == 1)
-    {
-        split_vector_into_chains( v_v );
-        return ;
-    }
-    ford_johnson_vector( v_v );
+    // if pairs size > 1 do recursion
+    if( pairs.size() > 1 )
+        return ford_johnson_vector( pairs );
+    split_vector_into_chains( pairs );
 }
 
 

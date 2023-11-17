@@ -17,6 +17,7 @@ public:
     PmergeMe( char **argv );
 
     void ford_johnson_vector( std::vector< std::vector<int> > &v_v );
+    void join_pairs_together( std::vector< std::vector<int> > &pairs );
 
     //input to vector and test is num
     bool ft_isnum(char *str);
