@@ -8,11 +8,13 @@ PmergeMe::PmergeMe( char **argv )
     vv.push_back(vector);
     ford_johnson_vector( vv );
     print_vv( vv );
+
+    binary_search( vv[0], 0, vv[0].size(), 5);
 }
 
 void swap_pairs( std::vector< std::vector<int> > &pairs )
 {
-    for( size_t y = 0; y + 2 < pairs.size(); y += 2 )
+    for( size_t y = 0; y < pairs.size() - 2; y++ )
         if( pairs[y][0] > pairs[y + 1][0] )
             std::iter_swap( pairs.begin() + y, pairs.begin() + y + 1);
 }
@@ -64,9 +66,9 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
 {
     //if one pair is bigger than the other swap it
-    if( vector.size() == 1 )
-        return ;
-    swap_pairs(pairs);
+    /* if( vector.size() == 1 )
+        return ; */
+    swap_pairs( pairs );
     join_pairs_together( pairs );
 
     // delete if last row is empty
@@ -74,9 +76,12 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
         pairs.erase( pairs.begin() + pairs.size() - 1 );
 
     // if pairs size > 1 do recursion
-    if( pairs.size() > 1 )
-        return ford_johnson_vector( pairs );
-    split_vector_into_chains( pairs );
+    if( pairs.size() == 1 )
+    {
+        split_vector_into_chains( pairs );
+        return ;
+    }
+    ford_johnson_vector( pairs );
 }
 
 
@@ -100,6 +105,25 @@ bool PmergeMe::ft_isnum(char *str)
     return ( true );
 }
 
+void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, int num) 
+{
+    int range = start + ( ( end - start ) / 2 );
+    if( main_chain.empty() == true )
+        return ;
+    if( range >= (int)main_chain.size() )
+        return ;
+    if (num > main_chain[range]) 
+    {
+        /* System.out.println(start + " " + end + " " + range); */
+        binary_search(main_chain, range + 1, end, num);
+    }
+    else if (num < main_chain[range] && start != range)
+        binary_search(main_chain, start, range - 1, num);
+    else if(num == main_chain[range])
+        std::cout << num << " an Position " << range << " enthalten." << std::endl; 
+    else
+        std::cout << num << " nicht im Array enthalten." << range << std::endl;
+}
 
 //returns 1 if it fails overflow or no num
 int PmergeMe::argvToVector( char **argv )

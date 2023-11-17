@@ -19,6 +19,8 @@ public:
     void ford_johnson_vector( std::vector< std::vector<int> > &v_v );
     void join_pairs_together( std::vector< std::vector<int> > &pairs );
 
+    void binary_search( std::vector<int> main_chain, int start, int end, int num);
+
     //input to vector and test is num
     bool ft_isnum(char *str);
     int argvToVector( char **argv );
