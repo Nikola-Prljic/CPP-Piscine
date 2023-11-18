@@ -55,13 +55,29 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 {
     for(size_t y = 0; y < pairs.size() - 1; y++)
     {
-        while( pairs[y + 1].empty() == false )
+        std::vector<int> main_chain(pairs[0]);
+
+        for (size_t i = 2; i < main_chain.size(); i += 1)
+            main_chain.erase(main_chain.begin() + i);
+
+        binary_search(main_chain, 0, main_chain.size(), pairs[1][0]);
+        if(insert_pos == 0)
+            insert_pos = 0;
+        else if(insert_pos >= (int)main_chain.size())
+            insert_pos = pairs[0].size();
+        else
+            insert_pos = insert_pos * 2;
+
+        pairs[0].insert(pairs[0].begin() + insert_pos, pairs[1].begin(), pairs[1].end());
+        pairs.erase(pairs.begin() + 1);
+
+        /* while( pairs[y + 1].empty() == false )
         {
             pairs[y].push_back(pairs[y + 1][0]);
             pairs[y + 1].erase(pairs[y + 1].begin());
         }
         if( pairs[ y + 1 ].empty() == true )
-            pairs.erase( pairs.begin() + ( y + 1 ) );
+            pairs.erase( pairs.begin() + ( y + 1 ) ); */
 
         std::cout << std::endl << "size = " << pairs.size() << std::endl;
         std::cout << "y = " << y << std::endl;
