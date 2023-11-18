@@ -5,11 +5,12 @@
 # include <vector>
 //# include <cstdlib>
 //# include <cctype>
-//# include <algorithm> 
+# include <algorithm> 
 
 class PmergeMe
 {
 private:
+    int insert_pos;
     std::vector<int> vector;
     std::vector< std::vector<int> > vv;
 

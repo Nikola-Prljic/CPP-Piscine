@@ -6,17 +6,25 @@ PmergeMe::PmergeMe( char **argv )
     if(argvToVector( argv ))
         return ;
     vv.push_back(vector);
+    print_vv( vv );
     ford_johnson_vector( vv );
     print_vv( vv );
 
-    binary_search( vv[0], 0, vv[0].size(), 5);
+    binary_search( vv[0], 0, vv[0].size(), 10);
 }
 
 void swap_pairs( std::vector< std::vector<int> > &pairs )
 {
-    for( size_t y = 0; y < pairs.size() - 2; y++ )
+    for( size_t y = 0; y < pairs.size() - 1; y += 2 )
+    {
+        /* std::cout << "y = " << y << " " << pairs[y][0] << std::endl;
+        std::cout << "y + 1 = " << pairs[y + 1][0] << std::endl; */
         if( pairs[y][0] > pairs[y + 1][0] )
+        {
+            /* std::cout << "y = " << y << std::endl; */
             std::iter_swap( pairs.begin() + y, pairs.begin() + y + 1);
+        }
+    }
 }
 
 void split_vector_into_chains( std::vector< std::vector<int> > &pairs )
@@ -111,7 +119,11 @@ void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, i
     if( main_chain.empty() == true )
         return ;
     if( range >= (int)main_chain.size() )
+    {
+        insert_pos = (int)main_chain.size();
+        std::cout << num << " an Position " << (int)main_chain.size() << " enthalten." << std::endl;
         return ;
+    }
     if (num > main_chain[range]) 
     {
         /* System.out.println(start + " " + end + " " + range); */
@@ -120,9 +132,15 @@ void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, i
     else if (num < main_chain[range] && start != range)
         binary_search(main_chain, start, range - 1, num);
     else if(num == main_chain[range])
+    {
+        insert_pos = range;
         std::cout << num << " an Position " << range << " enthalten." << std::endl; 
+    }
     else
+    {
+        insert_pos = range;
         std::cout << num << " nicht im Array enthalten." << range << std::endl;
+    }
 }
 
 //returns 1 if it fails overflow or no num
