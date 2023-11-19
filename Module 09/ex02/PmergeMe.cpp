@@ -55,7 +55,7 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 {
     for(size_t y = 0; y < pairs.size() - 1; y++)
     {
-        std::vector<int> main_chain(pairs[0]);
+        /* std::vector<int> main_chain(pairs[0]);
 
         for (size_t i = 2; i < main_chain.size(); i += 1)
             main_chain.erase(main_chain.begin() + i);
@@ -69,20 +69,20 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
             insert_pos = insert_pos * 2;
 
         pairs[0].insert(pairs[0].begin() + insert_pos, pairs[1].begin(), pairs[1].end());
-        pairs.erase(pairs.begin() + 1);
+        pairs.erase(pairs.begin() + 1); */
 
-        /* while( pairs[y + 1].empty() == false )
+        while( pairs[y + 1].empty() == false )
         {
             pairs[y].push_back(pairs[y + 1][0]);
             pairs[y + 1].erase(pairs[y + 1].begin());
         }
         if( pairs[ y + 1 ].empty() == true )
-            pairs.erase( pairs.begin() + ( y + 1 ) ); */
+            pairs.erase( pairs.begin() + ( y + 1 ) );
 
-        std::cout << std::endl << "size = " << pairs.size() << std::endl;
+        /* std::cout << std::endl << "size = " << pairs.size() << std::endl;
         std::cout << "y = " << y << std::endl;
         print_vv( pairs );
-        std::cout << "----------------------" << std::endl;
+        std::cout << "----------------------" << std::endl; */
     }
 }
 
@@ -93,23 +93,73 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
     /* if( vector.size() == 1 )
         return ; */
     swap_pairs( pairs );
+
+    if( pairs.size() == 2 )
+    {
+        /* split_vector_into_chains( pairs ); */
+        return ;
+    }
+
+    std::cout << "----------------------" << std::endl;
+    print_vv( pairs );
+
     join_pairs_together( pairs );
 
     // delete if last row is empty
+
     if( pairs[ pairs.size() - 1 ].empty() == true )
         pairs.erase( pairs.begin() + pairs.size() - 1 );
 
     // if pairs size > 1 do recursion
-    if( pairs.size() == 1 )
-    {
-        split_vector_into_chains( pairs );
-        return ;
-    }
     ford_johnson_vector( pairs );
+    
+    //------------------------------------------------------------------------------------------------------binary_search
+    std::cout << "===============================" << std::endl;
+    print_vv(pairs);
+    std::vector<int> main_chain;
+
+    for ( std::size_t y = 0; y < pairs.size(); y++ )
+        main_chain.push_back(pairs[y][0]);
+
+    std::vector<int> vanilla_mainchain(main_chain);
+    
+    std::cout << "===============================" << std::endl;
+    print_vector(main_chain);
+    std::cout << std::endl << "===============================" << std::endl;
+
+    std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
+    for( size_t y = 0; y < 2; y++ )
+    {
+
+        // find the pairs to insert from because the main chain change of insert
+        while(pairs_mainchain_itr->front() != vanilla_mainchain[y])
+            pairs_mainchain_itr++;
+
+        binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][2]);
+    
+        // create vector of the insert elements and erase tham from their old place
+        std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + 2, pairs_mainchain_itr->begin() + 4 );
+        pairs_mainchain_itr->erase(pairs_mainchain_itr->begin() + 2, pairs_mainchain_itr->begin() + 4);
+    
+        /* pairs[y].erase(pairs[y].begin() + 4); */
+        /* new_elements_to_insert.insert(main_chain.begin(), pairs[y].begin() + 2, pairs[y].begin() + 3); */
+        /* print_vector(new_elements_to_insert); */
+        main_chain.insert(main_chain.begin() + insert_pos, pairs_mainchain_itr[0][2]);
+        pairs.insert(pairs.begin() + insert_pos, new_elements_to_insert);
+        /* if(insert_pos == 0)
+            insert_pos = 0;
+        else if(insert_pos >= (int)main_chain.size())
+            insert_pos = pairs[0].size();
+        else
+            insert_pos = insert_pos * 2;
+
+        pairs[0].insert(pairs[0].begin() + insert_pos, pairs[1].begin(), pairs[1].end());
+        pairs.erase(pairs.begin() + 1); */
+    }
+    std::cout << std::endl << "===[[]]============================" << std::endl;
+    /* print_vv(pairs); */
+    std::cout << std::endl << "=====[[]]==========================" << std::endl;
 }
-
-
-
 
 //-----------------------------Convert and Print---------------------------------------------------
 
