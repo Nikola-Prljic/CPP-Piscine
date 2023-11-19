@@ -70,7 +70,6 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 
         pairs[0].insert(pairs[0].begin() + insert_pos, pairs[1].begin(), pairs[1].end());
         pairs.erase(pairs.begin() + 1); */
-
         while( pairs[y + 1].empty() == false )
         {
             pairs[y].push_back(pairs[y + 1][0]);
@@ -92,13 +91,14 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
     //if one pair is bigger than the other swap it
     /* if( vector.size() == 1 )
         return ; */
-    swap_pairs( pairs );
 
-    if( pairs.size() == 2 )
+    if( pairs.size() == 1 )
     {
         /* split_vector_into_chains( pairs ); */
         return ;
     }
+    swap_pairs( pairs );
+
 
     std::cout << "----------------------" << std::endl;
     print_vv( pairs );
@@ -126,21 +126,24 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
     std::cout << "===============================" << std::endl;
     print_vector(main_chain);
     std::cout << std::endl << "===============================" << std::endl;
-
-    int pair_start = pairs[0].size() / 2;
-    int pair_end = pairs[0].size();
+    
 
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
 
         // find the pairs to insert from because the main chain change of insert
-        while(pairs_mainchain_itr->front() != vanilla_mainchain[y])
+        while( pairs_mainchain_itr->front() != vanilla_mainchain[y] )
             pairs_mainchain_itr++;
 
+        /* if( pairs_mainchain_itr->size() % 2 != 0 )
+            pair_end--; */
+        if(pairs_mainchain_itr->size() == 1)
+            continue ;
+        int pair_end = pairs_mainchain_itr->size();
+        int pair_start = pairs_mainchain_itr->size() / 2;
 
         binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
-
 
         // create vector of the insert elements and erase tham from their old place
         std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
@@ -221,18 +224,19 @@ int PmergeMe::argvToVector( char **argv )
             std::cout << "Error" << std::endl << "Overflow" << std::endl;
             return (1);
         }
-
+        vector.push_back(num);
+        vv.push_back(vector);
+        vector.clear();
         // PUSH BACK INTO PAIRS
-        if( i % 2 == 0 )
+        /* if( i % 2 == 0 )
         {
-            vector.push_back(num);
             if( vector.size() == 2 && vector[0] < vector[1] )
                 std::iter_swap( vector.begin(), vector.begin() + 1 );
             vv.push_back(vector);
             vector.clear();
         }
         else
-            vector.push_back(num);
+            vector.push_back(num); */
     }
     if( vector.size() % 2 != 0 )
         vector.erase( vector.end() - 1 );
