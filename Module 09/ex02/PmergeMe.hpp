@@ -10,6 +10,8 @@
 class PmergeMe
 {
 private:
+    bool vector_is_even;
+    int odd_last_element;
     int insert_pos;
     std::vector<int> vector;
     std::vector< std::vector<int> > vv;
@@ -19,6 +21,7 @@ public:
 
     void ford_johnson_vector( std::vector< std::vector<int> > &v_v, int pair_size );
     void join_pairs_together( std::vector< std::vector<int> > &pairs );
+    void get_pair_size( std::vector< std::vector<int> >::iterator pairs_mainchain_itr, int pair_size, int &pair_start, int &pair_end );
 
     void binary_search( std::vector<int> main_chain, int start, int end, int num);
 
