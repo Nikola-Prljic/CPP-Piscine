@@ -7,7 +7,7 @@ PmergeMe::PmergeMe( char **argv )
         return ;
     vv.push_back(vector);
     print_vv( vv );
-    ford_johnson_vector( vv );
+    ford_johnson_vector( vv, 1 );
     print_vv( vv );
 
     binary_search( vv[0], 0, vv[0].size(), 10);
@@ -19,7 +19,7 @@ void swap_pairs( std::vector< std::vector<int> > &pairs )
     {
         /* std::cout << "y = " << y << " " << pairs[y][0] << std::endl;
         std::cout << "y + 1 = " << pairs[y + 1][0] << std::endl; */
-        if( pairs[y][0] > pairs[y + 1][0] )
+        if( pairs[y][0] < pairs[y + 1][0] )
         {
             /* std::cout << "y = " << y << std::endl; */
             std::iter_swap( pairs.begin() + y, pairs.begin() + y + 1);
@@ -86,7 +86,7 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 }
 
 //-----------------------------Ford Johnson Vector-------------------------------------------------
-void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
+void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int pair_size )
 {
     //if one pair is bigger than the other swap it
     /* if( vector.size() == 1 )
@@ -105,13 +105,15 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
 
     join_pairs_together( pairs );
 
+    pair_size = pairs[0].size();
+
     // delete if last row is empty
 
     if( pairs[ pairs.size() - 1 ].empty() == true )
         pairs.erase( pairs.begin() + pairs.size() - 1 );
 
     // if pairs size > 1 do recursion
-    ford_johnson_vector( pairs );
+    ford_johnson_vector( pairs, pair_size );
     
     //------------------------------------------------------------------------------------------------------binary_search
     std::cout << "===============================" << std::endl;
@@ -127,7 +129,10 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
     print_vector(main_chain);
     std::cout << std::endl << "===============================" << std::endl;
     
+    std::cout << "pair size = " << pair_size << std::endl;
 
+    int pair_end = 2;
+    int pair_start = 1;
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
@@ -138,10 +143,24 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs )
 
         /* if( pairs_mainchain_itr->size() % 2 != 0 )
             pair_end--; */
-        if(pairs_mainchain_itr->size() == 1)
+        if((int)pairs_mainchain_itr[0].size() <= pair_size / 2)
+        {
+            print_vector(pairs_mainchain_itr[0]);
             continue ;
-        int pair_end = pairs_mainchain_itr->size();
-        int pair_start = pairs_mainchain_itr->size() / 2;
+        }
+        
+        if(pair_size > 2)
+        {
+            pair_end = pair_size;
+            if( pair_end > (int)pairs_mainchain_itr[0].size() )
+                pair_end = pairs_mainchain_itr[0].size();
+
+            pair_start = pair_size / 2;
+            if( pair_start > (int)pairs_mainchain_itr[0].size() )
+                pair_start = pairs_mainchain_itr[0].size() / 2 ;
+            if(pair_start % 2 != 0)
+                pair_start++;
+        }
 
         binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
 
