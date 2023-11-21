@@ -120,45 +120,81 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
     std::cout << "===============================" << std::endl;
     print_vv(pairs);
     std::vector<int> main_chain;
+    main_chain.clear();
 
     for ( std::size_t y = 0; y < pairs.size(); y++ )
+    {
         main_chain.push_back(pairs[y][0]);
+    }
 
     std::vector<int> vanilla_mainchain(main_chain);
     
-    std::cout << "===============================" << std::endl;
-    print_vector(main_chain);
+    std::cout << "=========MAIN CHAIN============" << std::endl;
+    print_vector(vanilla_mainchain);
     std::cout << std::endl << "===============================" << std::endl;
-    
+
+    /* if(pairs.back().size() == 2)
+        return ; */
     std::cout << "pair size = " << pair_size << std::endl;
 
     int pair_end = 2;
     int pair_start = 1;
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
     
+    int jk_insert_order[] = { 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525 };
+
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
 
-        // find the pairs to insert from because the main chain change of insert
-        while( pairs_mainchain_itr->front() != vanilla_mainchain[y] )
+        int insert_number;
+
+        pairs_mainchain_itr = pairs.begin();
+        if(jk_insert_order[ y ] > (int)vanilla_mainchain.size())
+            insert_number =  vanilla_mainchain.back();
+        else
+            insert_number = vanilla_mainchain[ jk_insert_order[ y ] - 1 ];
+
+        while( pairs_mainchain_itr->front() != insert_number )
             pairs_mainchain_itr++;
 
 
-        if( (int)pairs_mainchain_itr[0].size() <= pair_size / 2 )
+        /* std::cout << "i = " << vanilla_mainchain[ jk_insert_order[ y ] - 1 ] << std::endl; */
+        /* pairs_mainchain_itr = pairs.begin() + jk_insert_order[y] - 1; */
+        // Now insert 4 3 or 10 9 8 7.. jacob stahl
+        int i;
+        if( jk_insert_order[ y ] == 1)
+            i = 0;
+        else
+            i = jk_insert_order[ y - 1 ];
+        std::cout << "                  a                   "<< jk_insert_order[ y ] << std::endl;
+        for ( ; i < jk_insert_order[ y ] && i < (int)vanilla_mainchain.size(); i++)
         {
-            print_vector(pairs_mainchain_itr[0]);
-            continue ;
-        }
-        get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
-        
-        binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
 
-        // create vector(pairs) of the insert elements and erase tham from their old place
-        std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
-        pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
-    
-        main_chain.insert(main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start]);
-        pairs.insert(pairs.begin() + insert_pos, new_elements_to_insert);
+            get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
+        
+            binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
+
+            // create vector(pairs) of the insert elements and erase tham from their old place
+            std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
+            pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
+        
+            std::cout << pairs_mainchain_itr[0][pair_start] << std::endl;
+
+            main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
+            pairs.insert( pairs.begin() + insert_pos, new_elements_to_insert );
+
+            pairs_mainchain_itr = pairs.begin();
+            
+            if(jk_insert_order[ y ] > (int)vanilla_mainchain.size())
+                insert_number =  vanilla_mainchain.back();
+            else
+                insert_number = vanilla_mainchain[ jk_insert_order[ y - i ] - 1 ];
+
+            while( pairs_mainchain_itr->front() != insert_number )
+                pairs_mainchain_itr++;
+
+        }
+        
     }
     std::cout << std::endl << "===[[]]============================" << std::endl;
 }
