@@ -120,19 +120,51 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
     std::cout << "===============================" << std::endl;
     print_vv(pairs);
     std::vector<int> main_chain;
-    main_chain.clear();
+    std::vector<int> vanilla_mainchain;
+
+    int jk_insert_order[] = { 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525 };
+    int n = sizeof(jk_insert_order) / sizeof(jk_insert_order[0]);
+ 
+    std::vector<int> jk_order(jk_insert_order, jk_insert_order + n);
+    std::vector<int>::iterator jk_order_itr = jk_order.begin();
 
     for ( std::size_t y = 0; y < pairs.size(); y++ )
     {
         main_chain.push_back(pairs[y][0]);
     }
-
-    std::vector<int> vanilla_mainchain(main_chain);
-    
+    vanilla_mainchain.push_back(main_chain[0]);
+    std::size_t yy = 1;
+    jk_order_itr++;
+    /* if( yy > main_chain.size() )
+        yy = main_chain.size(); */
+    for ( ; yy < pairs.size(); )
+    {
+        /* if( y == (size_t)jk_order_itr[0] )
+        { */
+            /* vanilla_mainchain.push_back(main_chain[y]); */
+            std::cout << "=========asdsad============" << std::endl;
+            if(yy != 1)
+                vanilla_mainchain.insert( vanilla_mainchain.end(), main_chain.begin() + jk_order_itr[0], main_chain.begin() + yy );
+            jk_order_itr++;
+            yy = jk_order_itr[0];
+            if( yy > main_chain.size() )
+            {
+                std::cout << "========= x ===========" << (main_chain.rbegin())[0] << std::endl;     //last element
+                std::cout << "========= y ===========" << ((jk_order_itr)[0]) << std::endl;
+                vanilla_mainchain.insert( vanilla_mainchain.end(), ( main_chain.rbegin()), main_chain.rend() - ((jk_order_itr - 2)[0]) );
+                break;
+            }
+        /* } */
+        /* else
+        {
+            vanilla_mainchain.push_back(pairs[y - 1][0]);
+            y--;
+        } */
+    }
     std::cout << "=========MAIN CHAIN============" << std::endl;
     print_vector(vanilla_mainchain);
+    vanilla_mainchain = main_chain;
     std::cout << std::endl << "===============================" << std::endl;
-
     /* if(pairs.back().size() == 2)
         return ; */
     std::cout << "pair size = " << pair_size << std::endl;
@@ -141,7 +173,6 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
     int pair_start = 1;
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
     
-    int jk_insert_order[] = { 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525 };
 
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
@@ -276,7 +307,7 @@ int PmergeMe::argvToVector( char **argv )
 
         std::stringstream ss(argv[i]);
         ss >> num;
-        if(ss.fail())
+        if( ss.fail() )
         {
             std::cout << "Error" << std::endl << "Overflow" << std::endl;
             return (1);
