@@ -16,15 +16,8 @@ PmergeMe::PmergeMe( char **argv )
 void swap_pairs( std::vector< std::vector<int> > &pairs )
 {
     for( size_t y = 0; y < pairs.size() - 1; y += 2 )
-    {
-        /* std::cout << "y = " << y << " " << pairs[y][0] << std::endl;
-        std::cout << "y + 1 = " << pairs[y + 1][0] << std::endl; */
         if( pairs[y][0] < pairs[y + 1][0] )
-        {
-            /* std::cout << "y = " << y << std::endl; */
             std::iter_swap( pairs.begin() + y, pairs.begin() + y + 1);
-        }
-    }
 }
 
 void split_vector_into_chains( std::vector< std::vector<int> > &pairs )
@@ -36,16 +29,8 @@ void split_vector_into_chains( std::vector< std::vector<int> > &pairs )
     for( size_t element = 0; element < pairs[0].size(); element += 2 )
     {
         main_chain.push_back(pairs[0][element]);
-
-        /* if(x + 1 < pairs[0].size()) USELESS BECAUSE ALWAYS EVEN */
-
         second_chain.push_back(pairs[0][element + 1]);
     }
-    /* if( main_chain.size() > second_chain.size() ) USELESS BECAUSE ALWAYS EVEN
-    {
-        second_chain.push_back( main_chain.back() );
-        main_chain.erase( main_chain.end() - 1);
-    } */
     pairs.push_back( main_chain );
     pairs.push_back( second_chain );
     pairs.erase( pairs.begin() );
@@ -55,21 +40,6 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 {
     for(size_t y = 0; y < pairs.size() - 1; y++)
     {
-        /* std::vector<int> main_chain(pairs[0]);
-
-        for (size_t i = 2; i < main_chain.size(); i += 1)
-            main_chain.erase(main_chain.begin() + i);
-
-        binary_search(main_chain, 0, main_chain.size(), pairs[1][0]);
-        if(insert_pos == 0)
-            insert_pos = 0;
-        else if(insert_pos >= (int)main_chain.size())
-            insert_pos = pairs[0].size();
-        else
-            insert_pos = insert_pos * 2;
-
-        pairs[0].insert(pairs[0].begin() + insert_pos, pairs[1].begin(), pairs[1].end());
-        pairs.erase(pairs.begin() + 1); */
         while( pairs[y + 1].empty() == false )
         {
             pairs[y].push_back(pairs[y + 1][0]);
@@ -77,11 +47,6 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
         }
         if( pairs[ y + 1 ].empty() == true )
             pairs.erase( pairs.begin() + ( y + 1 ) );
-
-        /* std::cout << std::endl << "size = " << pairs.size() << std::endl;
-        std::cout << "y = " << y << std::endl;
-        print_vv( pairs );
-        std::cout << "----------------------" << std::endl; */
     }
 }
 
@@ -89,16 +54,11 @@ void PmergeMe::join_pairs_together( std::vector< std::vector<int> > &pairs )
 void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int pair_size )
 {
     //if one pair is bigger than the other swap it
-    /* if( vector.size() == 1 )
-        return ; */
 
     if( pairs.size() == 1 )
-    {
-        /* split_vector_into_chains( pairs ); */
         return ;
-    }
-    swap_pairs( pairs );
 
+    swap_pairs( pairs );
 
     std::cout << "----------------------" << std::endl;
     print_vv( pairs );
@@ -129,38 +89,32 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
     std::vector<int>::iterator jk_order_itr = jk_order.begin();
 
     for ( std::size_t y = 0; y < pairs.size(); y++ )
-    {
         main_chain.push_back(pairs[y][0]);
-    }
+
+
+    //            --------          create insert oreder           -----------
+
     vanilla_mainchain.push_back(main_chain[0]);
     std::size_t yy = 1;
     jk_order_itr++;
-    /* if( yy > main_chain.size() )
-        yy = main_chain.size(); */
     for ( ; yy < pairs.size(); )
     {
-        /* if( y == (size_t)jk_order_itr[0] )
-        { */
-            /* vanilla_mainchain.push_back(main_chain[y]); */
             std::cout << "=========asdsad============" << std::endl;
             if(yy != 1)
                 vanilla_mainchain.insert( vanilla_mainchain.end(), main_chain.rend() - (((jk_order_itr - 1)[0])), main_chain.rend() - (((jk_order_itr - 2)[0])) );
             yy = jk_order_itr[0];
             jk_order_itr++;
-            if( (jk_order_itr - 1)[0] > (int)pairs.size() )
+            if( (jk_order_itr - 1)[0] >= (int)pairs.size() )
             {
                 std::cout << "========= x ===========" << ((jk_order_itr)[0]) << std::endl;     //last element
                 std::cout << "========= y ===========" << ((jk_order_itr - 2)[0]) << std::endl;
                 vanilla_mainchain.insert( vanilla_mainchain.end(), ( main_chain.rbegin()), main_chain.rend() - (((jk_order_itr - 2)[0])) );
                 break;
             }
-        /* } */
-        /* else
-        {
-            vanilla_mainchain.push_back(pairs[y - 1][0]);
-            y--;
-        } */
     }
+
+
+
     std::cout << "=========MAIN CHAIN============" << std::endl;
     print_vector(vanilla_mainchain);
     /* vanilla_mainchain = main_chain; */
@@ -179,58 +133,21 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
         
         pairs_mainchain_itr = pairs.begin() + (std::find(main_chain.begin(), main_chain.end(), vanilla_mainchain[y]) - main_chain.begin());
         std::cout << pairs_mainchain_itr[0][0] << std::endl;
-            if(pairs_mainchain_itr[0].size() < 3 && pair_size > 1)
-                continue ; 
+        if(pairs_mainchain_itr[0].size() < 3 && pair_size > 1)
+            continue ;
 
+        get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
 
-        /* int insert_number; */
+        std::cout << "pair start = = = = = = = =             " << pair_start << std::endl;
+        binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
 
-        /* pairs_mainchain_itr = pairs.begin();
-        if(jk_insert_order[ y ] > (int)vanilla_mainchain.size())
-            insert_number =  vanilla_mainchain.back();
-        else
-            insert_number = vanilla_mainchain[ jk_insert_order[ y ] - 1 ];
+        std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
+        pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
+    
 
-        while( pairs_mainchain_itr->front() != insert_number )
-            pairs_mainchain_itr++; */
+        main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
+        pairs.insert( pairs.begin() + insert_pos, new_elements_to_insert );
 
-
-        /* std::cout << "i = " << vanilla_mainchain[ jk_insert_order[ y ] - 1 ] << std::endl; */
-        /* pairs_mainchain_itr = pairs.begin() + jk_insert_order[y] - 1; */
-        // Now insert 4 3 or 10 9 8 7.. jacob stahl
-        /* int i;
-        if( jk_insert_order[ y ] == 1)
-            i = 0;
-        else
-            i = jk_insert_order[ y - 1 ]; */
-        /* std::cout << "                  a                   "<< jk_insert_order[ y ] << std::endl; */
-        /* for ( ; i < jk_insert_order[ y ] && i < (int)vanilla_mainchain.size(); i++)
-        { */
-            get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
-
-            std::cout << "pair start = = = = = = = =             " << pair_start << std::endl;
-            binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
-
-            // create vector(pairs) of the insert elements and erase tham from their old place
-            std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
-            pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
-        
-            /* std::cout << pairs_mainchain_itr[0][pair_start] << std::endl; */
-
-            main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
-            pairs.insert( pairs.begin() + insert_pos, new_elements_to_insert );
-
-            /* pairs_mainchain_itr = pairs.begin(); */
-            
-            /* if(jk_insert_order[ y ] > (int)vanilla_mainchain.size())
-                insert_number =  vanilla_mainchain.back();
-            else
-                insert_number = vanilla_mainchain[ jk_insert_order[ y - i ] - 1 ];
-
-            while( pairs_mainchain_itr->front() != insert_number )
-                pairs_mainchain_itr++;
-
-        } */
         
     }
     std::cout << std::endl << "===[[]]============================" << std::endl;
@@ -241,11 +158,9 @@ void PmergeMe::get_pair_size( std::vector< std::vector<int> >::iterator pairs_ma
     if( pair_size > 1 )
     {
         pair_end = pairs_mainchain_itr[0].size();
-        /* if( pair_end > (int)pairs_mainchain_itr[0].size() )
-            pair_end = pairs_mainchain_itr[0].size(); */
 
         pair_start = pair_size;
-        if( pair_start > (int)pairs_mainchain_itr[0].size() )
+        if( pair_start >= (int)pairs_mainchain_itr[0].size() )
             pair_start = pairs_mainchain_itr[0].size() / 2 ;
         if( pair_start % 2 != 0 )
             pair_start++;
