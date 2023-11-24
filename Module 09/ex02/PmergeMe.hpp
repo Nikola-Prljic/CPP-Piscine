@@ -16,18 +16,18 @@ private:
 
     std::vector<int> jk_order;
     std::vector<int> vector;
-    std::vector< std::vector<int> > vv;
+    std::vector< std::vector<int> > pairs;
 
 public:
     PmergeMe( char **argv );
 
     void create_jacob_numbers();
 
-    void ford_johnson_vector( std::vector< std::vector<int> > &v_v, int pair_size );
-    void insert_into_main_chain(std::vector< std::vector<int> > &pairs, std::vector<int> vanilla_mainchain, std::vector<int> mainchain, int pair_size);
-    void join_pairs_together( std::vector< std::vector<int> > &pairs );
+    void ford_johnson_vector( int pair_size );
+    void insert_into_main_chain( std::vector<int> vanilla_mainchain, std::vector<int> mainchain, int pair_size);
+    void join_pairs_together();
     void get_pair_size( std::vector< std::vector<int> >::iterator pairs_mainchain_itr, int pair_size, int &pair_start, int &pair_end );
-    std::vector<int> create_insert_oreder( std::vector< std::vector<int> > &pairs, std::vector<int> main_chain );
+    std::vector<int> create_insert_oreder( std::vector<int> main_chain );
 
 
     void binary_search( std::vector<int> main_chain, int start, int end, int num);
