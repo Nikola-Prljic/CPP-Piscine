@@ -123,14 +123,17 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
         return ; */
     std::cout << "pair size = " << pair_size << std::endl;
 
+    insert_into_main_chain(pairs, vanilla_mainchain, main_chain, pair_size);
+}
+
+void PmergeMe::insert_into_main_chain(std::vector< std::vector<int> > &pairs, std::vector<int> vanilla_mainchain, std::vector<int> main_chain, int pair_size)
+{
     int pair_end = 2;
     int pair_start = 1;
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
-    
 
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
-        
         pairs_mainchain_itr = pairs.begin() + (std::find(main_chain.begin(), main_chain.end(), vanilla_mainchain[y]) - main_chain.begin());
         std::cout << pairs_mainchain_itr[0][0] << std::endl;
         if(pairs_mainchain_itr[0].size() < 3 && pair_size > 1)
@@ -144,13 +147,9 @@ void PmergeMe::ford_johnson_vector( std::vector< std::vector<int> > &pairs, int 
         std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
         pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
     
-
         main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
         pairs.insert( pairs.begin() + insert_pos, new_elements_to_insert );
-
-        
     }
-    std::cout << std::endl << "===[[]]============================" << std::endl;
 }
 
 void PmergeMe::get_pair_size( std::vector< std::vector<int> >::iterator pairs_mainchain_itr, int pair_size, int &pair_start, int &pair_end )
