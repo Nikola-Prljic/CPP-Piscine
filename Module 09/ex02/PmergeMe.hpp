@@ -9,16 +9,19 @@
 
 class PmergeMe
 {
+
 private:
+
     bool vector_is_even;
     int odd_last_element;
     int insert_pos;
 
     std::vector<int> jk_order;
-    std::vector<int> vector;
     std::vector< std::vector<int> > pairs;
+    std::vector<int> input_original;
 
 public:
+
     PmergeMe( char **argv );
 
     void create_jacob_numbers();
@@ -38,6 +41,10 @@ public:
 
     void print_vector( const std::vector<int> &v );
     void print_vv( const std::vector< std::vector<int> > &v );
+
+    std::vector< std::vector<int> > getPairs();
+    std::vector<int> getInput_original();
+
 };
 
 #endif

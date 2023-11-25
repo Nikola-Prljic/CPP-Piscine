@@ -5,11 +5,12 @@ PmergeMe::PmergeMe( char **argv )
 {
     if(argvToVector( argv ))
         return ;
-    pairs.push_back(vector);
+    /* pairs.push_back(vector); */
     print_vv( pairs );
 
     create_jacob_numbers();
     ford_johnson_vector( 1 );
+    std::cout << std::endl;
 
     print_vv( pairs );
     binary_search( pairs[0], 0, pairs[0].size(), 10);
@@ -78,6 +79,8 @@ void PmergeMe::ford_johnson_vector( int pair_size )
 
     //            --------          create insert oreder           -----------
     vanilla_mainchain = create_insert_oreder( main_chain );
+
+    //            --------          insert pairs into mainchain          -----------
     insert_into_main_chain( vanilla_mainchain, main_chain, pair_size);
 }
 
@@ -91,17 +94,17 @@ void PmergeMe::create_jacob_numbers()
 
 std::vector<int> PmergeMe::create_insert_oreder( std::vector<int> main_chain )
 {
-    std::size_t yy = 1;
+    std::size_t jk_order_prev = 1;
     std::vector<int> vanilla_mainchain;
     std::vector<int>::iterator jk_order_itr = jk_order.begin();
 
     vanilla_mainchain.push_back(main_chain[0]);
     jk_order_itr++;
-    for ( ; yy < pairs.size(); )
+    while ( jk_order_prev < pairs.size() )
     {
-        if(yy != 1)
+        if(jk_order_prev != 1)
             vanilla_mainchain.insert( vanilla_mainchain.end(), main_chain.rend() - (((jk_order_itr - 1)[0])), main_chain.rend() - (((jk_order_itr - 2)[0])) );
-        yy = jk_order_itr[0];
+        jk_order_prev = jk_order_itr[0];
         jk_order_itr++;
         if( (jk_order_itr - 1)[0] >= (int)pairs.size() )
         {
@@ -126,9 +129,10 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
             continue ;
 
         get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
-        binary_search(main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start]);
+        binary_search( main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start] );
 
         std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
+
         pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
     
         main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
@@ -175,49 +179,56 @@ void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, i
     if( range >= (int)main_chain.size() )
     {
         insert_pos = (int)main_chain.size();
-        std::cout << num << " an Position " << (int)main_chain.size() << " enthalten." << std::endl;
         return ;
     }
     if (num > main_chain[range]) 
-    {
-        /* System.out.println(start + " " + end + " " + range); */
         binary_search(main_chain, range + 1, end, num);
-    }
     else if (num < main_chain[range] && start != range)
         binary_search(main_chain, start, range - 1, num);
     else if(num == main_chain[range])
-    {
         insert_pos = range;
-        std::cout << num << " an Position " << range << " enthalten." << std::endl; 
-    }
     else
-    {
         insert_pos = range;
-        std::cout << num << " nicht im Array enthalten." << range << std::endl;
+}
+
+int convert_number( char *argv, std::vector<int> num_tmp, int &num )
+{
+    std::stringstream ss(argv);
+    ss >> num;
+    if( ss.fail() )
+    {
+        std::cout << "Error" << std::endl << "Overflow" << std::endl;
+        return (1);
     }
+    if( std::find( num_tmp.begin(), num_tmp.end(), num) != num_tmp.end())
+    {
+        std::cout << "Error" << std::endl << "No double numbers" << std::endl;
+        return (1);
+    }
+    return (0);
 }
 
 //returns 1 if it fails overflow or no num
 int PmergeMe::argvToVector( char **argv )
 {
     int num;
+    
+    std::vector<int> vector;
 
     for(int i = 1; argv[i]; i++)
     {
 
-        if( ft_isnum(argv[i]) == false )
+        if( ft_isnum( argv[i] ) == false )
             return (1);
 
-        std::stringstream ss(argv[i]);
-        ss >> num;
-        if( ss.fail() )
-        {
-            std::cout << "Error" << std::endl << "Overflow" << std::endl;
+        if( convert_number( argv[i], input_original, num ) )
             return (1);
-        }
+
+        input_original.push_back(num);
         vector.push_back(num);
         pairs.push_back(vector);
         vector.clear();
+
     }
     if( pairs.size() % 2 != 0 )
     {
@@ -227,7 +238,6 @@ int PmergeMe::argvToVector( char **argv )
     }
     return (0);
 }
-
 
 void PmergeMe::print_vector( const std::vector<int> &v )
 {
@@ -247,3 +257,7 @@ void PmergeMe::print_vv( const std::vector< std::vector<int> > &v )
         std::cout << std::endl;
     }
 }
+
+std::vector< std::vector<int> > PmergeMe::getPairs() { return pairs; }
+
+std::vector<int> PmergeMe::getInput_original() { return input_original; }
