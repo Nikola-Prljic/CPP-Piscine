@@ -1,8 +1,9 @@
 # include "PmergeMe.hpp"
 # include <sstream>
 
-PmergeMe::PmergeMe( char **argv )
+PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
 {
+    odd_last_element = 42;
     if(argvToVector( argv ))
         return ;
     /* pairs.push_back(vector); */
@@ -124,28 +125,38 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
 {
     int pair_end = 2;
     int pair_start = 1;
+    int size_main_chain;
+    bool odd_is_inserted = false;
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
 
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
+        size_main_chain = main_chain.size();
+        if(odd_is_inserted == false && vector_is_even == false && pair_size == 1)
+            size_main_chain--;
+
         pairs_mainchain_itr = pairs.begin() + (std::find(main_chain.begin(), main_chain.end(), vanilla_mainchain[y]) - main_chain.begin());
 
         if(pairs_mainchain_itr[0].size() < 3 && pair_size > 1)
             continue ;
 
         get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
-        binary_search( main_chain, 0, main_chain.size(), pairs_mainchain_itr[0][pair_start] );
+        binary_search( main_chain, 0, size_main_chain, pairs_mainchain_itr[0][pair_start] );
 
         std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
 
         main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
     
-        if( pairs_mainchain_itr[0].size() == 1 )
+        if( pairs_mainchain_itr[0].size() == 1 && vector_is_even == false)
+        {
             pairs.erase( pairs_mainchain_itr );
+            odd_is_inserted = true;
+        }
         else
             pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
     
         pairs.insert( pairs.begin() + insert_pos, new_elements_to_insert );
+    
     }
 }
 
@@ -153,7 +164,7 @@ void PmergeMe::get_pair_size( std::vector< std::vector<int> >::iterator pairs_ma
 {
     if( pair_size < 2 )
     {
-        if(pairs_mainchain_itr[0].size() == 1)
+        if( pairs_mainchain_itr[0].size() == 1 )
         {
             pair_start = 0;
             pair_end = 1;
@@ -232,7 +243,6 @@ int convert_number( char *argv, std::vector<int> num_tmp, int &num )
 int PmergeMe::argvToVector( char **argv )
 {
     int num;
-    
     std::vector<int> vector;
 
     for(int i = 1; argv[i]; i++)
@@ -248,7 +258,11 @@ int PmergeMe::argvToVector( char **argv )
         vector.push_back(num);
         pairs.push_back(vector);
         vector.clear();
-
+        if(i > 5000)
+        {
+            std::cout << "Error" << std::endl << "Not more than 5000 numbers" << std::endl;
+            return (1);
+        }
     }
     if( pairs.size() % 2 != 0 )
     {
@@ -281,3 +295,8 @@ void PmergeMe::print_vv( const std::vector< std::vector<int> > &v )
 std::vector< std::vector<int> > PmergeMe::getPairs() { return pairs; }
 
 std::vector<int> PmergeMe::getInput_original() { return input_original; }
+
+/* void PmergeMe::ford_johnson_list( int pair_size )
+{
+
+} */
