@@ -15,6 +15,9 @@ PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
 
     print_vv( pairs );
     binary_search( pairs[0], 0, pairs[0].size(), 10);
+
+    argvToList( argv );
+    ford_johnson_list( 1 );
 }
 
 void swap_pairs( std::vector< std::vector<int> > &pairs )
@@ -296,7 +299,55 @@ std::vector< std::vector<int> > PmergeMe::getPairs() { return pairs; }
 
 std::vector<int> PmergeMe::getInput_original() { return input_original; }
 
-/* void PmergeMe::ford_johnson_list( int pair_size )
-{
 
-} */
+
+
+// -------------------------------------------------------------------------------------------------- //
+// -----------------------------    FORD JOHNSON LIST SORTING    ------------------------------------ //
+// -------------------------------------------------------------------------------------------------- //
+
+
+
+
+int PmergeMe::argvToList( char **argv )
+{
+    int num;
+
+    for(int i = 1; argv[i]; i++)
+    {
+        if( ft_isnum( argv[i] ) == false )
+            return (1);
+        std::stringstream ss(argv[i]);
+        ss >> num;
+        if( ss.fail() )
+        {
+            std::cout << "Error" << std::endl << "Overflow" << std::endl;
+            return (1);
+        }
+        list.push_back(num);
+    }
+    return (0);
+}
+
+std::list<int>::iterator PmergeMe::list_move_up( std::list<int> l, int steps )
+{
+    std::list<int>::iterator itr = l.begin();
+    for(int i = 0; itr != l.end(); i++, itr++)
+        if(i == steps - 1)
+            return itr;
+    return itr;
+}
+
+std::list<int>::iterator PmergeMe::make_list_itr( std::list<int> l, int &steps )
+{
+    return list_move_up(l, steps *= 2);
+}
+
+void PmergeMe::ford_johnson_list( int steps )
+{
+    std::cout << *( make_list_itr( list, steps ) );
+    steps++;
+    if(steps > 1)
+        return ;
+    /* ford_johnson_list( steps ); */
+}

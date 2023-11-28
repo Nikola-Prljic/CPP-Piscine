@@ -4,6 +4,7 @@
 # include <iostream>
 # include <vector>
 # include <algorithm> 
+# include <list>
 
 class PmergeMe
 {
@@ -18,6 +19,7 @@ private:
     std::vector< std::vector<int> > pairs;
     std::vector<int> input_original;
 
+    std::list<int> list;
 public:
 
     PmergeMe( char **argv );
@@ -42,6 +44,12 @@ public:
     std::vector< std::vector<int> > getPairs();
     std::vector< int > getInput_original();
 
+    // ------------- List sorting ------------
+
+    int argvToList( char **argv );
+    void ford_johnson_list( int steps );
+    std::list<int>::iterator make_list_itr( std::list<int> l, int &steps );
+    std::list<int>::iterator list_move_up( std::list<int> l, int steps );
 };
 
 #endif
