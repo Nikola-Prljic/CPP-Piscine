@@ -28,6 +28,7 @@ public:
 
     // ford_johnson_vector
     void ford_johnson_vector( int pair_size );
+    void swap_pairs( std::vector< std::vector<int> > &pairs );
     void join_pairs_together();
     void insert_into_main_chain( std::vector<int> vanilla_mainchain, std::vector<int> mainchain, int pair_size);
     std::vector<int> create_insert_oreder( std::vector<int> main_chain );
@@ -47,9 +48,14 @@ public:
     // ------------- List sorting ------------
 
     int argvToList( char **argv );
+    void print_list( const std::list<int> &v );
+
     void ford_johnson_list( int steps );
     std::list<int>::iterator make_list_itr( std::list<int> l, int &steps );
+    std::list<int>::iterator list_move_up( std::list<int>::iterator itr, int steps );
     std::list<int>::iterator list_move_up( std::list<int> l, int steps );
+    void swap_pairs( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end );
+    void swap_range( std::list<int>::iterator &pair_start, std::list<int>::iterator &next_pair_start );
 };
 
 #endif

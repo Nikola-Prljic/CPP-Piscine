@@ -14,13 +14,13 @@ PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
     std::cout << std::endl;
 
     print_vv( pairs );
-    binary_search( pairs[0], 0, pairs[0].size(), 10);
+    std::cout << "-------------list--------------" << std::endl;
 
     argvToList( argv );
     ford_johnson_list( 1 );
 }
 
-void swap_pairs( std::vector< std::vector<int> > &pairs )
+void PmergeMe::swap_pairs( std::vector< std::vector<int> > &pairs )
 {
     for( size_t y = 0; y < pairs.size() - 1; y += 2 )
         if( pairs[y][0] < pairs[y + 1][0] )
@@ -332,8 +332,20 @@ int PmergeMe::argvToList( char **argv )
 std::list<int>::iterator PmergeMe::list_move_up( std::list<int> l, int steps )
 {
     std::list<int>::iterator itr = l.begin();
+    if(steps == 0)
+        return itr;
     for(int i = 0; itr != l.end(); i++, itr++)
-        if(i == steps - 1)
+        if( i == steps )
+            return itr;
+    return itr;
+}
+
+std::list<int>::iterator PmergeMe::list_move_up( std::list<int>::iterator itr, int steps )
+{
+    if(steps == 0)
+        return itr;
+    for(int i = 0; itr != list.end(); i++, itr++)
+        if( i == steps )
             return itr;
     return itr;
 }
@@ -343,11 +355,66 @@ std::list<int>::iterator PmergeMe::make_list_itr( std::list<int> l, int &steps )
     return list_move_up(l, steps *= 2);
 }
 
+void PmergeMe::swap_range( std::list<int>::iterator &pair_start, std::list<int>::iterator &next_pair_start )
+{
+    int tmp;
+
+    for( ;next_pair_start != list.end() && pair_start != next_pair_start; )
+    {
+        tmp = *pair_start;
+        *pair_start = *next_pair_start;
+        *next_pair_start = tmp;
+        std::cout << "pstart = " << *pair_start << std::endl;
+        std::cout << "npstart = " << *next_pair_start << std::endl;
+        pair_start = list_move_up( pair_start, 2 );
+        next_pair_start = list_move_up( next_pair_start, 2 );
+    }
+    print_list( list );
+}
+
+void PmergeMe::swap_pairs( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end )
+{
+    (void)pair_end;
+    /* for( std::size_t i = 0; i < list.size(); i++ )
+    { */
+        std::list<int>::iterator itr = list_move_up( pair_start, 1 );
+        if( *pair_start < *list_move_up( pair_start, 1 ) )
+            swap_range( pair_start, itr );
+    /* } */
+}
+
 void PmergeMe::ford_johnson_list( int steps )
 {
-    std::cout << *( make_list_itr( list, steps ) );
-    steps++;
+    /* std::cout << *( make_list_itr( list, steps ) ); */
+    int start = 0;
+    std::list<int>::iterator itr_start = list.begin();
+    std::list<int>::iterator itr_end = list.begin();
+    itr_start = list_move_up( itr_start, start );
+    itr_end = list_move_up( itr_end, start = 1 );
+
+    swap_pairs( itr_start , itr_end);
+    print_list( list );
+    /* steps++; */
     if(steps > 1)
         return ;
     /* ford_johnson_list( steps ); */
+}
+
+
+
+
+
+
+
+
+
+
+
+void PmergeMe::print_list( const std::list<int> &v )
+{
+    for( std::list<int>::const_iterator itr = v.begin(); itr != v.end(); itr++ )
+    {
+        std::cout << *itr << " ";
+    }
+    std::cout << std::endl;
 }
