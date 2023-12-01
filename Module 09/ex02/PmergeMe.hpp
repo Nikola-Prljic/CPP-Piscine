@@ -55,7 +55,7 @@ public:
     std::list<int>::iterator list_move_up( std::list<int>::iterator itr, int steps );
     std::list<int>::iterator list_move_up( std::list<int> l, int steps );
     void swap_pairs( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end );
-    void swap_range( std::list<int>::iterator &pair_start, std::list<int>::iterator &next_pair_start );
+    void swap_range( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end, std::list<int>::iterator &next_pair_start );
 };
 
 #endif
