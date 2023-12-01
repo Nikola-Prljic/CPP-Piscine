@@ -21,6 +21,7 @@ private:
 
     std::deque<int> deque;
     typedef std::deque<int>::iterator deque_itr;
+
 public:
 
     PmergeMe( char **argv );
@@ -54,6 +55,8 @@ public:
     void ford_johnson_deque( int steps );
     void swap_pairs( int steps );
     void swap_range( deque_itr &pair_start, deque_itr pair_end, deque_itr &next_pair_start );
+    void insert_pairs( const int &steps );
+    void binary_search( std::deque<int> main_chain, int start, int end, int num );
 };
 
 #endif

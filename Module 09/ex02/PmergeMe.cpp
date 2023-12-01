@@ -225,6 +225,7 @@ void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, i
         insert_pos = range;
 }
 
+
 int convert_number( char *argv, std::vector<int> num_tmp, int &num )
 {
     std::stringstream ss(argv);
@@ -363,14 +364,48 @@ void PmergeMe::swap_pairs( int steps )
     {
         if( *pair_start < *pair_start_next )
             swap_range( pair_start, pair_end, pair_start_next );
+        else
+        {
+            pair_start += steps;
+            pair_start_next += steps;
+        }
         pair_start += steps;
         pair_end += steps * 2;
         pair_start_next += steps;
-    }
-            std::cout << "+++++++++++" << steps << std::endl;
-/*         std::cout << "pstart = " << *pair_start << std::endl;
+
+        std::cout << "pstart = " << *pair_start << std::endl;
         std::cout << "end = " << *pair_end << std::endl;
-        std::cout << "npstart = " << *next_pair_start  << std::endl; */
+        std::cout << "npstart = " << *pair_start_next << std::endl;
+    }
+    std::cout << "+++++++++++" << steps << std::endl;
+}
+
+void PmergeMe::insert_pairs( const int &steps )
+{
+    std::cout << "steps = " << steps << std::endl;
+    deque_itr pair_start = deque.begin();
+    deque_itr pair_end = deque.begin() + ( steps - 1 );
+    deque_itr pair_start_next = deque.begin() + steps / 2;
+    std::deque<int> main_chain;
+    for( std::size_t i = 0; i < deque.size(); i += steps )
+        main_chain.push_back(deque[i]);
+    print_deque(main_chain);
+    for( std::size_t i = 0; i < deque.size(); i += steps )
+    {
+        std::cout << "insert num = " << *pair_start_next << std::endl;
+        binary_search(main_chain, 0, main_chain.size(), *pair_start_next);
+        std::cout << "insert pos = " << insert_pos << std::endl;
+        main_chain.insert(main_chain.begin() + insert_pos, *pair_start_next);
+        print_deque(main_chain);
+        deque.insert(deque.begin() + insert_pos * (steps / 2), pair_start_next, pair_start_next + steps / 2);
+        pair_start_next = deque.erase(pair_start_next, pair_start_next + steps / 2);
+        pair_start += steps;
+        pair_end += steps * 2;
+        pair_start_next += steps / 2;
+    }
+    /* print_deque(main_chain); */
+    print_deque(deque);
+    std::cout << "================" << std::endl;
 }
 
 void PmergeMe::ford_johnson_deque( int steps )
@@ -381,6 +416,8 @@ void PmergeMe::ford_johnson_deque( int steps )
     swap_pairs( steps );
     steps *= 2;
     ford_johnson_deque( steps );
+
+    insert_pairs( steps );
 }
 
 
@@ -391,4 +428,24 @@ void PmergeMe::print_deque( const std::deque<int> &v )
         std::cout << *itr << " ";
     }
     std::cout << std::endl;
+}
+
+void PmergeMe::binary_search( std::deque<int> main_chain, int start, int end, int num ) 
+{
+    int range = start + ( ( end - start ) / 2 );
+    if( main_chain.empty() == true )
+        return ;
+    if( range >= (int)main_chain.size() )
+    {
+        insert_pos = (int)main_chain.size();
+        return ;
+    }
+    if (num > main_chain[range]) 
+        binary_search(main_chain, range + 1, end, num);
+    else if (num < main_chain[range] && start != range)
+        binary_search(main_chain, start, range - 1, num);
+    else if(num == main_chain[range])
+        insert_pos = range;
+    else
+        insert_pos = range;
 }
