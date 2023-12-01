@@ -14,10 +14,10 @@ PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
     std::cout << std::endl;
 
     print_vv( pairs );
-    std::cout << "-------------list--------------" << std::endl;
+    std::cout << "-------------deque--------------" << std::endl;
 
-    argvToList( argv );
-    ford_johnson_list( 1 );
+    argvTodeque( argv );
+    ford_johnson_deque( 1 );
 }
 
 void PmergeMe::swap_pairs( std::vector< std::vector<int> > &pairs )
@@ -303,13 +303,13 @@ std::vector<int> PmergeMe::getInput_original() { return input_original; }
 
 
 // -------------------------------------------------------------------------------------------------- //
-// -----------------------------    FORD JOHNSON LIST SORTING    ------------------------------------ //
+// -----------------------------    FORD JOHNSON deque SORTING    ----------------------------------- //
 // -------------------------------------------------------------------------------------------------- //
 
 
 
 
-int PmergeMe::argvToList( char **argv )
+int PmergeMe::argvTodeque( char **argv )
 {
     int num;
 
@@ -324,116 +324,69 @@ int PmergeMe::argvToList( char **argv )
             std::cout << "Error" << std::endl << "Overflow" << std::endl;
             return (1);
         }
-        list.push_back(num);
+        deque.push_back(num);
     }
     return (0);
 }
 
-std::list<int>::iterator PmergeMe::list_move_up( std::list<int> l, int steps )
-{
-    std::list<int>::iterator itr = l.begin();
-    if(steps == 0)
-        return itr;
-    for(int i = 0; itr != l.end(); i++, itr++)
-        if( i == steps )
-            return itr;
-    return itr;
-}
-
-std::list<int>::iterator PmergeMe::list_move_up( std::list<int>::iterator itr, int steps )
-{
-    if(steps == 0)
-        return itr;
-    for(int i = 0; itr != list.end(); i++, itr++)
-        if( i == steps )
-            return itr;
-    return itr;
-}
-
-std::list<int>::iterator PmergeMe::make_list_itr( std::list<int> l, int &steps )
-{
-    return list_move_up(l, steps *= 2);
-}
-
-void PmergeMe::swap_range( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end, std::list<int>::iterator &next_pair_start )
+void PmergeMe::swap_range( deque_itr &pair_start, deque_itr pair_end, deque_itr &next_pair_start )
 {
     int tmp;
-    int step = std::distance(pair_start, pair_end);
-    if(step == 1)
+    if(pair_start == pair_end)
     {
         tmp = *pair_start;
         *pair_start = *next_pair_start;
         *next_pair_start = tmp;
+        pair_start++;
+        next_pair_start++;
         return ;
     }
-    for( ;next_pair_start != list.end() && pair_start != pair_end; )
+
+    for( ;next_pair_start != deque.end() && pair_start != pair_end + 1; )
     {
         tmp = *pair_start;
         *pair_start = *next_pair_start;
         *next_pair_start = tmp;
-        pair_start = list_move_up( pair_start, 1 );
-        next_pair_start = list_move_up( next_pair_start, 1 );
+        pair_start++;
+        next_pair_start++;
     }
+
 }
 
-void PmergeMe::swap_pairs( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end )
+void PmergeMe::swap_pairs( int steps )
 {
-    int step = std::distance(pair_start, pair_end);
-    std::list<int>::iterator next_pair_start = list_move_up( pair_start, step );
-
-    for( std::size_t i = 0; pair_start != list.end(); i += 2 )
+    deque_itr pair_start = deque.begin();
+    deque_itr pair_end = deque.begin() + ( steps - 1 );
+    deque_itr pair_start_next = deque.begin() + steps;
+    /* (void)pair_end; */
+    for( std::size_t i = 0; i < deque.size() && pair_start != deque.end() && pair_start_next != deque.end(); i += steps )
     {
-        std::cout << "pstart = " << *pair_start << std::endl;
-        std::cout << "npstart = " << *pair_end << std::endl;
-        if( *pair_start < *next_pair_start )
-        {
-            swap_range( pair_start, pair_end, next_pair_start );
-            pair_start = list_move_up( pair_start, step );
-            next_pair_start = list_move_up( next_pair_start, step );
-        }
-        else
-        {
-            pair_start = list_move_up( pair_start, step * 2 );
-            next_pair_start = list_move_up( next_pair_start, step * 2 );
-        }
-        /* if(i > 4)
-            return ; */
+        if( *pair_start < *pair_start_next )
+            swap_range( pair_start, pair_end, pair_start_next );
+        pair_start += steps;
+        pair_end += steps * 2;
+        pair_start_next += steps;
     }
+            std::cout << "+++++++++++" << steps << std::endl;
+/*         std::cout << "pstart = " << *pair_start << std::endl;
+        std::cout << "end = " << *pair_end << std::endl;
+        std::cout << "npstart = " << *next_pair_start  << std::endl; */
 }
 
-void PmergeMe::ford_johnson_list( int steps )
+void PmergeMe::ford_johnson_deque( int steps )
 {
-    /* std::cout << *( make_list_itr( list, steps ) ); */
-    /* int start = 0; */
-    if(steps >= 2)
+    print_deque( deque );
+    if(steps >= (int)deque.size())
         return ;
-    print_list( list );
-    std::list<int>::iterator itr_start = list.begin();
-    std::list<int>::iterator itr_end = list.begin();
-    //std::advance(itr_start, 0);
-    itr_start = list_move_up( itr_start, 0 );
-    itr_end = list_move_up( itr_end, steps );
-
-    swap_pairs( itr_start , itr_end);
-    print_list( list );
-    /* steps++; */
+    swap_pairs( steps );
     steps *= 2;
-    ford_johnson_list( steps );
+    ford_johnson_deque( steps );
 }
 
 
-
-
-
-
-
-
-
-
-
-void PmergeMe::print_list( const std::list<int> &v )
+void PmergeMe::print_deque( const std::deque<int> &v )
 {
-    for( std::list<int>::const_iterator itr = v.begin(); itr != v.end(); itr++ )
+    for( std::deque<int>::const_iterator itr = v.begin(); itr != v.end(); itr++ )
     {
         std::cout << *itr << " ";
     }

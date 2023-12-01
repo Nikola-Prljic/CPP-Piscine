@@ -4,7 +4,7 @@
 # include <iostream>
 # include <vector>
 # include <algorithm> 
-# include <list>
+# include <deque>
 
 class PmergeMe
 {
@@ -19,7 +19,8 @@ private:
     std::vector< std::vector<int> > pairs;
     std::vector<int> input_original;
 
-    std::list<int> list;
+    std::deque<int> deque;
+    typedef std::deque<int>::iterator deque_itr;
 public:
 
     PmergeMe( char **argv );
@@ -45,17 +46,14 @@ public:
     std::vector< std::vector<int> > getPairs();
     std::vector< int > getInput_original();
 
-    // ------------- List sorting ------------
+    // ------------- deque sorting ------------
 
-    int argvToList( char **argv );
-    void print_list( const std::list<int> &v );
+    int argvTodeque( char **argv );
+    void print_deque( const std::deque<int> &v );
 
-    void ford_johnson_list( int steps );
-    std::list<int>::iterator make_list_itr( std::list<int> l, int &steps );
-    std::list<int>::iterator list_move_up( std::list<int>::iterator itr, int steps );
-    std::list<int>::iterator list_move_up( std::list<int> l, int steps );
-    void swap_pairs( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end );
-    void swap_range( std::list<int>::iterator &pair_start, std::list<int>::iterator &pair_end, std::list<int>::iterator &next_pair_start );
+    void ford_johnson_deque( int steps );
+    void swap_pairs( int steps );
+    void swap_range( deque_itr &pair_start, deque_itr pair_end, deque_itr &next_pair_start );
 };
 
 #endif
