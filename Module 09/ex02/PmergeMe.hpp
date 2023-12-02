@@ -5,6 +5,7 @@
 # include <vector>
 # include <algorithm> 
 # include <deque>
+# include <iterator>
 
 class PmergeMe
 {
@@ -20,6 +21,7 @@ private:
     std::vector<int> input_original;
 
     std::deque<int> deque;
+    std::deque<int> deque_main_chain;
     typedef std::deque<int>::iterator deque_itr;
 
 public:
