@@ -16,8 +16,8 @@ PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
     print_vv( pairs );
     std::cout << "-------------deque--------------" << std::endl;
 
-    argvTodeque( argv );
-    ford_johnson_deque( 1 );
+   /*  argvTodeque( argv );
+    ford_johnson_deque( 1 ); */
 }
 
 void PmergeMe::swap_pairs( std::vector< std::vector<int> > &pairs )
@@ -131,7 +131,9 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
     int size_main_chain;
     bool odd_is_inserted = false;
     std::vector< std::vector<int> >::iterator pairs_mainchain_itr = pairs.begin();
-
+    std::cout << "-------start------" << std::endl;
+    print_vv(pairs);
+    std::cout << "------------------" << std::endl;
     for( size_t y = 0; y < vanilla_mainchain.size(); y++ )
     {
         size_main_chain = main_chain.size();
@@ -148,10 +150,20 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
 
         std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
 
+
+        std::cout << "new_elements_to_insert = ";
+        print_vector(new_elements_to_insert);
+        std::cout << std::endl;
+
         main_chain.insert( main_chain.begin() + insert_pos, pairs_mainchain_itr[0][pair_start] );
+
+        std::cout << "main_chain = ";
+        print_vector(main_chain);
+        std::cout << std::endl;
     
         if( pairs_mainchain_itr[0].size() == 1 && vector_is_even == false)
         {
+            main_chain.erase( main_chain.end() - 1 );
             pairs.erase( pairs_mainchain_itr );
             odd_is_inserted = true;
         }
@@ -159,8 +171,12 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
             pairs_mainchain_itr->erase( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
     
         pairs.insert( pairs.begin() + insert_pos, new_elements_to_insert );
+        std::cout << "------------------" << std::endl;
+        print_vv(pairs);
+        std::cout << "------------------" << std::endl;
     
     }
+    std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << std::endl;
 }
 
 void PmergeMe::get_pair_size( std::vector< std::vector<int> >::iterator pairs_mainchain_itr, int pair_size, int &pair_start, int &pair_end )
@@ -327,6 +343,11 @@ int PmergeMe::argvTodeque( char **argv )
         }
         deque.push_back(num);
     }
+    /* if(deque.size() % 2 != 0)
+    {
+        odd_last_element = deque.back();
+        deque.pop_back();
+    } */
     return (0);
 }
 
@@ -373,11 +394,11 @@ void PmergeMe::swap_pairs( int steps )
         pair_end += steps * 2;
         pair_start_next += steps;
 
-        std::cout << "pstart = " << *pair_start << std::endl;
+        /* std::cout << "pstart = " << *pair_start << std::endl;
         std::cout << "end = " << *pair_end << std::endl;
-        std::cout << "npstart = " << *pair_start_next << std::endl;
+        std::cout << "npstart = " << *pair_start_next << std::endl; */
     }
-    std::cout << "+++++++++++" << steps << std::endl;
+    /* std::cout << "+++++++++++" << steps << std::endl; */
 }
 
 void PmergeMe::insert_pairs( const int &steps )
