@@ -17,10 +17,10 @@ PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
     std::cout << "-------------deque--------------" << std::endl;
 
     argvTodeque( argv );
-    ford_johnson_deque( 1 );
+    fordJohnsonDequeSorting( 1 );
 }
 
-void PmergeMe::swap_pairs( std::vector< std::vector<int> > &pairs )
+void PmergeMe::swapPairsIfGreater( std::vector< std::vector<int> > &pairs )
 {
     for( size_t y = 0; y < pairs.size() - 1; y += 2 )
         if( pairs[y][0] < pairs[y + 1][0] )
@@ -63,7 +63,7 @@ void PmergeMe::ford_johnson_vector( int pair_size )
     if( pairs.size() == 1 )
         return ;
     //if one pair is bigger than the other swap it
-    swap_pairs( pairs );
+    swapPairsIfGreater( pairs );
     pair_size = pairs[0].size();
 
     //join pairs together until a sorted main chain
@@ -101,30 +101,7 @@ void PmergeMe::create_jacob_numbers()
     jk_order = jk_order_tmp;
 }
 
-/* std::vector<int> PmergeMe::create_insert_oreder( std::vector<int> main_chain )
-{
-    std::size_t jk_order_prev = 1;
-    std::vector<int> vanilla_mainchain;
-    std::vector<int>::iterator jk_order_itr = jk_order.begin();
-
-    vanilla_mainchain.push_back(main_chain[0]);
-    jk_order_itr++;
-    while ( jk_order_prev < pairs.size() )
-    {
-        if(jk_order_prev != 1)
-            vanilla_mainchain.insert( vanilla_mainchain.end(), main_chain.rend() - ((jk_order_itr - 1)[0]), main_chain.rend() - ((jk_order_itr - 2)[0]) );
-        jk_order_prev = jk_order_itr[0];
-        jk_order_itr++;
-        if( (jk_order_itr - 1)[0] >= (int)pairs.size() )
-        {
-            vanilla_mainchain.insert( vanilla_mainchain.end(), main_chain.rbegin(), main_chain.rend() - ((jk_order_itr - 2)[0]) );
-            break;
-        }
-    }
-    return (vanilla_mainchain);
-} */
-
-void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::vector<int> main_chain, int pair_size)
+void PmergeMe::insert_into_main_chain( const std::vector<int> &vanilla_mainchain, std::vector<int> &main_chain, int pair_size)
 {
     int pair_end = 2;
     int pair_start = 1;
@@ -146,7 +123,7 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
             continue ;
 
         get_pair_size( pairs_mainchain_itr, pair_size, pair_start, pair_end );
-        binary_search( main_chain, 0, size_main_chain, pairs_mainchain_itr[0][pair_start] );
+        customBinarySearch( main_chain, 0, size_main_chain, pairs_mainchain_itr[0][pair_start] );
 
         std::vector<int> new_elements_to_insert( pairs_mainchain_itr->begin() + pair_start, pairs_mainchain_itr->begin() + pair_end );
 
@@ -179,7 +156,7 @@ void PmergeMe::insert_into_main_chain( std::vector<int> vanilla_mainchain, std::
     std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << std::endl;
 }
 
-void PmergeMe::get_pair_size( std::vector< std::vector<int> >::iterator pairs_mainchain_itr, int pair_size, int &pair_start, int &pair_end )
+void PmergeMe::get_pair_size( const std::vector< std::vector<int> >::const_iterator &pairs_mainchain_itr, const int &pair_size, int &pair_start, int &pair_end )
 {
     if( pair_size < 2 )
     {
@@ -206,7 +183,7 @@ void PmergeMe::get_pair_size( std::vector< std::vector<int> >::iterator pairs_ma
 //-----------------------------Convert and Print---------------------------------------------------
 
 //With error handling
-bool PmergeMe::ft_isnum(char *str)
+bool PmergeMe::ft_isnum( const char *str)
 {
     int i = 0;
 
@@ -221,7 +198,7 @@ bool PmergeMe::ft_isnum(char *str)
     return ( true );
 }
 
-void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, int num) 
+void PmergeMe::customBinarySearch( const std::vector<int> &main_chain, int start, int end, int num) 
 {
     int range = start + ( ( end - start ) / 2 );
     if( main_chain.empty() == true )
@@ -232,9 +209,9 @@ void PmergeMe::binary_search( std::vector<int> main_chain, int start, int end, i
         return ;
     }
     if (num > main_chain[range]) 
-        binary_search(main_chain, range + 1, end, num);
+        customBinarySearch(main_chain, range + 1, end, num);
     else if (num < main_chain[range] && start != range)
-        binary_search(main_chain, start, range - 1, num);
+        customBinarySearch(main_chain, start, range - 1, num);
     else if(num == main_chain[range])
         insert_pos = range;
     else
@@ -351,7 +328,7 @@ int PmergeMe::argvTodeque( char **argv )
     return (0);
 }
 
-void PmergeMe::swap_range( deque_itr &pair_start, deque_itr pair_end, deque_itr &next_pair_start )
+void PmergeMe::swapElementsInRange( deque_itr &pair_start, deque_itr pair_end, deque_itr &next_pair_start )
 {
     int tmp;
     if(pair_start == pair_end)
@@ -375,7 +352,7 @@ void PmergeMe::swap_range( deque_itr &pair_start, deque_itr pair_end, deque_itr 
 
 }
 
-void PmergeMe::swap_pairs( int steps )
+void PmergeMe::swapPairsIfGreater( int steps )
 {
     deque_itr pair_start = deque.begin();
     deque_itr pair_end = deque.begin() + ( steps - 1 );
@@ -384,7 +361,7 @@ void PmergeMe::swap_pairs( int steps )
     for( std::size_t i = 0; i < deque.size() && pair_start != deque.end() && pair_start_next != deque.end(); i += steps )
     {
         if( *pair_start < *pair_start_next )
-            swap_range( pair_start, pair_end, pair_start_next );
+            swapElementsInRange( pair_start, pair_end, pair_start_next );
         else
         {
             pair_start += steps;
@@ -401,7 +378,7 @@ void PmergeMe::swap_pairs( int steps )
     /* std::cout << "+++++++++++" << steps << std::endl; */
 }
 
-std::deque<int> PmergeMe::make_elements_to_insert( const int &steps )
+std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
 {
     /* int x = 0; */
     (void)steps;
@@ -431,7 +408,7 @@ std::deque<int> PmergeMe::make_elements_to_insert( const int &steps )
     return (elements_to_insert);
 }
 
-void PmergeMe::insert_pairs( const int &steps )
+void PmergeMe::insertPairsIntoMainChain( const int &steps )
 {
     std::cout << "steps = " << steps << std::endl;
     /* deque_itr pair_start = deque.begin();
@@ -441,7 +418,7 @@ void PmergeMe::insert_pairs( const int &steps )
     std::size_t pair_size = 0;
     /* for( std::size_t i = 0; i < deque.size(); i += steps )
         main_chain.push_back(deque[i]); */
-    std::deque<int> vanilla_main_chain = make_elements_to_insert( steps );
+    std::deque<int> vanilla_main_chain = findElementsToInsert( steps );
 
     vanilla_main_chain = create_insert_oreder( vanilla_main_chain );
     /* vanilla_main_chain = main_chain; */
@@ -454,7 +431,7 @@ void PmergeMe::insert_pairs( const int &steps )
     for( std::size_t i = 0; i < deque.size() && vanilla_main_chain_itr != vanilla_main_chain.end(); i += steps )
     {
         pair_start_next = std::find(deque.begin(), deque.end(), *vanilla_main_chain_itr);
-        binary_search(deque_main_chain, 0, deque_main_chain.size(), *pair_start_next);
+        customBinarySearch(deque_main_chain, 0, deque_main_chain.size(), *pair_start_next);
         
         if(std::find(deque_main_chain.begin(), deque_main_chain.end(), *pair_start_next) == deque_main_chain.end())
             deque_main_chain.insert(deque_main_chain.begin() + insert_pos, *pair_start_next);
@@ -481,7 +458,7 @@ void PmergeMe::insert_pairs( const int &steps )
     std::cout << "================" << std::endl;
 }
 
-void PmergeMe::ford_johnson_deque( int steps )
+void PmergeMe::fordJohnsonDequeSorting( int steps )
 {
     print_deque( deque );
     if(steps >= (int)deque.size())
@@ -490,11 +467,11 @@ void PmergeMe::ford_johnson_deque( int steps )
             deque_main_chain.push_back(deque[i]);
         return ;
     }
-    swap_pairs( steps );
+    swapPairsIfGreater( steps );
     steps *= 2;
-    ford_johnson_deque( steps );
+    fordJohnsonDequeSorting( steps );
 
-    insert_pairs( steps );
+    insertPairsIntoMainChain( steps );
 }
 
 
@@ -507,7 +484,7 @@ void PmergeMe::print_deque( const std::deque<int> &v )
     std::cout << std::endl;
 }
 
-void PmergeMe::binary_search( std::deque<int> main_chain, int start, int end, int num ) 
+void PmergeMe::customBinarySearch( const std::deque<int> &main_chain, int start, int end, int num ) 
 {
     int range = start + ( ( end - start ) / 2 );
     if( main_chain.empty() == true )
@@ -518,9 +495,9 @@ void PmergeMe::binary_search( std::deque<int> main_chain, int start, int end, in
         return ;
     }
     if (num > main_chain[range]) 
-        binary_search(main_chain, range + 1, end, num);
+        customBinarySearch(main_chain, range + 1, end, num);
     else if (num < main_chain[range] && start != range)
-        binary_search(main_chain, start, range - 1, num);
+        customBinarySearch(main_chain, start, range - 1, num);
     else if(num == main_chain[range])
         insert_pos = range;
     else
