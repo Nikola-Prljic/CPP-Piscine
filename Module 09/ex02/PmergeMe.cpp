@@ -456,7 +456,6 @@ void PmergeMe::insert_pairs( const int &steps )
         pair_start_next = std::find(deque.begin(), deque.end(), *vanilla_main_chain_itr);
         binary_search(deque_main_chain, 0, deque_main_chain.size(), *pair_start_next);
         
-        deque_insert_pos = std::find(deque.begin(), deque.end(), *(deque_main_chain.begin() + insert_pos + 1));
         if(std::find(deque_main_chain.begin(), deque_main_chain.end(), *pair_start_next) == deque_main_chain.end())
             deque_main_chain.insert(deque_main_chain.begin() + insert_pos, *pair_start_next);
 
@@ -468,9 +467,11 @@ void PmergeMe::insert_pairs( const int &steps )
         std::deque<int> deque_pair(pair_start_next, pair_start_next + pair_size);
         pair_start_next = deque.erase(pair_start_next, pair_start_next + pair_size);
 
+        deque_insert_pos = std::find(deque.begin(), deque.end(), *(deque_main_chain.begin() + insert_pos + 1));
         /* std::find(deque.begin(), deque.end(), deque_main_chain.begin() + insert_pos + 1); */
         deque.insert( deque_insert_pos, deque_pair.begin(), deque_pair.end() );
 
+        
         vanilla_main_chain_itr++;
     }
     print_deque(deque);
