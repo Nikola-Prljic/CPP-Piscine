@@ -1,7 +1,7 @@
 #!/bin/bash
 num=0
 testcount=1
-test_ammount=2
+test_ammount=1000
 cd ..
 make
 mv PmergeMe tester
@@ -55,8 +55,8 @@ count=1
 
 ft_make_array()
 {
-    array_length=$(shuf -i 2-9 -n 1)
-    number=($(shuf -i 0-10 -n $array_length))
+    array_length=$(shuf -i 3-20 -n 1)
+    number=($(shuf -i 0-20 -n $array_length))
 }
 
 x=1
