@@ -375,7 +375,7 @@ void PmergeMe::swapPairsIfGreater( int steps )
         std::cout << "end = " << *pair_end << std::endl;
         std::cout << "npstart = " << *pair_start_next << std::endl; */
     }
-    /* std::cout << "+++++++++++" << steps << std::endl; */
+    std::cout << "+++++++++++" << steps << std::endl;
 }
 
 std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
