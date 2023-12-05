@@ -420,8 +420,8 @@ std::deque<int> PmergeMe::make_elements_to_insert( const int &steps )
         {
             deque_next_pair = deque.end();
         }
-        /* std::cout << "deque_first_pair = " << *deque_first_pair << " || deque_next_pair = " << *deque_next_pair << std::endl;
-        std::cout << "deque_next_pair = " << std::distance(deque_first_pair, deque_next_pair)<< std::endl; */
+        std::cout << "deque_first_pair = " << *deque_first_pair << " || deque_next_pair = " << *deque_next_pair << std::endl;
+        std::cout << "deque_next_pair = " << std::distance(deque_first_pair, deque_next_pair)<< std::endl;
         if( *deque_main_chain_itr == *deque_first_pair && std::distance(deque_first_pair, deque_next_pair) >= steps / 2)
         {
             elements_to_insert.push_back( *(deque_first_pair + steps / 2));
@@ -467,11 +467,14 @@ void PmergeMe::insert_pairs( const int &steps )
         std::deque<int> deque_pair(pair_start_next, pair_start_next + pair_size);
         pair_start_next = deque.erase(pair_start_next, pair_start_next + pair_size);
 
-        deque_insert_pos = std::find(deque.begin(), deque.end(), *(deque_main_chain.begin() + insert_pos + 1));
+        if(deque_main_chain.begin() + insert_pos + 1 == deque_main_chain.end() )
+            deque_insert_pos = deque.end();
+        else
+            deque_insert_pos = std::find(deque.begin(), deque.end(), *(deque_main_chain.begin() + insert_pos + 1));
+
         /* std::find(deque.begin(), deque.end(), deque_main_chain.begin() + insert_pos + 1); */
         deque.insert( deque_insert_pos, deque_pair.begin(), deque_pair.end() );
-
-        
+     
         vanilla_main_chain_itr++;
     }
     print_deque(deque);
@@ -548,3 +551,5 @@ T PmergeMe::create_insert_oreder( const T &main_chain )
     }
     return (vanilla_mainchain);
 }
+
+std::deque<int> PmergeMe::getDeque() { return (deque); }

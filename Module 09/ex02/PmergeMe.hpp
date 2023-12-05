@@ -61,6 +61,9 @@ public:
     void binary_search( std::deque<int> main_chain, int start, int end, int num );
     template<typename T > T create_insert_oreder( const T &main_chain );
     std::deque<int> make_elements_to_insert( const int &steps );
+
+    //print and getter
+    std::deque<int> getDeque();
 };
 
 #endif
