@@ -1,7 +1,7 @@
 #!/bin/bash
 num=0
 testcount=1
-test_ammount=2000
+test_ammount=1000
 int_is_sorted=8000
 mkdir fails
 cd ..
@@ -14,12 +14,18 @@ echo "-----------------"
 ft_test()
 {
     ./PmergeMe $1 >> out 2>&1
-    #valgrind ./PmergeMe $1 > valgrind_test.txt 2>&1
-    #grep -q "ERROR SUMMARY: 0 errors" valgrind_test.txt
-    #val_error=$?
-    #grep -q "All heap blocks were freed -- no leaks are possible" valgrind_test.txt
-    #val_blocks=$?
-    #num=$(($num + $val_error + $val_blocks))
+    valgrind ./PmergeMe $1 > valgrind_test.txt 2>&1
+    grep -q "ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)" valgrind_test.txt
+    val_error=$?
+    grep -q "All heap blocks were freed -- no leaks are possible" valgrind_test.txt
+    val_blocks=$?
+    num=$(($num + $val_error + $val_blocks))
+    if [ $num -eq 0 ]
+    then echo "| valgrind: ok  |"
+    else
+        echo "| valgrind: ko  |"
+        mv valgrind_test.txt valgrind_test_error.txt
+    fi
 
     grep -q "vector is sorted" out
     int_is_sorted=$?
@@ -57,8 +63,8 @@ ft_test()
 
 ft_make_array()
 {
-    array_length=$(shuf -i 2-3000 -n 1)
-    number=($(shuf -i 1-5000 -n $array_length))
+    array_length=$(shuf -i 2-200 -n 1)
+    number=($(shuf -i 0-300 -n $array_length))
 }
 
 x=1

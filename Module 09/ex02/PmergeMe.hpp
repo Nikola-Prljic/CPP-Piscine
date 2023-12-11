@@ -49,11 +49,14 @@ public:
 
     void fordJohnsonDequeSorting( int steps );
     void swapPairsIfGreater( int steps );
-    void swapElementsInRange( deque_itr pair_start, deque_itr pair_end, deque_itr next_pair_start, deque_itr next_pair_end );
-    void insertPairsIntoMainChain( const int &steps );
+    void next_step( deque_itr &pair_start, deque_itr &pair_end, deque_itr &pair_start_next, deque_itr &pair_end_next, const int &i, const int &steps );
+    void swapElementsInRange( deque_itr pair_start, deque_itr pair_end, deque_itr next_pair_end );
+    void insertPairsIntoMainChain( const int &steps, const std::deque<int> &vanilla_main_chain );
     void customBinarySearch( const std::deque<int> &main_chain, int start, int end, int num );
     template<typename T > T create_insert_oreder( const T &main_chain );
     std::deque<int> findElementsToInsert( const int &steps );
+    std::size_t getPairSize( const std::size_t &half_steps, std::deque<int>::iterator pair_start_next );
+    std::deque<int>::iterator findInsertPos();
 
     //print
     void print_vector( const std::vector<int> &v );

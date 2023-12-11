@@ -40,3 +40,7 @@ re: fclean all
 
 debug: CXXFLAGS += -gdwarf-4
 debug: re
+
+tester: fclean
+	cd ./tester && ./test.sh
+	cd ..
