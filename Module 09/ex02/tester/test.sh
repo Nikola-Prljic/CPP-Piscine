@@ -1,8 +1,9 @@
 #!/bin/bash
 num=0
 testcount=1
-test_ammount=5000
+test_ammount=100
 int_is_sorted=8000
+mkdir fails
 cd ..
 make
 mv PmergeMe tester
@@ -26,7 +27,7 @@ ft_test()
     int_is_sorted=$(($int_is_sorted + $?))
     if [ $int_is_sorted -ne 0 ]
         then echo "| Test $testcount : ko   |"
-        cat out > "$testcount"_failed.txt
+        cat out > fails/"$testcount"_failed.txt
     else
         echo "| Test $testcount : ok   |"
     fi
@@ -54,13 +55,10 @@ ft_test()
 #    echo ko
 #fi
 
-MAXCOUNT=$((1 + $RANDOM % 3000))
-count=1
-
 ft_make_array()
 {
-    array_length=$(shuf -i 10-10 -n 1)
-    number=($(shuf -i 0-11 -n $array_length))
+    array_length=$(shuf -i 2-1000 -n 1)
+    number=($(shuf -i 1-5000 -n $array_length))
 }
 
 x=1
