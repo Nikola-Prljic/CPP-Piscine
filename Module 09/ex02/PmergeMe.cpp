@@ -7,14 +7,14 @@ PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
     if(argvToVector( argv ))
         return ;
     /* pairs.push_back(vector); */
-    print_vv( pairs );
+   /*  print_vv( pairs ); */
 
     create_jacob_numbers();
     ford_johnson_vector( 1 );
-    std::cout << std::endl;
+    /* std::cout << std::endl; */
 
-    print_vv( pairs );
-    std::cout << "-------------deque--------------" << std::endl;
+   /*  print_vv( pairs ); */
+    /* std::cout << "-------------deque--------------" << std::endl; */
 
     argvTodeque( argv );
     fordJohnsonDequeSorting( 1 );
@@ -64,7 +64,7 @@ void PmergeMe::ford_johnson_vector( int pair_size )
         return ;
     //if one pair is bigger than the other swap it
     /* print_vv(pairs); */
-    std::cout << "-----------end_________" << std::endl;
+    /* std::cout << "-----------end_________" << std::endl; */
     swapPairsIfGreater( pairs );
     pair_size = pairs[0].size();
 
@@ -105,7 +105,7 @@ void PmergeMe::create_jacob_numbers()
 
 void PmergeMe::insert_into_main_chain( const std::vector<int> &vanilla_mainchain, std::vector<int> &main_chain, int pair_size)
 {
-    std::cout << "pair_size = " << pair_size << std::endl;
+    /* std::cout << "pair_size = " << pair_size << std::endl; */
     int pair_end = 2;
     int pair_start = 1;
     int size_main_chain;
@@ -348,11 +348,14 @@ void PmergeMe::swapElementsInRange( deque_itr pair_start, deque_itr pair_end, de
     if( pair_end_next + 1 == deque.end() )
         is_end = true;
     int insert_pos_num = *(pair_end_next + 1);
-    (void)next_pair_start;
-    std::cout << "ACHTUNG !!!!!!!!!!!!!" << std::endl;
+
+    (void)next_pair_start; // RM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+    /* std::cout << "ACHTUNG !!!!!!!!!!!!!" << std::endl; */
     std::deque<int> tmp( pair_start, pair_end + 1 );
-    print_deque(tmp);
-    std::cout << *pair_end_next << "ACHTUNG !!!!!!!!!!!!!" << std::endl;
+    /* print_deque(tmp); */
+    /* std::cout << *pair_end_next << "ACHTUNG !!!!!!!!!!!!!" << std::endl; */
     deque.erase( pair_start, pair_end + 1 );
 
     if(is_end == false)
@@ -360,7 +363,7 @@ void PmergeMe::swapElementsInRange( deque_itr pair_start, deque_itr pair_end, de
     else
         pair_end_next = deque.end();
     deque.insert( pair_end_next, tmp.begin(), tmp.end() );
-    print_deque(deque);
+    /* print_deque(deque); */
     /* exit(1); */
     /* } */
 }
@@ -404,7 +407,7 @@ void PmergeMe::swapPairsIfGreater( int steps )
         std::cout << "npstart = " << *pair_start_next << std::endl;
         std::cout << "-> npEND = " << *pair_end_next << std::endl; */
     }
-    std::cout << "+++++++++++" << steps << std::endl;
+    /* std::cout << "+++++++++++" << steps << std::endl; */
 }
 
 std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
@@ -429,8 +432,10 @@ std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
         {
             deque_next_pair = deque.end();
         }
-        std::cout << "deque_first_pair = " << *deque_first_pair << " || deque_next_pair = " << *deque_next_pair << std::endl;
+
+/*         std::cout << "deque_first_pair = " << *deque_first_pair << " || deque_next_pair = " << *deque_next_pair << std::endl;
         std::cout << "deque_next_pair = " << std::distance(deque_first_pair, deque_next_pair)<< std::endl;
+   */      
         if( *deque_main_chain_itr == *deque_first_pair && std::distance(deque_first_pair, deque_next_pair) > steps / 2)
         {
             elements_to_insert.push_back( *(deque_first_pair + steps / 2));
@@ -439,7 +444,8 @@ std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
     }
     if(steps == 2 && vector_is_even == false)
     {
-        std::cout << "-------------------------------asdasdasdasdasdasd--------------------------" << std::endl;
+/*         std::cout << "-------------------------------asdasdasdasdasdasd--------------------------" << std::endl;
+ */     
         deque.push_back(odd_last_element);
         /* deque_main_chain.push_back(odd_last_element); */
         elements_to_insert.push_back(odd_last_element);
@@ -449,7 +455,7 @@ std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
 
 void PmergeMe::insertPairsIntoMainChain( const int &steps )
 {
-    std::cout << "steps = " << steps << std::endl;
+    /* std::cout << "steps = " << steps << std::endl; */
     /* deque_itr pair_start = deque.begin();
     deque_itr pair_end = deque.begin() + ( steps - 1 ); */
     deque_itr pair_start_next = deque.begin() + steps / 2;
@@ -457,17 +463,17 @@ void PmergeMe::insertPairsIntoMainChain( const int &steps )
     std::size_t pair_size = 0;
     /* for( std::size_t i = 0; i < deque.size(); i += steps )
         main_chain.push_back(deque[i]); */
-    std::cout << "deque_main_chain = ";
-    print_deque(deque_main_chain);
+    /* std::cout << "deque_main_chain = ";
+    print_deque(deque_main_chain); */
     std::deque<int> vanilla_main_chain = findElementsToInsert( steps );
-    std::cout << "insert order = ";
-    print_deque(vanilla_main_chain);
+    /* std::cout << "insert order = ";
+    print_deque(vanilla_main_chain); */
 
     vanilla_main_chain = create_insert_oreder( vanilla_main_chain );
     /* vanilla_main_chain = main_chain; */
     std::deque<int>::iterator vanilla_main_chain_itr = vanilla_main_chain.begin();
-    std::cout << "main chain = ";
-    print_deque(deque_main_chain);
+    /* std::cout << "main chain = ";
+    print_deque(deque_main_chain); */
     std::deque<int>::iterator deque_main_chain_itr = deque_main_chain.begin();
     /* print_deque(deque); */
     std::deque<int>::iterator deque_insert_pos = deque.begin();
@@ -516,10 +522,10 @@ void PmergeMe::insertPairsIntoMainChain( const int &steps )
 
         /* std::find(deque.begin(), deque.end(), *(start_deque_main_chain_itr ) ); std::find(deque.begin(), deque.end(), *(start_deque_main_chain_itr ) ); */
         
-        std::cout << "insert_pos + 1 ====== "  << *(deque_main_chain.begin() + insert_pos + 1) << std::endl;
+        /* std::cout << "insert_pos + 1 ====== "  << *(deque_main_chain.begin() + insert_pos + 1) << std::endl;
         std::cout << "pairstart next ====== "  << *pair_start_next << std::endl;
         std::cout << "dis ====== "  << std::distance( pair_start_next, std::find(deque.begin(), deque.end(), *(deque_main_chain.begin() + insert_pos + 1) ) ) << std::endl;
-        std::cout << "pair_size ====== "  << pair_size << std::endl;
+        std::cout << "pair_size ====== "  << pair_size << std::endl; */
 
         /* if( pair_size > static_cast<std::size_t>( std::distance( pair_start_next, std::find(deque.begin(), deque.end(), *(deque_main_chain.begin() + insert_pos) ) ) ) )
         {
@@ -527,8 +533,8 @@ void PmergeMe::insertPairsIntoMainChain( const int &steps )
         } */
 
         std::deque<int> deque_pair(pair_start_next, pair_start_next + pair_size);
-        std::cout << "deque_pair ==== ";
-        print_deque(deque_pair);
+        /* std::cout << "deque_pair ==== ";
+        print_deque(deque_pair); */
         pair_start_next = deque.erase(pair_start_next, pair_start_next + pair_size);
 
         if( deque_main_chain.begin() + insert_pos + 1 == deque_main_chain.end() )
@@ -542,14 +548,14 @@ void PmergeMe::insertPairsIntoMainChain( const int &steps )
         vanilla_main_chain_itr++;
         deque_main_chain_itr++;
     }
-    print_deque(deque);
-    std::cout << "================" << std::endl;
+    /* print_deque(deque);
+    std::cout << "================" << std::endl; */
 }
 
 void PmergeMe::fordJohnsonDequeSorting( int steps )
 {
-    print_deque( deque );
-    std::cout << "++++++++++++++++++++++++++++++++" << std::endl;
+    /* print_deque( deque );
+    std::cout << "++++++++++++++++++++++++++++++++" << std::endl; */
     if(steps >= (int)deque.size())
     {
         for( std::size_t i = 0; i < deque.size(); i += steps )

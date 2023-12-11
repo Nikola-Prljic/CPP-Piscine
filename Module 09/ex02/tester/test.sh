@@ -1,7 +1,7 @@
 #!/bin/bash
 num=0
 testcount=1
-test_ammount=100
+test_ammount=2000
 int_is_sorted=8000
 mkdir fails
 cd ..
@@ -13,7 +13,7 @@ cd tester
 echo "-----------------"
 ft_test()
 {
-    ./PmergeMe $1 > out 2>&1
+    ./PmergeMe $1 >> out 2>&1
     #valgrind ./PmergeMe $1 > valgrind_test.txt 2>&1
     #grep -q "ERROR SUMMARY: 0 errors" valgrind_test.txt
     #val_error=$?
@@ -57,7 +57,7 @@ ft_test()
 
 ft_make_array()
 {
-    array_length=$(shuf -i 2-1000 -n 1)
+    array_length=$(shuf -i 2-3000 -n 1)
     number=($(shuf -i 1-5000 -n $array_length))
 }
 
