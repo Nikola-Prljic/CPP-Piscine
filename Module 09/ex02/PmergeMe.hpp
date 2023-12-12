@@ -12,6 +12,9 @@ class PmergeMe
 
 private:
 
+    double deque_time;
+    double vector_time;
+
     bool vector_is_even;
     int odd_last_element;
     int insert_pos;
@@ -23,10 +26,6 @@ private:
     std::deque<int> deque;
     std::deque<int> deque_main_chain;
     typedef std::deque<int>::iterator deque_itr;
-
-public:
-
-    PmergeMe( char **argv );
 
     void create_jacob_numbers();
 
@@ -58,10 +57,17 @@ public:
     std::size_t getPairSize( const std::size_t &half_steps, std::deque<int>::iterator pair_start_next );
     std::deque<int>::iterator findInsertPos();
 
+
+public:
+
+    PmergeMe( char **argv );
+    PmergeMe( const PmergeMe &src );
+
     //print
     void print_vector( const std::vector<int> &v );
     void print_vv( const std::vector< std::vector<int> > &v );
     void print_deque( const std::deque<int> &v );
+
     //geter
     std::vector< std::vector<int> > getPairs();
     std::vector< int > getInput_original();

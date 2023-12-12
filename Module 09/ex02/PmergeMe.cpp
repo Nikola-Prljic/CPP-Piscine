@@ -1,19 +1,31 @@
 # include "PmergeMe.hpp"
 # include <sstream>
 
-PmergeMe::PmergeMe( char **argv ) : vector_is_even(true)
+PmergeMe::PmergeMe( char **argv ) : vector_is_even(true), odd_last_element(42)
 {
-    odd_last_element = 42;
+    clock_t t;
+
+    t = clock();
     if(argvToVector( argv ))
         return ;
-
     create_jacob_numbers();
     ford_johnson_vector( 1 );
+    t = clock() - t;
+    vector_time = ((double)t) / CLOCKS_PER_SEC;
 
-    /* std::cout << "-------------deque--------------" << std::endl; */
-
+    t = clock();
     argvTodeque( argv );
+    create_jacob_numbers();
     fordJohnsonDequeSorting( 1 );
+    t = clock() - t;
+    deque_time = ((double)t) / CLOCKS_PER_SEC;
+
+    std::cout << "Before:  ";
+    print_vector(input_original);
+    std::cout << "After:   ";
+    print_deque(deque);
+    std::cout << "Time to process a range of " << pairs.size() << " elements with std::vector< std::vector<int> > : " << std::fixed << vector_time << std::endl;
+    std::cout << "Time to process a range of " << deque.size() << " elements with std::deque < int >              : " << std::fixed << deque_time << std::endl;
 }
 
 void PmergeMe::swapPairsIfGreater( std::vector< std::vector<int> > &pairs )
@@ -259,6 +271,7 @@ void PmergeMe::print_vector( const std::vector<int> &v )
         if(i != v.size() - 1)
             std::cout << " ";
     }
+    std::cout << std::endl;
 }
 
 void PmergeMe::print_vv( const std::vector< std::vector<int> > &v )
@@ -525,4 +538,22 @@ T PmergeMe::create_insert_oreder( const T &main_chain )
     return (vanilla_mainchain);
 }
 
+
 std::deque<int> PmergeMe::getDeque() { return (deque); }
+
+PmergeMe::PmergeMe( const PmergeMe &src )
+{
+    deque_time = src.deque_time;
+    vector_time = src.vector_time;
+
+    vector_is_even = src.vector_is_even;
+    odd_last_element = src.odd_last_element;
+    insert_pos = src.insert_pos;
+
+    jk_order = src.jk_order;
+    pairs = src.pairs;
+    input_original = src.input_original;
+
+    deque = src.deque;
+    deque_main_chain = src.deque_main_chain;
+}
