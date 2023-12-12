@@ -1,25 +1,39 @@
 # include "PmergeMe.hpp"
 # include <sstream>
 
-PmergeMe::PmergeMe( char **argv ) : vector_is_even(true), odd_last_element(42)
+PmergeMe::PmergeMe( char **argv ) : deque_time(0), vector_time(0), vector_is_even(true), odd_last_element(42), insert_pos(0)
 {
-    clock_t t;
+    {
+        clock_t t;
 
-    t = clock();
-    if(argvToVector( argv ))
-        return ;
-    create_jacob_numbers();
-    ford_johnson_vector( 1 );
-    t = clock() - t;
-    vector_time = ((double)t) / CLOCKS_PER_SEC;
+        t = clock();
+        if(argvToVector( argv ))
+            return ;
+        create_jacob_numbers();
+        if(pairs.size() > 1)
+            ford_johnson_vector( 1 );
+        t = clock() - t;
+        vector_time = ((double)t) / CLOCKS_PER_SEC;
+    }
+    {
+        clock_t t1;
 
-    t = clock();
-    argvTodeque( argv );
-    create_jacob_numbers();
-    fordJohnsonDequeSorting( 1 );
-    t = clock() - t;
-    deque_time = ((double)t) / CLOCKS_PER_SEC;
+        t1 = clock();
+        if(argvTodeque( argv ))
+            return ;
+        create_jacob_numbers();
+        if(deque.size() > 1)
+            fordJohnsonDequeSorting( 1 );
+        t1 = clock() - t1;
+        deque_time = ((double)t1) / CLOCKS_PER_SEC;
+    }
+    printTimes();
+}
 
+void PmergeMe::printTimes()
+{
+    /* if( deque.empty() == true )
+        return ; */
     std::cout << "Before:  ";
     print_vector(input_original);
     std::cout << "After:   ";
@@ -254,7 +268,9 @@ int PmergeMe::argvToVector( char **argv )
             return (1);
         }
     }
-    if( pairs.size() % 2 != 0 )
+    if( pairs.size() < 2 )
+        return (0);
+    if( pairs.size() % 2 != 0)
     {
         odd_last_element = pairs.back()[0];
         pairs.erase( pairs.end() - 1 );
@@ -265,6 +281,8 @@ int PmergeMe::argvToVector( char **argv )
 
 void PmergeMe::print_vector( const std::vector<int> &v )
 {
+    if( v.empty() == true )
+        return ;
     for( size_t i = 0; i < v.size(); i++ )
     {
         std::cout << v[i];
@@ -276,6 +294,8 @@ void PmergeMe::print_vector( const std::vector<int> &v )
 
 void PmergeMe::print_vv( const std::vector< std::vector<int> > &v )
 {
+    if( v.empty() == true )
+        return ;
     for( size_t i = 0; i < v.size(); i++)
     {
         print_vector( v[i] );
@@ -318,6 +338,8 @@ int PmergeMe::argvTodeque( char **argv )
         }
         deque.push_back(num);
     }
+    if(deque.size() < 2)
+        return(0);
     if(deque.size() % 2 != 0)
     {
         odd_last_element = deque.back();

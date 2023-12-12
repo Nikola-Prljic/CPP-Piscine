@@ -34,7 +34,7 @@ int main( int argc, char **argv )
         return (1);
     PmergeMe a(argv);
     PmergeMe b(a);
-    b.print_vector( b.getInput_original() );
+    /* b.printTimes(); */
     /* test_vector( a );
     test_deque( a ); */
     return (0);

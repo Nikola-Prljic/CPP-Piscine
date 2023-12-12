@@ -67,6 +67,7 @@ public:
     void print_vector( const std::vector<int> &v );
     void print_vv( const std::vector< std::vector<int> > &v );
     void print_deque( const std::deque<int> &v );
+    void printTimes();
 
     //geter
     std::vector< std::vector<int> > getPairs();
