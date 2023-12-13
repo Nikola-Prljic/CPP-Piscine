@@ -33,8 +33,9 @@ int main( int argc, char **argv )
     if(argc < 2)
         return (1);
     PmergeMe a(argv);
-    PmergeMe b(a);
-    /* b.printTimes(); */
+    {
+        PmergeMe b(argv);
+    }
     /* test_vector( a );
     test_deque( a ); */
     return (0);

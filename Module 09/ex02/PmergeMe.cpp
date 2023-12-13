@@ -1,6 +1,8 @@
 # include "PmergeMe.hpp"
 # include <sstream>
 
+PmergeMe::PmergeMe() {}
+
 PmergeMe::PmergeMe( char **argv ) : deque_time(0), vector_time(0), vector_is_even(true), odd_last_element(42), insert_pos(0)
 {
     {
@@ -32,8 +34,8 @@ PmergeMe::PmergeMe( char **argv ) : deque_time(0), vector_time(0), vector_is_eve
 
 void PmergeMe::printTimes()
 {
-    /* if( deque.empty() == true )
-        return ; */
+    if( deque.empty() == true )
+        return ;
     std::cout << "Before:  ";
     print_vector(input_original);
     std::cout << "After:   ";
@@ -324,6 +326,7 @@ std::vector<int> PmergeMe::getInput_original() { return input_original; }
 int PmergeMe::argvTodeque( char **argv )
 {
     int num;
+    input_original.clear();
 
     for(int i = 1; argv[i]; i++)
     {
@@ -336,7 +339,18 @@ int PmergeMe::argvTodeque( char **argv )
             std::cout << "Error" << std::endl << "Overflow" << std::endl;
             return (1);
         }
+        if( std::find( input_original.begin(), input_original.end(), num) != input_original.end())
+        {
+            std::cout << "Error" << std::endl << "No double numbers" << std::endl;
+            return (1);
+        }
         deque.push_back(num);
+        input_original.push_back(num);
+        if(i > 5000)
+        {
+            std::cout << "Error" << std::endl << "Not more than 5000 numbers" << std::endl;
+            return (1);
+        }
     }
     if(deque.size() < 2)
         return(0);
@@ -578,4 +592,26 @@ PmergeMe::PmergeMe( const PmergeMe &src )
 
     deque = src.deque;
     deque_main_chain = src.deque_main_chain;
+}
+
+PmergeMe &PmergeMe::operator=( const PmergeMe &src )
+{
+    if (this == &src) // not a self-assignment
+        return *this;
+
+    deque_time = src.deque_time;
+    vector_time = src.vector_time;
+
+    vector_is_even = src.vector_is_even;
+    odd_last_element = src.odd_last_element;
+    insert_pos = src.insert_pos;
+
+    jk_order = src.jk_order;
+    pairs = src.pairs;
+    input_original = src.input_original;
+
+    deque = src.deque;
+    deque_main_chain = src.deque_main_chain;
+
+    return *this;
 }

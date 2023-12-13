@@ -12,6 +12,8 @@ class PmergeMe
 
 private:
 
+    PmergeMe();
+
     double deque_time;
     double vector_time;
 
@@ -62,6 +64,8 @@ public:
 
     PmergeMe( char **argv );
     PmergeMe( const PmergeMe &src );
+
+    PmergeMe &operator=( const PmergeMe &src );
 
     //print
     void print_vector( const std::vector<int> &v );
