@@ -40,13 +40,13 @@ private:
     void customBinarySearch( const std::vector<int> &main_chain, int start, int end, int num);
 
     //input to vector and test is num
-    bool ft_isnum(const char *str);
-    int argvToVector( char **argv );
+    int argvToVector( const std::vector<std::string> &args );
+    bool ft_isnum( const std::string &str );
 
 
     // ------------- deque sorting ------------
 
-    int argvTodeque( char **argv );
+    int argvTodeque( const std::vector<std::string> &args );
 
     void fordJohnsonDequeSorting( int steps );
     void swapPairsIfGreater( int steps );
@@ -62,7 +62,7 @@ private:
 
 public:
 
-    PmergeMe( char **argv );
+    PmergeMe( const std::vector<std::string> &args );
     PmergeMe( const PmergeMe &src );
 
     PmergeMe &operator=( const PmergeMe &src );

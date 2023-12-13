@@ -3,13 +3,13 @@
 
 PmergeMe::PmergeMe() {}
 
-PmergeMe::PmergeMe( char **argv ) : deque_time(0), vector_time(0), vector_is_even(true), odd_last_element(42), insert_pos(0)
+PmergeMe::PmergeMe( const std::vector<std::string> &args ) : deque_time(0), vector_time(0), vector_is_even(true), odd_last_element(42), insert_pos(0)
 {
     {
         clock_t t;
 
         t = clock();
-        if(argvToVector( argv ))
+        if(argvToVector( args ))
             return ;
         create_jacob_numbers();
         if(pairs.size() > 1)
@@ -21,7 +21,7 @@ PmergeMe::PmergeMe( char **argv ) : deque_time(0), vector_time(0), vector_is_eve
         clock_t t1;
 
         t1 = clock();
-        if(argvTodeque( argv ))
+        if(argvTodeque( args ))
             return ;
         create_jacob_numbers();
         if(deque.size() > 1)
@@ -29,7 +29,6 @@ PmergeMe::PmergeMe( char **argv ) : deque_time(0), vector_time(0), vector_is_eve
         t1 = clock() - t1;
         deque_time = ((double)t1) / CLOCKS_PER_SEC;
     }
-    printTimes();
 }
 
 void PmergeMe::printTimes()
@@ -192,7 +191,7 @@ void PmergeMe::get_pair_size( const std::vector< std::vector<int> >::const_itera
 //-----------------------------Convert and Print---------------------------------------------------
 
 //With error handling
-bool PmergeMe::ft_isnum( const char *str)
+bool PmergeMe::ft_isnum( const std::string &str )
 {
     int i = 0;
 
@@ -228,9 +227,9 @@ void PmergeMe::customBinarySearch( const std::vector<int> &main_chain, int start
 }
 
 
-int convert_number( char *argv, std::vector<int> num_tmp, int &num )
+int convert_number( const std::string &str, std::vector<int> num_tmp, int &num )
 {
-    std::stringstream ss(argv);
+    std::stringstream ss(str);
     ss >> num;
     if( ss.fail() )
     {
@@ -246,29 +245,30 @@ int convert_number( char *argv, std::vector<int> num_tmp, int &num )
 }
 
 //returns 1 if it fails overflow or no num
-int PmergeMe::argvToVector( char **argv )
+int PmergeMe::argvToVector( const std::vector<std::string> &args )
 {
     int num;
     std::vector<int> vector;
+    std::vector<std::string>::const_iterator args_itr = args.begin();
+    if(args.size() > 5000)
+    {
+        std::cout << "Error" << std::endl << "Not more than 5000 numbers" << std::endl;
+        return (1);
+    }
 
-    for(int i = 1; argv[i]; i++)
+    for( ; args_itr != args.end(); args_itr++ )
     {
 
-        if( ft_isnum( argv[i] ) == false )
+        if( ft_isnum( *args_itr ) == false )
             return (1);
 
-        if( convert_number( argv[i], input_original, num ) )
+        if( convert_number( *args_itr, input_original, num ) )
             return (1);
 
         input_original.push_back(num);
         vector.push_back(num);
         pairs.push_back(vector);
         vector.clear();
-        if(i > 5000)
-        {
-            std::cout << "Error" << std::endl << "Not more than 5000 numbers" << std::endl;
-            return (1);
-        }
     }
     if( pairs.size() < 2 )
         return (0);
@@ -323,16 +323,22 @@ std::vector<int> PmergeMe::getInput_original() { return input_original; }
 
 
 
-int PmergeMe::argvTodeque( char **argv )
+int PmergeMe::argvTodeque( const std::vector<std::string> &args )
 {
     int num;
     input_original.clear();
-
-    for(int i = 1; argv[i]; i++)
+    std::vector<std::string>::const_iterator args_itr = args.begin();
+    if(args.size() > 5000)
     {
-        if( ft_isnum( argv[i] ) == false )
+        std::cout << "Error" << std::endl << "Not more than 5000 numbers" << std::endl;
+        return (1);
+    }
+
+    for( ; args_itr != args.end(); args_itr++)
+    {
+        if( ft_isnum( *args_itr ) == false )
             return (1);
-        std::stringstream ss(argv[i]);
+        std::stringstream ss(*args_itr);
         ss >> num;
         if( ss.fail() )
         {
@@ -346,11 +352,6 @@ int PmergeMe::argvTodeque( char **argv )
         }
         deque.push_back(num);
         input_original.push_back(num);
-        if(i > 5000)
-        {
-            std::cout << "Error" << std::endl << "Not more than 5000 numbers" << std::endl;
-            return (1);
-        }
     }
     if(deque.size() < 2)
         return(0);

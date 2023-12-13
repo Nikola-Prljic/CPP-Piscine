@@ -32,10 +32,12 @@ int main( int argc, char **argv )
 {
     if(argc < 2)
         return (1);
-    PmergeMe a(argv);
-    {
+    const std::vector<std::string> args(argv + 1, argv + argc);
+    PmergeMe a(args);
+    a.printTimes();
+    /* {
         PmergeMe b(argv);
-    }
+    } */
     /* test_vector( a );
     test_deque( a ); */
     return (0);
