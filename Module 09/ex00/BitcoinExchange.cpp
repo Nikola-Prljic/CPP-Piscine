@@ -2,63 +2,68 @@
 #include <cstdlib>
 #include <ctime>
 
-BitcoinExchange::BitcoinExchange( const std::string &argv1 ) : _data(), _csv_data()  
+BitcoinExchange::BitcoinExchange( const std::string &argv1 ) : _csv_data()  
 {
     std::ifstream inputFile;
     std::ifstream dataFile;
     std::string line;
 
-    if(open_file( inputFile, argv1))
+    if( open_file( dataFile, "data.csv") )
+        return ;
+    getline ( dataFile, line );
+    if( line != "date,exchange_rate" )
+        saveCsvDate( line );
+    while ( getline ( dataFile, line ) )
+        saveCsvDate( line );
+    dataFile.close();
+    if( _csv_data.empty() == true )
+    {
+        std::cout << "Error\nNo valid data from data.csv" << std::endl;
+        return ;
+    }
+
+    if( open_file( inputFile, argv1) )
         return ;
     while ( getline ( inputFile, line ) )
         save_line( line );
     inputFile.close();
-    print_csv_data();
-
-    /* if(open_file( dataFile, "data.csv"))
-        return ;
-    while ( getline ( dataFile, line ) )
-        saveCsvDate( line );  
-    dataFile.close();
-    DoBtcExchange();
-    print_data(); */
 }
 
-int BitcoinExchange::open_file( std::ifstream &file, const std::string file_path )
+int BitcoinExchange::open_file( std::ifstream &file, const std::string &file_path )
 {
     std::string line;
 
     file.open(file_path.c_str());
-    if(file.is_open() == false)
+    if(file.is_open() == false )
     {
         std::cout << "Error: Unable to open file!" << std::endl;
-        return(1);
+        return (1);
     }
-    return(0);
+    return (0);
 }
 
-bool BitcoinExchange::validDate( int year, int month, int day)
+bool BitcoinExchange::validDate( const int &year, const int &month, const int &day)
 {
     struct tm t = {};
 
-    t.tm_year = year;
-    t.tm_mon = month;
+    t.tm_year = year - 1900;
+    t.tm_mon = month - 1;
     t.tm_mday = day;
     std::time_t ta = std::mktime(&t);
-    if ( ta < 0 || year != t.tm_year || month != t.tm_mon || day != t.tm_mday )
+    if ( ta < 0 || year != t.tm_year + 1900 || month != t.tm_mon + 1 || day != t.tm_mday  )
         return false;
     return true;
 }
 
-bool strIsNum( std::string str )
+static bool strIsNum( const std::string &str )
 {
-    for(std::string::iterator itr = str.begin(); itr != str.end(); itr++)
+    for(std::string::const_iterator itr = str.begin(); itr != str.end(); itr++)
         if(std::isdigit(*itr) == false)
             return false;
     return true;
 }
 
-bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, char split, int start, int end)
+bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, const char &split )
 {
     std::string tmp_line;
 
@@ -66,58 +71,91 @@ bool BitcoinExchange::dateInRange( std::stringstream &stream, int &ymd, char spl
     if(strIsNum( tmp_line ) == false)
         return false;
     ymd = std::atoi(tmp_line.c_str());
-    if( ymd < start || ymd > end )
-        return false;
     return true;
 }
 
-void BitcoinExchange::save_line( std::string line )
+int BitcoinExchange::test_input_file( DateOrError &tmp, const std::string &line, float &ammount )
+{
+    std::stringstream stream(line);
+
+    if( dateInRange(stream, tmp._year, '-' ) == false || dateInRange( stream, tmp._month, '-' ) == false || dateInRange(stream, tmp._day, ' ' ) == false )
+        return ErrorDate;
+    if( validDate( tmp._year, tmp._month, tmp._day) == false )
+        return ErrorDate;
+    if( vaildValue( stream, ammount ) == false )
+        return ErrorValue;
+    return FindExchangeRate;
+}
+
+void BitcoinExchange::save_line( const std::string &line )
 {
     float ammount = 0;
     DateOrError tmp(0, 0, 0);
     std::string date;
-    std::stringstream stream(line);
-    std::stringstream stream_YYYY_MM_DD(line);
+    std::stringstream stream_YYYY_MM_DD( line );
     
-    getline(stream_YYYY_MM_DD, date, ' ');
-
-    if(dateInRange(stream, tmp._year, '-', 1950, 2023) == false)
-        tmp._error = "Error: bad input => "  + date;
-    else if(dateInRange(stream, tmp._month, '-', 1, 12) == false)
-        tmp._error = "Error: bad input => "  + date;
-    else if(dateInRange(stream, tmp._day, ' ', 1, 32) == false)
-        tmp._error = "Error: bad input => "  + date;
-    else if(validDate(tmp._year, tmp._month, tmp._day) == false)
-        tmp._error = "Error: bad input => "  + date;
-    else
-        vaildValue( stream, &tmp, ammount);
-    _data.insert(std::make_pair(tmp, ammount));
+    getline( stream_YYYY_MM_DD, date, ' ' );
+    switch ( test_input_file( tmp, line, ammount ) )
+    {
+    case ErrorDate:
+        std::cout << "Error: bad input => "  + date << std::endl;
+        break;
+    case ErrorValue:
+        break;
+    case FindExchangeRate:
+        print_data( ammount, tmp );
+        break;
+    default:
+        break;
+    }
 }
 
-void BitcoinExchange::vaildValue( std::stringstream &stream, DateOrError *tmp, float &ammount)
+void BitcoinExchange::print_data( const float &ammount, const DateOrError &tmp )
+{
+    dequeDateItr itr = _csv_data.upper_bound(tmp);
+
+    if(itr != _csv_data.begin() )
+        itr--;
+    std::cout << tmp._year << "-";
+    if(tmp._month < 10)
+        std::cout << "0";
+    std::cout << tmp._month << "-";
+    if(tmp._day < 10)
+        std::cout << "0";
+    std::cout << tmp._day << " => ";
+    std::cout << ammount << " = ";
+    std::cout << ammount * itr->second << std::endl;
+}
+
+bool BitcoinExchange::vaildValue( std::stringstream &stream, float &ammount )
 {
     std::string line;
 
     getline(stream, line);
-    if(line[0] != '|' || line[1] != ' ')
-    {
-        tmp->_error = "Error format needs to be: \"date | value\"";
-        return ;
+    if(line[0] != '|' || line[1] != ' ') {
+        std::cout << "Error format needs to be: \"date | value\"" << std::endl;
+        return false;
     }
     line.erase(0, 2);
-    if( strToFloat( line, ammount) == false )
-        tmp->_error = "Error: just numeric input.";
-    else if( ammount > 1000 )
-        tmp->_error = "Error: too large a number.";
-    else if( ammount < 0 )
-        tmp->_error = "Error: not a positive number.";
+    if( strToFloat( line, ammount) == false ) {
+        std::cout << "Error: just numeric input." << std::endl;
+        return false;
+    }   
+    else if( ammount > 1000 ) {
+        std::cout << "Error: too large a number." << std::endl;
+        return false;
+    }
+    else if( ammount < 0 ) {
+        std::cout << "Error: not a positive number." << std::endl;
+        return false;
+    }
+    return true;
 }
 
-bool BitcoinExchange::strToFloat( std::string str, float &f)
+bool BitcoinExchange::strToFloat( const std::string &str, float &f )
 {
     int i = 0;
     bool dot = false;
-
     std::istringstream ss(str);
 
     if(str[0] == '-')
@@ -134,45 +172,7 @@ bool BitcoinExchange::strToFloat( std::string str, float &f)
     return true;
 }
 
-void BitcoinExchange::print_csv_data()
-{
-    std::map<DateOrError, float>::iterator input_itr = _data.begin(); 
-    for( ; input_itr != _data.end(); input_itr++)
-    {
-        if( input_itr->first._error.empty() == true )
-        {
-            std::cout << input_itr->first._year << "-";
-            std::cout << input_itr->first._month << "-";
-            std::cout << input_itr->first._day << ",";
-            std::cout << input_itr->second << std::endl;
-        }
-        else
-            std::cout << input_itr->first._error << std::endl;
-    }
-}
-
-/* void BitcoinExchange::print_csv_data()
-{
-    std::map<DateOrError, float>::iterator input_itr = _data.begin(); 
-    for(std::size_t i = 0; i < _csv_data.size(); i++)
-    {
-        if(_csv_data[i].error.empty() == true)
-        {
-            std::cout << _csv_data[i].year << "-";
-            std::cout << _csv_data[i].month << "-";
-            std::cout << _csv_data[i].day << ",";
-            std::cout << _csv_data[i].f_ammount << std::endl;
-        }
-        else
-            std::cout << _csv_data[i].error << std::endl;
-    }
-} */
-
-/* 
-
-
-
-void saveTestNum( std::string line, std::string &error, int &num)
+static void saveTestNum( const std::string &line, std::string &error, int &num)
 {
     if(strIsNum( line ) == false)
         error = "Error";
@@ -180,104 +180,37 @@ void saveTestNum( std::string line, std::string &error, int &num)
         num = std::atoi(line.c_str());
 }
 
-void BitcoinExchange::saveCsvDate( std::string line )
+void BitcoinExchange::saveCsvDate( const std::string &line )
 {
+    float num;
     DateOrError tmp;
     std::string tmp_line;
     std::stringstream stream(line);
 
-    getline(stream, tmp_line, '-');
-    saveTestNum( tmp_line, tmp.error, tmp.year );
-    getline(stream, tmp_line, '-');
-    saveTestNum( tmp_line, tmp.error, tmp.month );
-    getline(stream, tmp_line, ',');
-    saveTestNum( tmp_line, tmp.error, tmp.day );
-    getline(stream, tmp_line);
-    strToFloat( tmp_line, tmp.f_ammount);
-    if(tmp.error.empty() == true)
-        _csv_data.push_back(tmp);
-}
-
-
-
-
-void BitcoinExchange::print_data()
-{
-    for(std::size_t i = 0; i < _data.size(); i++)
+    if( line.empty() == true )
     {
-        if(_data[i].error.empty() == true)
-        {
-            std::cout << _data[i].year << "-";
-            if(_data[i].month < 10)
-                std::cout << "0";
-            std::cout << _data[i].month << "-";
-            if(_data[i].day < 10)
-                std::cout << "0";
-            std::cout << _data[i].day << " => ";
-            std::cout << _data[i].f_ammount << " = ";
-            std::cout << _data[i].result << std::endl;
-        }
-        else
-            std::cout << _data[i].error << std::endl;
+        std::cerr << "Error" << std::endl << "Empty line in data.csv " << std::endl;
+        return ;
     }
+    getline( stream, tmp_line, '-' );
+    saveTestNum( tmp_line, tmp._error, tmp._year );
+    getline( stream, tmp_line, '-' );
+    saveTestNum( tmp_line, tmp._error, tmp._month );
+    getline( stream, tmp_line, ',' );
+    saveTestNum( tmp_line, tmp._error, tmp._day );
+    getline( stream, tmp_line );
+    if( validDate( tmp._year, tmp._month, tmp._day ) == false || strToFloat( tmp_line, num ) == false )
+        std::cout << "Error" << std::endl << "In data.csv: " << tmp_line << std::endl;
+    else if( tmp._error.empty() == true )
+        _csv_data.insert( std::make_pair( tmp, num ) );
 }
 
-
-
-//returns the final result
-std::map< int, BitcoinExchange::DateOrError >::iterator BitcoinExchange::findNextYear( dequeDateItr itr )
-{
-    dequeDateItr csvItr = _csv_data.begin();
-    
-    csvItr[i]
-    while(itr->year > csvItr->year && csvItr != _csv_data.end())
-        csvItr++;
-    csvItr++;
-    if(itr->year == csvItr->year)
-    {
-        csvItr--;
-        while(itr->month > csvItr->month)
-            csvItr++;
-        csvItr++;
-        if(itr->month == csvItr->month)
-        {
-            csvItr--;
-            while(itr->day > csvItr->day)
-                csvItr++;
-            if(itr->day != csvItr->day)
-                return --csvItr;
-        }
-        else
-            csvItr--;
-    }
-    else
-        csvItr--;
-    return csvItr;
-}
-
-
-void BitcoinExchange::DoBtcExchange()
-{
-    dequeDateItr dataEnd = _data.end();
-
-    for(dequeDateItr dataItr = _data.begin(); dataItr != dataEnd; dataItr++)
-        if(dataItr->error.empty() == true)
-        {
-            dequeDateItr year = findNextYear( dataItr );
-            dataItr->result = year->f_ammount * dataItr->f_ammount;
-        }
-} */
-
-BitcoinExchange::BitcoinExchange( const BitcoinExchange &src ) : _data(src._data), _csv_data(src._csv_data)
-{
-    return ;
-}
+BitcoinExchange::BitcoinExchange( const BitcoinExchange &src ) : _csv_data(src._csv_data) { return ; }
 
 BitcoinExchange &BitcoinExchange::operator=( const BitcoinExchange &src )
 {
     if(this == &src)
         return *this;
-    _data = src._data;
     _csv_data = src._csv_data;
     return *this;
 }
