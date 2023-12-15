@@ -13,8 +13,8 @@ private:
 
     enum SwitchCases{ ErrorDate=1, ErrorValue=2, FindExchangeRate=3 };
 
-    struct DateOrError { 
-        int         _year; 
+    struct DateOrError {
+        int         _year;
         int         _month; 
         int         _day;
         std::string _error;
@@ -34,20 +34,23 @@ private:
     typedef std::map < DateOrError, float> dequeDate;
     typedef std::map < DateOrError, float>::iterator dequeDateItr;
     dequeDate _csv_data;
+    std::string line;
+
+
+    int     open_file( std::ifstream &file, const std::string &file_path );
+    void    save_line();
+    bool    save_date( std::stringstream &stream, int &ymd, const char &split );
+    bool    validDate( const int &year, const int &month, const int &day);
+    bool    vaildValue( std::stringstream &stream, float &ammount );
+    int     test_line( DateOrError &tmp, float &ammount );
+    
+    bool    strToFloat( const std::string &str, float &f );
+    void    saveCsvDate();
+    void    print_data( const float &ammount, const DateOrError &tmp );
+
+    void    loop_filestream_handle_data( std::ifstream &inputFile, void (BitcoinExchange::*func)(), std::string ignore );
 
     BitcoinExchange();
-
-    int open_file( std::ifstream &file, const std::string &file_path );
-    void save_line( const std::string &line );
-    bool dateInRange( std::stringstream &stream, int &ymd, const char &split );
-    bool validDate( const int &year, const int &month, const int &day);
-    bool vaildValue( std::stringstream &stream, float &ammount );
-    int test_input_file( DateOrError &tmp, const std::string &line, float &ammount );
-
-    
-    bool strToFloat( const std::string &str, float &f );
-    void saveCsvDate( const std::string &line );
-    void print_data( const float &ammount, const DateOrError &tmp );    
 
 public:
 
