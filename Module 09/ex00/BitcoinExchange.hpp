@@ -2,10 +2,11 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
-# include <fstream>
-# include <map>
-# include <sstream>
 # include <algorithm>
+# include <fstream>
+# include <sstream>
+# include <ctime>
+# include <map>
 
 class BitcoinExchange
 {
@@ -22,13 +23,7 @@ private:
         DateOrError() {}
         DateOrError( const int &year, const int &month, const int &day) : _year(year), _month(month), _day(day){}
 
-        bool operator<(const DateOrError& other) const {
-            if( _year != other._year )
-                return _year < other._year;
-            if( _month != other._month )
-                return _month < other._month;
-            return _day < other._day;
-        }
+        bool operator<(const DateOrError& other) const;
     };
 
     typedef std::map < DateOrError, float> dequeDate;
@@ -36,16 +31,17 @@ private:
     dequeDate _csv_data;
     std::string line;
 
-
-    int     open_file( std::ifstream &file, const std::string &file_path );
-    void    save_line();
-    bool    save_date( std::stringstream &stream, int &ymd, const char &split );
-    bool    validDate( const int &year, const int &month, const int &day);
-    bool    vaildValue( std::stringstream &stream, float &ammount );
+    void    processInput();
+    bool    isStringNumeric( const std::string &str );
     int     test_line( DateOrError &tmp, float &ammount );
+    bool    vaildValue( std::stringstream &stream, float &ammount );
+    bool    validDate( const int &year, const int &month, const int &day);
+    int     open_file( std::ifstream &file, const std::string &file_path );
+    bool    save_date( std::stringstream &stream, int &ymd, const char &split );
     
-    bool    strToFloat( const std::string &str, float &f );
     void    saveCsvDate();
+    void    saveTestNumber( std::string &error, int &num);
+    bool    strToFloat( const std::string &str, float &f );
     void    print_data( const float &ammount, const DateOrError &tmp );
 
     void    loop_filestream_handle_data( std::ifstream &inputFile, void (BitcoinExchange::*func)(), std::string ignore );
