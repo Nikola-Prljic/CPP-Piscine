@@ -1,7 +1,7 @@
 #!/bin/bash
 num=0
 testcount=1
-test_ammount=1000
+test_ammount=10
 int_is_sorted=8000
 mkdir fails
 cd ..
@@ -63,8 +63,8 @@ ft_test()
 
 ft_make_array()
 {
-    array_length=$(shuf -i 2-200 -n 1)
-    number=($(shuf -i 0-300 -n $array_length))
+    array_length=$(shuf -i 2050-3000 -n 1)
+    number=($(shuf -i 0-3000 -n $array_length))
 }
 
 x=1

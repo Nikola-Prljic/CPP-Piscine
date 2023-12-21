@@ -38,7 +38,7 @@ int main( int argc, char **argv )
     /* {
         PmergeMe b(argv);
     } */
-    /* test_vector( a );
-    test_deque( a ); */
+    test_vector( a );
+    test_deque( a );
     return (0);
 }

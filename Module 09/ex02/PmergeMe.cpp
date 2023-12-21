@@ -326,7 +326,7 @@ std::vector<int> PmergeMe::getInput_original() { return input_original; }
 int PmergeMe::argvTodeque( const std::vector<std::string> &args )
 {
     int num;
-    input_original.clear();
+    /* input_original.clear(); */
     std::vector<std::string>::const_iterator args_itr = args.begin();
     if(args.size() > 5000)
     {
@@ -336,8 +336,8 @@ int PmergeMe::argvTodeque( const std::vector<std::string> &args )
 
     for( ; args_itr != args.end(); args_itr++)
     {
-        if( ft_isnum( *args_itr ) == false )
-            return (1);
+        /* if( ft_isnum( *args_itr ) == false )
+            return (1); */
         std::stringstream ss(*args_itr);
         ss >> num;
         if( ss.fail() )
@@ -345,13 +345,13 @@ int PmergeMe::argvTodeque( const std::vector<std::string> &args )
             std::cout << "Error" << std::endl << "Overflow" << std::endl;
             return (1);
         }
-        if( std::find( input_original.begin(), input_original.end(), num) != input_original.end())
+        /* if( std::find( input_original.begin(), input_original.end(), num) != input_original.end())
         {
             std::cout << "Error" << std::endl << "No double numbers" << std::endl;
             return (1);
-        }
+        } */
         deque.push_back(num);
-        input_original.push_back(num);
+        /* input_original.push_back(num); */
     }
     if(deque.size() < 2)
         return(0);
@@ -386,7 +386,20 @@ void PmergeMe::swapPairsIfGreater( int steps )
     deque_itr pair_start = deque.begin();
     deque_itr pair_end = pair_start + (steps - 1);
     deque_itr pair_start_next = pair_end + 1;
-    deque_itr pair_end_next = pair_start_next + (steps - 1);
+    deque_itr pair_end_next;
+
+    if( ( pair_start_next - deque.begin() + (steps - 1) ) > (long)deque.size() )
+        pair_end_next = deque.end() - 1;
+    else
+        pair_end_next = pair_start_next + (steps - 1);
+
+    /* 
+    if(steps == 2048)
+    {
+        std::cout << *pair_end_next << std::endl;
+        exit(1);
+    }
+    */
 
     if(steps * 2 > (int)deque.size())
         pair_end_next = deque.end() - 1;
@@ -410,17 +423,37 @@ void PmergeMe::swapPairsIfGreater( int steps )
 void PmergeMe::next_step( deque_itr &pair_start, deque_itr &pair_end, deque_itr &pair_start_next, deque_itr &pair_end_next, const int &i, const int &steps )
 {
     if( pair_start - deque.begin() + i > (int)deque.size() )
+    {
         pair_start = deque.end();
+        /* return ; */
+    }
     else
         pair_start = deque.begin() + i;
 
     if( ( (pair_start - deque.begin()) + (steps - 1) ) > (int)deque.size() )
+    {
         pair_end = deque.end();
+        /* return ; */
+    }
     else
         pair_end = pair_start + (steps - 1);
 
-    pair_start_next = pair_end + 1;
-    pair_end_next = pair_start_next + (steps - 1);
+    if( ( (pair_end - deque.begin()) + 1 ) > (int)deque.size() )
+    {
+        pair_start_next = deque.end();
+        /* return ; */
+    }
+    else
+        pair_start_next = pair_end + 1;
+    
+    if( ( (pair_start_next - deque.begin()) + (steps - 1) ) > (int)deque.size() )
+    {
+        pair_end_next = deque.end();
+        /* return ; */
+    }
+    else
+        pair_end_next = pair_start_next + (steps - 1);
+
 }
 
 std::deque<int> PmergeMe::findElementsToInsert( const int &steps )
